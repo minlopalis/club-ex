@@ -39,10 +39,14 @@
 /* Mobile */
 @media screen and (max-width: 767px){
 
-    .call-to-action a {
+    .call-to-action #subscriptions {
         display: none;
     }
-    
+
+    .login-signup {
+        display: flex;
+    }
+
 }
 
 
@@ -52,6 +56,7 @@
     .login-signup{
         display: none;
     }
+
 
 }
 
