@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from clubApp.views import IndexView
 
+
 # url patterns
 urlpatterns = [
     path('admin/', admin.site.urls),

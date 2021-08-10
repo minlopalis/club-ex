@@ -2,20 +2,55 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< Updated upstream
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+=======
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+>>>>>>> Stashed changes
     <title>Club Ex</title>
-   
+
     <!-- https://getmdl.io/started/index.html -->
+<<<<<<< Updated upstream
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-light_blue.min.css" />
+=======
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"
+    />
+
+>>>>>>> Stashed changes
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-    {% comment %} <link rel="stylesheet" href="{% static 'css/base.css' %}"> {% endcomment %}
-</head>
-<body>
-    {% block content %}
-    {% endblock content %}
-</body>
+    {% comment %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    {% endcomment %}
+  </head>
+  <body>
+    <div class="site mdl-layout mdl-js-layout">
+      <header class="mdl-layout__header mdl-layout__header--waterfall">
+        <div class="mdl-layout__header-row">
+          <!-- Header Content Here -->
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <!-- Drawer Content -->
+      </div>
+      <main class="mdl-layout__content">
+        {% block content %} {% endblock content %}
+      </main>
+      <footer class="mdl-mini-footer">
+        <!-- Footer Content -->
+      </footer>
+    </div>
+  </body>
 </html>
