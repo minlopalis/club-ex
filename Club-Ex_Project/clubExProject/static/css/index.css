@@ -1,0 +1,67 @@
+
+/* Generic  */
+.call-to-action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: white;
+}
+
+.call-to-action .container-top {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+
+.call-to-action img {
+    align-self: center;
+    width: 65%;
+    height: auto;
+}
+
+.call-to-action h1{
+    text-align: center;
+}
+
+.call-to-action p{
+    text-align: center;
+}
+
+.call-to-action a{
+    align-self: center;
+}
+
+
+/* Mobile */
+@media screen and (max-width: 767px){
+
+    .call-to-action a {
+        display: none;
+    }
+    
+}
+
+
+/* Tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px){
+
+    .login-signup{
+        display: none;
+    }
+
+}
+
+
+/* Desktop */
+@media screen and (min-width: 1024px){
+    
+    .login-signup{
+        display: none;
+    }
+
+}
+
