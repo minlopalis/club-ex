@@ -1,5 +1,38 @@
-{% extends 'base.html' %}   
+{% extends 'base.html' %}
+
+{% load static %}
+
 {% block content %}
-<p> Home page </p>
+
+<link rel='stylesheet' href='{% static 'css/style.css' %}' content-type='text/css'>
+<link rel='stylesheet' href='{% static 'css/index.css' %}' content-type='text-css'>
+
+    <div class='call-to-action'>
+        <div class='container-top'>
+            <img src='{% static 'img/workout.svg' %}' alt='lady working out' content-type='image/svg+xml';>
+            <h1>Excepteur sint occaecat cupidatat non proident, culpa qui officia.</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+            <div class='spacing'></div>
+            <a href="#subscriptions" id='subscriptions' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                View Subscriptions
+            </a>
+        </div>
+
+        <div class='container-bottom'>
+            <div class='login-signup'>
+                <a href="{% url 'signup' %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Sign up
+                </a>
+
+                <a href="{% url 'login' %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Sign In
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
 {% endblock content %}
 
