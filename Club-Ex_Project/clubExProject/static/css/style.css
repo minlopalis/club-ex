@@ -1,22 +1,74 @@
 
-/* Fonts  */
+:root {
+    --primary-color: #2699FB;
+    --secondary-color: #BCE0FD;
+    --tertiary-color: #F1F9FF;
+    --dark-gray: #95989A;
+    --light-gray: #E6E6E6;
+
+    --page-padding: 20px;
+}
 
 * {
     margin: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
+    color: rgb(35, 35, 35) ;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    background-color: #F1F9FF;
+    background-color: var(--tertiary-color);
 }
 
 .spacing {
     height: 20px;
 }
 
+.page-container {
+    margin: 0 auto;
+}
+
 h1 {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 40px;
+    color: var(--primary-color);
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 30;
+    color: var(--dark-gray);
+}
+
+
+/* Mobile */
+@media screen and (max-width: 767px){
+
+    .page-container{
+        width: 100%;
+    }
+}
+
+
+/* Tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px){
+
+    .page-container{
+        width: 85%;
+    }
+}
+
+
+/* Desktop */
+@media screen and (min-width: 1024px){
+
+    .page-container{
+        width: 70%;
+    }
 }
