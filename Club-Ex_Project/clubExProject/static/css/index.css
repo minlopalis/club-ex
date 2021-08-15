@@ -13,8 +13,10 @@
 .call-to-action .container-top {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin: 0 auto;
 }
+
 
 .call-to-action img {
     align-self: center;
@@ -34,25 +36,69 @@
     align-self: center;
 }
 
+
+
+
+/* subscricptions */
 .subscriptions{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    flex-wrap: wrap;
     height: 100vh;
     padding: var(--page-padding);
     background-color: white;
 }
 
-.subscriptions .subscriptions-container{
+.subscriptions-container{
     display: flex;
 }
 
 
-.subscriptions .subscriptions-container .subscription-item{
-    background-color: var(--secondary-color);
-    padding: 10px;
+.subscription-items {
+    justify-content: center;
 }
 
+.subscription-item{
+    background-color: var(--secondary-color);
+    padding: 20px;
+}
+
+.remove-bottom-pad {
+    padding-bottom: 0;
+}
+
+.sub-font-blue, .superscript{
+    color: var(--primary-color);
+}
+
+div.mdl-layout {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.signup-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.month-annual-title {
+    font-weight: 800;
+    opacity: 60%;
+}
+
+.price-font {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+h2.center-items{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
 
 /* Mobile */
 @media screen and (max-width: 767px){

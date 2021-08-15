@@ -5,15 +5,13 @@
     --tertiary-color: #F1F9FF;
     --dark-gray: #95989A;
     --light-gray: #E6E6E6;
-
+    --text-color: rgb(32, 32, 32);
     --page-padding: 20px;
 }
 
 * {
     margin: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
     color: rgb(35, 35, 35) ;
 }
 
@@ -27,23 +25,61 @@ body {
 
 .spacing {
     height: 20px;
+    background-color: white;
 }
 
 .page-container {
     margin: 0 auto;
 }
 
+
+
+.superscript {
+    position: relative;
+    font-size: 100%;
+    top: -.7rem;
+    font-weight: 700;
+}
+
+p {
+    font-size: 1rem;
+    max-width: 70ch;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6rem;
+    color: var(--text-color);
+}
+
 h1 {
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 40px;
+    max-width: 40ch;
+    font-size: 2.5rem;
+    /* text-transform: uppercase; */
+    line-height: 2.4rem;
     color: var(--primary-color);
 }
 
 h2 {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    font-size: 30;
+    font-size: 1.9rem;
     color: var(--dark-gray);
+}
+
+
+.button{
+    font: bold;
+    font-size: 0.9rem;
+    margin: 0.25rem;
+}
+
+.button-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.button-secondary {
+    background-color: white;
+    color: var(--primary-color);
 }
 
 
