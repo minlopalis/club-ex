@@ -107,6 +107,14 @@ h2.center-items {
 }
 
 /* trainers */
+.trainers-container{
+    display:flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: white;
+    flex-direction: column;
+}
+
 
 /* Mobile */
 @media screen and (max-width: 767px) {
