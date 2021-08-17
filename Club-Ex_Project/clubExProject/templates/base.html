@@ -32,27 +32,32 @@
           <!-- Title -->
           <div class="header-title">
             <a  href={%url "index"%} >
-              <img width="60%" src={% static 'img/logo.png' %} />
+              <img width="80%" src={% static 'img/logo.png' %} />
             </a>
           </div>
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <a class="mdl-navigation__link" href={%url "index"%}>Home</a>
+            <a class="mdl-navigation__link" href={%url "stats"%}>Statistics</a>
             <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href={%url "signup"%}>Sign Up</a>
+            <a class="mdl-navigation__link" href={%url "videolist"%}>Video List</a>
+            <a class="mdl-navigation__link" href={%url "results"%}>Results</a>
+            
           </nav>
         </div>
       </header>
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Club-EX</span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
+          <a class="mdl-navigation__link" href={%url "index"%}>Home</a>
+          <a class="mdl-navigation__link" href={%url "stats"%}>Statistics</a>
+          <a class="mdl-navigation__link" href={%url "videolist"%}>Video List</a>
+          <a class="mdl-navigation__link" href={%url "results"%}>Results</a>
+          <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
+          <a class="mdl-navigation__link" href={%url "signup"%}>Sign Up</a>
         </nav>
       </div>
       <main class="mdl-layout__content">
