@@ -1,72 +1,143 @@
-
 /* Generic  */
 .call-to-action {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: var(--page-padding);
+  background-color: white;
 }
 
 .call-to-action .container-top {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
 }
-
 
 .call-to-action img {
-    align-self: center;
-    width: 65%;
-    height: auto;
+  align-self: center;
+  width: 65%;
+  height: auto;
 }
 
-.call-to-action h1{
-    text-align: center;
+.call-to-action h1 {
+  text-align: center;
 }
 
-.call-to-action p{
-    text-align: center;
+.call-to-action p {
+  text-align: center;
 }
 
-.call-to-action a{
-    align-self: center;
+.call-to-action a {
+  align-self: center;
+}
+
+/* subscricptions */
+.subscriptions {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  padding: var(--page-padding);
+  background-color: white;
+}
+
+.subscriptions-container {
+  display: flex;
+}
+
+.subscription-items {
+  justify-content: center;
+}
+
+.subscription-item {
+  background-color: var(--secondary-color);
+  padding: 20px;
+}
+
+.remove-bottom-pad {
+  padding-bottom: 0;
+}
+
+.sub-font-blue,
+.superscript {
+  color: var(--primary-color);
+}
+
+div.mdl-layout {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.signup-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.month-annual-title {
+  font-weight: 800;
+  opacity: 60%;
+}
+
+.price-font {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+h2.center-items {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+.white-text {
+  color: white;
+}
+
+.header-title a {
+  color: white;
+  text-decoration: none;
+}
+.header-title a:visited {
+  color: white;
+}
+
+
+/* trainers */
+.trainers-container{
+    display:flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: white;
+    flex-direction: column;
 }
 
 
 /* Mobile */
-@media screen and (max-width: 767px){
+@media screen and (max-width: 767px) {
+  .call-to-action #view-subscriptions-button {
+    display: none;
+  }
 
-    .call-to-action #subscriptions {
-        display: none;
-    }
-
-    .login-signup {
-        display: flex;
-    }
-
+  .login-signup {
+    display: flex;
+  }
 }
-
 
 /* Tablet */
-@media screen and (min-width: 768px) and (max-width: 1023px){
-
-    .login-signup{
-        display: none;
-    }
-
-
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .login-signup {
+    display: none;
+  }
 }
-
 
 /* Desktop */
-@media screen and (min-width: 1024px){
-    
-    .login-signup{
-        display: none;
-    }
-
+@media screen and (min-width: 1024px) {
+  .login-signup {
+    display: none;
+  }
 }
-

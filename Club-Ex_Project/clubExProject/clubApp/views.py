@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView
+from .models import Price
 
 
 
@@ -14,6 +15,13 @@ from django.views.generic import TemplateView
 # landing page/home page
 class IndexView(TemplateView):
     template_name = "index.html"
+    model = Price
+
+    # price model def
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['prices'] = Price.objects.get(pk=1)
+        return context
 
 
 class LoginView(TemplateView):

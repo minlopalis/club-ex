@@ -1,38 +1,148 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
-{% block content %}
-
+{% block styles %}
 <link rel='stylesheet' href='{% static 'css/style.css' %}' content-type='text/css'>
 <link rel='stylesheet' href='{% static 'css/index.css' %}' content-type='text-css'>
+{% endblock styles %}
+{% block content %}
 
+
+
+
+<div class='page-container'>
+
+    <!-- Call to Action -->
     <div class='call-to-action'>
         <div class='container-top'>
             <img src='{% static 'img/workout.svg' %}' alt='lady working out' content-type='image/svg+xml';>
             <h1>Excepteur sint occaecat cupidatat non proident, culpa qui officia.</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
             <div class='spacing'></div>
-            <a href="#subscriptions" id='subscriptions' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            <a href="#subscriptions" id='view-subscriptions-button' class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect ">
                 View Subscriptions
             </a>
         </div>
 
         <div class='container-bottom'>
             <div class='login-signup'>
-                <a href="{% url 'signup' %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <a href="{% url 'signup' %}" class="button button-secondary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                     Sign up
                 </a>
 
-                <a href="{% url 'login' %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                     Sign In
                 </a>
             </div>
         </div>
     </div>
 
+    <div class='spacing'></div>
+
+    <!-- Subscriptions -->
+    <div class='subscriptions' id='subscriptions'>
+        <!-- Standard Subscriptions -->
+        <div class="subscriptions-container demo-card-square mdl-card mdl-shadow--2dp">
+            <div class="">
+                <div class="mdl-card__title mdl-card--expand  remove-bottom-pad">
+                    <h2 class="mdl-card__title-text center-items month-annual-title">Online Subscriptions</h2>
+                </div>
+                <div class="mdl-card__supporting-text sub-font-blue">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Aenan convallis. asdf
+                </div>
+                <div class="subscription-items mdl-card__actions mdl-grid center-items">
+                    <div class='subscription-item mdl-cell mdl-cell--6-col mdl-layout'>
+                        <h5 class="month-annual-title">Monthly</h5>
+                        <div class="sub-font-blue">
+                            <span class='superscript'>$</span><span class="price-font sub-font-blue">{{ prices.onlineMonthlySub }}</span>
+                        </div>
+                        <h7 class="sub-font-blue">per month</h7>
+                        <br>
+                        <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect signup-btn">Sign Up</a>
+                    </div>
+                    <div class='subscription-item mdl-cell mdl-cell--6-col mdl-layout'>
+                        <h5 class="month-annual-title">Annual</h5>
+                        <div>
+                            <span class='superscript'>$</span><span class="price-font sub-font-blue">{{ prices.onlineAnnualSub }}</span>
+                        </div>
+                        <h7 class="sub-font-blue">per year</h7>
+                        <br>
+                        <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect signup-btn">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Gym Subscriptions -->
+        <div class="subscriptions-container demo-card-square mdl-card mdl-shadow--2dp">
+            <div class="">
+                <div class="mdl-card__title mdl-card--expand remove-bottom-pad">
+                    <h2 class="mdl-card__title-text center-items month-annual-title">Gym Subscriptions</h2>
+                </div>
+                <div class="mdl-card__supporting-text sub-font-blue">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Aenan convallis.
+                </div>
+                <div class="subscription-items mdl-card__actions mdl-grid center-items">
+                    <div class='subscription-item mdl-cell mdl-cell--6-col mdl-layout'>
+                        <h5 class="month-annual-title">Monthly</h5>
+                        <div>
+                            <span class='superscript'>$</span><span class="price-font sub-font-blue">{{ prices.gymMonthlySub }}</span>
+                        </div>
+                        <h7 class="sub-font-blue">per month</h7>
+                        <br>
+                        <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect signup-btn">Sign Up</a>
+                    </div>
+                    <div class='subscription-item mdl-cell mdl-cell--6-col mdl-layout'>
+                        <h5 class="month-annual-title">Annual</h5>
+                        <div>
+                            <span class='superscript'>$</span><span class="price-font sub-font-blue">{{ prices.gymAnnualSub }}</span>
+                        </div>
+                        <h7 class="sub-font-blue">per year</h7>
+                        <br>
+                        <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect signup-btn">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class='spacing'></div>
+
+    <!-- Trainers -->
+    <div class="trainers-container mdl-card__actions" align=center>
+        <table align=center>
+            <th colspan="4"><h3>Meet our Trainers</h3></th>
+            <tr align=center>
+                <td><img src='{% static 'img/trainer1.jpg' %}' height=350></td>
+                <td><img src='{% static 'img/trainer2.jpg' %}' height=350></td>
+            </tr>
+            <tr align=center>
+                <td><h3>Lucy</h3></td>
+                <td><h3>Rachael</h3></td>
+            </tr>
+            <tr>
+                <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
+                <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
+            </tr>
+            <tr>
+                <td><img src='{% static 'img/trainer3.jpg' %}' height=350></td>
+                <td><img src='{% static 'img/trainer4.jpg' %}' height=350></td>
+            </tr>
+            <tr align=center>
+                <td><h3>Simon</h3></td>
+                <td><h3>Frank</h3></td>
+            </tr>
+            <tr>
+                <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
+                <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
+            </tr>
+        </table>
 
 
+    </div>
+    
+</div>
 
 {% endblock content %}
 
