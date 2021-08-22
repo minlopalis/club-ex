@@ -21,6 +21,60 @@ body {
   background-color: var(--tertiary-color);
 }
 
+
+/* Footer  */
+footer {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 0.9rem;
+  background-color: var(--primary-color);
+  width: 70%;
+  padding: 20px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-container {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-links {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-social {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-social i {
+  padding: 5px;
+}
+
+.footer-address {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-copyright {
+  font-size: 0.75rem;
+}
+
+
+
+
 .spacing {
   height: 20px;
   background-color: white;
