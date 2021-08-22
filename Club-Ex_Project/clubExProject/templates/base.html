@@ -25,9 +25,11 @@
     <!-- Font Awesome Icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 
-    {% block styles %} {% endblock styles %} {% comment %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    {% endcomment %}
+    <!-- Global Stylesheet -->
+    <link rel='stylesheet' href='{% static 'css/style.css' %}' content-type='text/css'>
+
+    {% block styles %} {% endblock styles %}
+
   </head>
   <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
