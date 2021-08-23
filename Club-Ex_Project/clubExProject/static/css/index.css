@@ -88,6 +88,7 @@ h2.center-items {
   text-align: center;
   width: 100%;
 }
+
 .white-text {
   color: white;
 }
@@ -108,30 +109,4 @@ h2.center-items {
     flex-wrap: wrap;
     background-color: white;
     flex-direction: column;
-}
-
-
-/* Mobile */
-@media screen and (max-width: 767px) {
-  .call-to-action #view-subscriptions-button {
-    display: none;
-  }
-
-  .login-signup {
-    display: flex;
-  }
-}
-
-/* Tablet */
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-  .login-signup {
-    display: none;
-  }
-}
-
-/* Desktop */
-@media screen and (min-width: 1024px) {
-  .login-signup {
-    display: none;
-  }
 }

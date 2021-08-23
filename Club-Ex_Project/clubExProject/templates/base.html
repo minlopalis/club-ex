@@ -10,16 +10,8 @@
     <title>Club Ex</title>
 
     <!-- https://getmdl.io/started/index.html -->
-
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'css/material.min.css' %}"
-    />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="{% static 'css/material.min.css' %}"/>
     <script defer src="{% static 'js/material.min.js' %}"></script>
 
     <!-- Font Awesome Icons-->
@@ -33,17 +25,21 @@
   </head>
   <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
       <header class="mdl-layout__header white-text">
         <div class="mdl-layout__header-row white-text">
+        
           <!-- Title -->
           <div class="header-title">
             <a  href={%url "index"%} >
               <img width="60%" src={% static 'img/logo.png' %} />
             </a>
           </div>
+
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
-          <!-- Navigation. We hide it in small screens. -->
+
+          <!-- Navigation -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
             <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
             <a class="mdl-navigation__link" href="">Link</a>
@@ -52,6 +48,8 @@
           </nav>
         </div>
       </header>
+
+      <!-- Drawer -->
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Club-EX</span>
         <nav class="mdl-navigation">
@@ -61,45 +59,46 @@
           <a class="mdl-navigation__link" href="">Link</a>
         </nav>
       </div>
+
       <main class="mdl-layout__content">
-        <div class="page-content">{% block content %} {% endblock content %}</div>
 
-        <!-- Footer Content -->
-        <footer>
-        <div class='footer-container'>
-          <div class='footer-links'>
-              <a href={% url 'index' %}>Home</a>
-              <a href="#subscriptions">Subscriptions</a>
-              <a href={% url 'login' %}>Sign In</a>
-          </div>
-          <div class='footer-social'>
-            <a href='http://facebook.com' target='_blank'>
-              <i class="fab fa-facebook"></i>
-              Facebook
-            </a>
-            <a href='http://twitter.com' target='_blank'>
-              <i class="fab fa-twitter"></i>
-              Twitter
-            </a>
-            <a href='http://instagram.com' target='_blank'>
-              <i class="fab fa-instagram"></i>
-              Instagram
-            </a>
-          </div>
-          <div class='footer-address'>
-            <span>497 Evergreen Rd. Roseville, CA 95673</span> 
-            <span>+44 345 678 903</span> 
-            <span>adobexd@mail.com</span>
-          </div>
+        <!-- Page Content -->
+        <div class="page-content">
+          {% block content %} {% endblock content %}
         </div>
-        <div class='footer-copyright'>Copyright &copy 2021.</div>
-        </footer>
-        
-      </main>
 
-    </div>
-     
-      
+        <!-- Footer -->
+        <footer>
+          <div class='footer-container'>
+            <div class='footer-links'>
+                <a href={% url 'index' %}>Home</a>
+                <a href="#subscriptions">Subscriptions</a>
+                <a href={% url 'login' %}>Sign In</a>
+            </div>
+            <div class='footer-social'>
+              <a href='http://facebook.com' target='_blank'>
+                <i class="fab fa-facebook"></i>
+                Facebook
+              </a>
+              <a href='http://twitter.com' target='_blank'>
+                <i class="fab fa-twitter"></i>
+                Twitter
+              </a>
+              <a href='http://instagram.com' target='_blank'>
+                <i class="fab fa-instagram"></i>
+                Instagram
+              </a>
+            </div>
+            <div class='footer-address'>
+              <span>497 Evergreen Rd. Roseville, CA 95673</span> 
+              <span>+44 345 678 903</span> 
+              <span>adobexd@mail.com</span>
+            </div>
+          </div>
+          <div class='footer-copyright'>Copyright &copy 2021.</div>
+        </footer>
+
+      </main>
     </div>
   </body>
 </html>

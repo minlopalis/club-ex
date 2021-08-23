@@ -4,11 +4,7 @@
 {% block styles %}
 <link rel='stylesheet' href='{% static 'css/index.css' %}' content-type='text-css'>
 {% endblock styles %}
-
-
 {% block content %}
-
-<div class='page-container'>
 
     <!-- Call to Action -->
     <div class='call-to-action'>
@@ -17,17 +13,16 @@
             <h1>Excepteur sint occaecat cupidatat non proident, culpa qui officia.</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
             <div class='spacing'></div>
-            <a href="#subscriptions" id='view-subscriptions-button' class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect ">
+            <a href="#subscriptions" id='view-subscriptions-button' class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-layout--large-screen-only">
                 View Subscriptions
             </a>
         </div>
 
         <div class='container-bottom'>
-            <div class='login-signup'>
+            <div class='login-signup mdl-layout--small-screen-only'>
                 <a href="{% url 'signup' %}" class="button button-secondary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                     Sign up
                 </a>
-
                 <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                     Sign In
                 </a>
@@ -107,6 +102,7 @@
     
     <div class='spacing'></div>
 
+
     <!-- Trainers -->
     <div class="trainers-container mdl-card__actions" align=center>
         <table align=center>
@@ -136,11 +132,9 @@
                 <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
             </tr>
         </table>
-
-
     </div>
-    
-</div>
+
+    <div class='spacing'></div>
 
 {% endblock content %}
 
