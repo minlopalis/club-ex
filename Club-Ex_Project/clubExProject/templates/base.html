@@ -6,99 +6,177 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClubEX - Online Gym</title>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!--Import materialize.css-->
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="{% static 'css/materialize.min.css' %}"
+      media="screen,projection"
+    />
+    <link
+      href="{% static 'css/style.css' %}"
+      type="text/css"
+      rel="stylesheet"
+      media="screen,projection"
+    />
+  </head>
+  <body>
+    <nav class="white" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href={%url "index"%} class="brand-logo"><img width="80%" class="responsive-img"  src="{% static 'img/logo_blue.png' %}" /></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href={%url "index"%}>Home</a></li>
+          <li><a href={%url "stats"%}>Statistics</a></li>
+          <li><a href={%url "login"%}>Sign In</a></li>
+          <li><a href={%url "signup"%}>Sign Up</a></li>
+          <li><a href={%url "videolist"%}>Video List</a></li>
+          <li><a href={%url "results"%}>Results</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="sidenav">
+          <li><a href={%url "index"%}>Home</a></li>
+          <li><a href={%url "stats"%}>Statistics</a></li>
+          <li><a href={%url "login"%}>Sign In</a></li>
+          <li><a href={%url "signup"%}>Sign Up</a></li>
+          <li><a href={%url "videolist"%}>Video List</a></li>
+          <li><a href={%url "results"%}>Results</a></li>
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"
+          ><i class="material-icons">menu</i></a
+        >
+      </div>
+    </nav>
+
+    {% block content %} {% endblock content %}
+
+    <footer class="page-footer teal">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Company Bio</h5>
+            <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+  
+  
+          </div>
+          <div class="col l3 s12">
+            <h5 class="white-text">Settings</h5>
+            <ul>
+              <li><a class="white-text" href="#!">Link 1</a></li>
+              <li><a class="white-text" href="#!">Link 2</a></li>
+              <li><a class="white-text" href="#!">Link 3</a></li>
+              <li><a class="white-text" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+          <div class="col l3 s12">
+            <h5 class="white-text">Connect</h5>
+            <ul>
+              <li><a class="white-text" href="#!">Link 1</a></li>
+              <li><a class="white-text" href="#!">Link 2</a></li>
+              <li><a class="white-text" href="#!">Link 3</a></li>
+              <li><a class="white-text" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+        Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+        </div>
+      </div>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Club Ex</title>
 
-    <!-- https://getmdl.io/started/index.html -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" href="{% static 'css/material.min.css' %}"/>
+    
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/material.min.css' %}"
+    />
+
     <script defer src="{% static 'js/material.min.js' %}"></script>
-
-    <!-- Font Awesome Icons-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-
-    <!-- Global Stylesheet -->
-    <link rel='stylesheet' href='{% static 'css/style.css' %}' content-type='text/css'>
-
-    {% block styles %} {% endblock styles %}
 
   </head>
   <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-
       <header class="mdl-layout__header white-text">
         <div class="mdl-layout__header-row white-text">
-        
-          <!-- Title -->
+          
           <div class="header-title">
             <a  href={%url "index"%} >
-              <img width="60%" src={% static 'img/logo.png' %} />
+              <img width="80%" src={% static 'img/logo.png' %} />
             </a>
           </div>
-
-          <!-- Add spacer, to align navigation to the right -->
+          
           <div class="mdl-layout-spacer"></div>
-
-          <!-- Navigation -->
-          <nav class="mdl-navigation mdl-layout--large-screen-only">
+          
+          <nav class="clubex-navigation mdl-navigation mdl-layout--large-screen-only">
+            <a class="mdl-navigation__link" href={%url "index"%}>Home</a>
+            <a class="mdl-navigation__link" href={%url "stats"%}>Statistics</a>
             <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href={%url "signup"%}>Sign Up</a>
+            <a class="mdl-navigation__link" href={%url "videolist"%}>Video List</a>
+            <a class="mdl-navigation__link" href={%url "results"%}>Results</a>
+            
           </nav>
         </div>
       </header>
-
-      <!-- Drawer -->
-      <div class="mdl-layout__drawer">
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
         <span class="mdl-layout-title">Club-EX</span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
+          <a class="mdl-navigation__link" href={%url "index"%}>Home</a>
+          <a class="mdl-navigation__link" href={%url "stats"%}>Statistics</a>
+          <a class="mdl-navigation__link" href={%url "videolist"%}>Video List</a>
+          <a class="mdl-navigation__link" href={%url "results"%}>Results</a>
+          <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
+          <a class="mdl-navigation__link" href={%url "signup"%}>Sign Up</a>
         </nav>
       </div>
-
-      <main class="mdl-layout__content">
-
-        <!-- Page Content -->
-        <div class="page-content">
-          {% block content %} {% endblock content %}
-        </div>
-
-        <!-- Footer -->
-        <footer>
-          <div class='footer-container'>
-            <div class='footer-links'>
-                <a href={% url 'index' %}>Home</a>
-                <a href="#subscriptions">Subscriptions</a>
-                <a href={% url 'login' %}>Sign In</a>
-            </div>
-            <div class='footer-social'>
-              <a href='http://facebook.com' target='_blank'>
-                <i class="fab fa-facebook"></i>
-                Facebook
-              </a>
-              <a href='http://twitter.com' target='_blank'>
-                <i class="fab fa-twitter"></i>
-                Twitter
-              </a>
-              <a href='http://instagram.com' target='_blank'>
-                <i class="fab fa-instagram"></i>
-                Instagram
-              </a>
-            </div>
-            <div class='footer-address'>
-              <span>497 Evergreen Rd. Roseville, CA 95673</span> 
-              <span>+44 345 678 903</span> 
-              <span>adobexd@mail.com</span>
-            </div>
-          </div>
-          <div class='footer-copyright'>Copyright &copy 2021.</div>
-        </footer>
-
-      </main>
+    
     </div>
+    
+    
+  </div>
+  <footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer__left-section">
+      <div class="mdl-logo">Title</div>
+      <ul class="mdl-mini-footer__link-list">
+        <li><a href="#">Help</a></li>
+        <li><a href="#">Privacy & Terms</a></li>
+      </ul>
+    </div>
+  </footer>
   </body>
 </html>
+
+
+
+
+
+<main class="mdl-layout__content">
+  <div class="page-content"></div>
+</main> -->

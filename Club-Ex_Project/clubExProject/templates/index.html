@@ -1,140 +1,164 @@
-{% extends 'base.html' %}
-
-{% load static %}
-{% block styles %}
-<link rel='stylesheet' href='{% static 'css/index.css' %}' content-type='text-css'>
-{% endblock styles %}
-{% block content %}
-
-    <!-- Call to Action -->
-    <div class='call-to-action'>
-        <div class='container-top'>
-            <img src='{% static 'img/workout.svg' %}' alt='lady working out' content-type='image/svg+xml';>
-            <h1>Excepteur sint occaecat cupidatat non proident, culpa qui officia.</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-            <div class='spacing'></div>
-            <a href="#subscriptions" id='view-subscriptions-button' class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-layout--large-screen-only">
-                View Subscriptions
-            </a>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- Call to Action -->
+<div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <br /><br />
+        <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">
+            A modern responsive front-end framework based on Material Design
+          </h5>
         </div>
-
-        <div class='container-bottom'>
-            <div class='login-signup mdl-layout--small-screen-only'>
-                <a href="{% url 'signup' %}" class="button button-secondary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                    Sign up
-                </a>
-                <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                    Sign In
-                </a>
-            </div>
+        <div class="row center">
+          <a
+            href="http://materializecss.com/getting-started.html"
+            id="download-button"
+            class="btn-large waves-effect waves-light teal lighten-1"
+            >Get Started</a
+            >
+          <a
+            href="http://materializecss.com/getting-started.html"
+            id="download-button"
+            class="btn-large waves-effect waves-light teal lighten-1"
+            >Get Started</a
+            >
         </div>
+        <br /><br />
+      </div>
     </div>
-
-    <div class='spacing'></div>
-
-    <!-- Subscriptions -->
-    <div class='subscriptions' id='subscriptions'>
-        <!-- Standard Subscriptions -->
-        <div class="subscriptions-container demo-card-square mdl-card mdl-shadow--2dp" align=center>
-            <div class="">
-                <div class="mdl-card__title mdl-card--expand  remove-bottom-pad">
-                    <h2 class="mdl-card__title-text center-items month-annual-title">Online Subscriptions</h2>
-                </div>
-                <div class="mdl-card__supporting-text sub-font-blue">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Aenan convallis. asdf
-                </div>
-                <div class="subscription-items mdl-card__actions mdl-grid center-items">
-                    <div class='subscription-item mdl-cell mdl-cell--6-col mdl-layout'>
-                        <h5 class="month-annual-title">Monthly</h5>
-                        <div class="sub-font-blue">
-                            <span class='superscript'>$</span><span class="price-font sub-font-blue">{{ prices.onlineMonthlySub }}</span>
-                        </div>
-                        <h7 class="sub-font-blue">per month</h7>
-                        <br>
-                        <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect signup-btn">Sign Up</a>
-                    </div>
-                    <div class='subscription-item mdl-cell mdl-cell--6-col mdl-layout'>
-                        <h5 class="month-annual-title">Annual</h5>
-                        <div>
-                            <span class='superscript'>$</span><span class="price-font sub-font-blue">{{ prices.onlineAnnualSub }}</span>
-                        </div>
-                        <h7 class="sub-font-blue">per year</h7>
-                        <br>
-                        <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect signup-btn">Sign Up</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Gym Subscriptions -->
-        <div class="subscriptions-container demo-card-square mdl-card mdl-shadow--2dp" align=center>
-            <div class="">
-                <div class="mdl-card__title mdl-card--expand remove-bottom-pad">
-                    <h2 class="mdl-card__title-text center-items month-annual-title">Gym Subscriptions</h2>
-                </div>
-                <div class="mdl-card__supporting-text sub-font-blue">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Aenan convallis.
-                </div>
-                <div class="subscription-items mdl-card__actions mdl-grid center-items">
-                    <div class='subscription-item mdl-cell mdl-cell--6-col mdl-layout'>
-                        <h5 class="month-annual-title">Monthly</h5>
-                        <div>
-                            <span class='superscript'>$</span><span class="price-font sub-font-blue">{{ prices.gymMonthlySub }}</span>
-                        </div>
-                        <h7 class="sub-font-blue">per month</h7>
-                        <br>
-                        <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect signup-btn">Sign Up</a>
-                    </div>
-                    <div class='subscription-item mdl-cell mdl-cell--6-col mdl-layout'>
-                        <h5 class="month-annual-title">Annual</h5>
-                        <div>
-                            <span class='superscript'>$</span><span class="price-font sub-font-blue">{{ prices.gymAnnualSub }}</span>
-                        </div>
-                        <h7 class="sub-font-blue">per year</h7>
-                        <br>
-                        <a href="{% url 'login' %}" class="button button-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect signup-btn">Sign Up</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="parallax">
+      <img src="{% static 'img/bg1.png' %}" alt="Unsplashed background img 1" />
     </div>
-    
-    <div class='spacing'></div>
-
-
-    <!-- Trainers -->
-    <div class="trainers-container mdl-card__actions" align=center>
-        <table align=center>
-            <th colspan="4"><h3>Meet our Trainers</h3></th>
-            <tr align=center>
-                <td><img src='{% static 'img/trainer1.jpg' %}' height=350></td>
-                <td><img src='{% static 'img/trainer2.jpg' %}' height=350></td>
-            </tr>
-            <tr align=center>
-                <td><h3>Lucy</h3></td>
-                <td><h3>Rachael</h3></td>
-            </tr>
-            <tr>
-                <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
-                <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
-            </tr>
-            <tr>
-                <td><img src='{% static 'img/trainer3.jpg' %}' height=350></td>
-                <td><img src='{% static 'img/trainer4.jpg' %}' height=350></td>
-            </tr>
-            <tr align=center>
-                <td><h3>Simon</h3></td>
-                <td><h3>Frank</h3></td>
-            </tr>
-            <tr>
-                <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
-                <td width=200>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</td>
-            </tr>
-        </table>
+  </div>
+  <!-- End Call to Action -->
+  <!-- Subscriptions -->
+  <div class="container">
+    <div class="row">
+      <div class="col s12 text-center">
+        <h3>Pricing</h3>
+      </div>
+      <div class="col s12 m6">
+        <div class="row">
+          <div class="col s12">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title flow-text">Online Subscriptions</span>
+                <p class="flow-text">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Doloribus, libero. Sed similique numquam consequuntur quo dolor
+                  fuga omnis exercitationem neque.
+                </p>
+              </div>
+              <div class="card-action">
+                <a href={%url "signup"%}>$10 per month</a>
+                <a href={%url "signup"%}>$100 per year</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="row">
+          <div class="col s12">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">Gym Subscriptions</span>
+                <p class="flow-text">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Doloribus, libero. Sed similique numquam consequuntur quo dolor
+                  fuga omnis exercitationem neque.
+                </p>
+              </div>
+              <div class="card-action">
+                <a href={%url "signup"%}>$20 per month</a>
+                <a href={%url "signup"%}>$200 per year</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+  <!-- End Subscriptions -->
+  <!-- Trainers -->
+  <div class="container">
+    <div class="row">
+      <div class="col s12 text-center">
+        <h3>Meet the Trainers</h3>
+      </div>
+      <div class="col s12 m6">
+        <div class="row">
+          <div class="col s12 ">
+            <div class="card">
+              <div class="card-image">
+                <img src="{% static 'img/trainer1.png'%}">
+                <span class="card-title black-text">Lucy</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information.
+                  I am convenient because I require little markup to use effectively.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="row">
+          <div class="col s12 ">
+            <div class="card">
+              <div class="card-image">
+                <img src="{% static 'img/trainer2.png'%}" width="80%">
+                <span class="card-title ">Rachel</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information.
+                  I am convenient because I require little markup to use effectively.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="row">
+          <div class="col s12 ">
+            <div class="card">
+              <div class="card-image">
+                <img src="{% static 'img/trainer3.png'%}" width="80%">
+                <span class="card-title ">Simon</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information.
+                  I am convenient because I require little markup to use effectively.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="row">
+          <div class="col s12 ">
+            <div class="card">
+              <div class="card-image">
+                <img src="{% static 'img/trainer4.png'%}" width="80%">
+                <span class="card-title ">Frank</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information.
+                  I am convenient because I require little markup to use effectively.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Trainers -->
+      
 
-    <div class='spacing'></div>
 
 {% endblock content %}
-
