@@ -29,7 +29,9 @@
   <body>
     <nav class="white" role="navigation">
       <div class="nav-wrapper container">
-        <a id="logo-container" href={%url "index"%} class="brand-logo"><img width="80%" class="responsive-img"  src="{% static 'img/logo_blue.png' %}" /></a>
+        <a id="logo-container" href={%url "index"%} class="brand-logo">
+          <img width="80%" class="responsive-img"  src="{% static 'img/logo_blue.png' %}" />
+        </a>
         <ul class="right hide-on-med-and-down">
           <li><a href={%url "index"%}>Home</a></li>
           <li><a href={%url "stats"%}>Statistics</a></li>
@@ -47,7 +49,7 @@
           <li><a href={%url "videolist"%}>Video List</a></li>
           <li><a href={%url "results"%}>Results</a></li>
         </ul>
-        <a href="#" data-target="nav-mobile" class="sidenav-trigger"
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger blue-text"
           ><i class="material-icons">menu</i></a
         >
       </div>
@@ -55,38 +57,30 @@
 
     {% block content %} {% endblock content %}
 
-    <footer class="page-footer teal">
+    <footer class="page-footer blue">
       <div class="container">
         <div class="row">
-          <div class="col l6 s12">
-            <h5 class="white-text">Company Bio</h5>
-            <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-  
-  
-          </div>
-          <div class="col l3 s12">
-            <h5 class="white-text">Settings</h5>
-            <ul>
-              <li><a class="white-text" href="#!">Link 1</a></li>
-              <li><a class="white-text" href="#!">Link 2</a></li>
-              <li><a class="white-text" href="#!">Link 3</a></li>
-              <li><a class="white-text" href="#!">Link 4</a></li>
-            </ul>
-          </div>
-          <div class="col l3 s12">
-            <h5 class="white-text">Connect</h5>
-            <ul>
-              <li><a class="white-text" href="#!">Link 1</a></li>
-              <li><a class="white-text" href="#!">Link 2</a></li>
-              <li><a class="white-text" href="#!">Link 3</a></li>
-              <li><a class="white-text" href="#!">Link 4</a></li>
-            </ul>
+          <div class="col s12">
+            <h5 class="white-text">Our Mission</h5>
+            <p class="grey-text text-lighten-4">
+              We understand first hand the positive impact 
+              exercise has not only on our physical health, but on 
+              our mental health and confidence too, which is why we want 
+              everyone to reap the abundance of amazing rewards that ensues 
+              regular exercise. We celebrate all people, and we’re 
+              committed to creating a community and a culture in which 
+              you feel comfortable and confident to train in. 
+              From our facilities and our equipment right through to our 
+              Club Managers and Personal Trainers, we go above and beyond 
+              to make sure we deliver an outstanding experience for our
+              members every time they walk into the gym.
+            </p>
           </div>
         </div>
       </div>
       <div class="footer-copyright">
         <div class="container">
-        Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+        Made by <span class="brown-text text-lighten-3">Edible Coders</span>
         </div>
       </div>
     </footer>
@@ -98,85 +92,3 @@
   </body>
 </html>
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Club Ex</title>
-
-    
-
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'css/material.min.css' %}"
-    />
-
-    <script defer src="{% static 'js/material.min.js' %}"></script>
-
-  </head>
-  <body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header white-text">
-        <div class="mdl-layout__header-row white-text">
-          
-          <div class="header-title">
-            <a  href={%url "index"%} >
-              <img width="80%" src={% static 'img/logo.png' %} />
-            </a>
-          </div>
-          
-          <div class="mdl-layout-spacer"></div>
-          
-          <nav class="clubex-navigation mdl-navigation mdl-layout--large-screen-only">
-            <a class="mdl-navigation__link" href={%url "index"%}>Home</a>
-            <a class="mdl-navigation__link" href={%url "stats"%}>Statistics</a>
-            <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
-            <a class="mdl-navigation__link" href={%url "signup"%}>Sign Up</a>
-            <a class="mdl-navigation__link" href={%url "videolist"%}>Video List</a>
-            <a class="mdl-navigation__link" href={%url "results"%}>Results</a>
-            
-          </nav>
-        </div>
-      </header>
-      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
-        <span class="mdl-layout-title">Club-EX</span>
-        <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href={%url "index"%}>Home</a>
-          <a class="mdl-navigation__link" href={%url "stats"%}>Statistics</a>
-          <a class="mdl-navigation__link" href={%url "videolist"%}>Video List</a>
-          <a class="mdl-navigation__link" href={%url "results"%}>Results</a>
-          <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
-          <a class="mdl-navigation__link" href={%url "signup"%}>Sign Up</a>
-        </nav>
-      </div>
-    
-    </div>
-    
-    
-  </div>
-  <footer class="mdl-mini-footer">
-    <div class="mdl-mini-footer__left-section">
-      <div class="mdl-logo">Title</div>
-      <ul class="mdl-mini-footer__link-list">
-        <li><a href="#">Help</a></li>
-        <li><a href="#">Privacy & Terms</a></li>
-      </ul>
-    </div>
-  </footer>
-  </body>
-</html>
-
-
-
-
-
-<main class="mdl-layout__content">
-  <div class="page-content"></div>
-</main> -->
