@@ -3,14 +3,10 @@ from django.forms.forms import Form
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
-from .models import Price
+from .models import Price, Video
 
-
-
-
-# def index(request):
-#     return HttpResponse('<h1> this is index landing page</h1>')
 
 # landing page/home page
 class IndexView(TemplateView):
@@ -24,30 +20,26 @@ class IndexView(TemplateView):
         return context
 
 
-class LoginView(TemplateView):
-    template_name = "login.html"
+
+@login_required(login_url='login')
+def viewVideoList(request):
+    return render(request, "videolist.html")
 
 
-class SignUpView(TemplateView):
-    template_name = "signup.html"
+@login_required(login_url='login')
+def searchResultsView(request):
+    context = {}
+    return render(request, 'results.html', context)
 
 
-class ViewVideoListView(TemplateView):
-    template_name = "videolist.html"
+@login_required(login_url='login')
+def videoView(request,pk):
+    video = Video.objects.get(video_id=pk)
+    context = {'video':video}
+    return render(request, 'video.html', context)
 
 
-class SearchResultsView(TemplateView):
-    template_name = "results.html"
-
-
-class VideoView(TemplateView):
-    template_name = "video.html"
-
-
-# view for the profile/account
-class AccountView(TemplateView):
-    template_name = "account.html"
-
-
-class StatsView(TemplateView):
-    template_name = "stats.html"
+@login_required(login_url='login')
+def statsView(request):
+    context = {}
+    return render(request, 'stats.html', context)
