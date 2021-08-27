@@ -7,6 +7,7 @@ from .models import Customer
 from .forms import CustomUserCreationForm
 # Create your views here.
 
+
 def loginUser(request):
     page = 'login'
 
@@ -48,7 +49,9 @@ def registerUser(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
+            print('form is valid')
             user = form.save(commit=False)
+            print(user)
             user.username = user.username.lower()
             user.save()
 
@@ -56,8 +59,8 @@ def registerUser(request):
 
             login(request, user)
             return redirect('index')
-
         else:
+            print('form isnt valid')
             messages.error(request, 'An error has occured during registration!')
 
     context = {'page': page, 'form': form}

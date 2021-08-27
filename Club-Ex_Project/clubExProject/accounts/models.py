@@ -6,9 +6,10 @@ import datetime
 # Create your models here.
 
 
+
 class Customer(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    username = models.CharField(max_length=200, blank=True, null=True)
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     address_1 = models.CharField(max_length=50, null=True, blank=True)
@@ -18,9 +19,12 @@ class Customer(models.Model):
     zip_address = models.CharField(max_length=10)
     email = models.EmailField(max_length=100, null=True, blank=True)
     phone = models.CharField(max_length=20, null=False, blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
         return str(self.user)
+
 
 # Subscription Model
 class Subscription(models.Model):
@@ -28,6 +32,7 @@ class Subscription(models.Model):
     subscription = models.CharField(max_length=50)
     billing_cycle_days = models.IntegerField()
     gym_access = models.BooleanField(default=False)
+
 
 # Customer Subsription Model
 class CustomerSubscription(models.Model):
