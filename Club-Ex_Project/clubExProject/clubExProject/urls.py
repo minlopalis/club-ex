@@ -23,4 +23,5 @@ from clubApp.views import IndexView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('clubApp.urls')),
+    path('accounts/', include('accounts.urls')),
 ]

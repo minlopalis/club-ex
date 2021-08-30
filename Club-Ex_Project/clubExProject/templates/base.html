@@ -6,69 +6,82 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Club Ex</title>
-
-    <!-- https://getmdl.io/started/index.html -->
+    <title>ClubEX - Online Gym</title>
 
     <link
-      rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!--Import materialize.css-->
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="{% static 'css/materialize.min.css' %}"
+      media="screen,projection"
     />
     <link
+      href="{% static 'css/style.css' %}"
+      type="text/css"
       rel="stylesheet"
-      href="{% static 'css/material.min.css' %}"
+      media="screen,projection"
     />
-
-    <script defer src="{% static 'js/material.min.js' %}"></script>
-    {% block styles %} {% endblock styles %} {% comment %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    {% endcomment %}
+    {% block styles %} {% endblock styles %}
   </head>
   <body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header white-text">
-        <div class="mdl-layout__header-row white-text">
-          <!-- Title -->
-          <div class="header-title">
-            <a  href={%url "index"%} >
-              <img width="80%" src={% static 'img/logo.png' %} />
-            </a>
-          </div>
-          <!-- Add spacer, to align navigation to the right -->
-          <div class="mdl-layout-spacer"></div>
-          <!-- Navigation. We hide it in small screens. -->
-          <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <a class="mdl-navigation__link" href={%url "index"%}>Home</a>
-            <a class="mdl-navigation__link" href={%url "stats"%}>Statistics</a>
-            <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
-            <a class="mdl-navigation__link" href={%url "signup"%}>Sign Up</a>
-            <a class="mdl-navigation__link" href={%url "videolist"%}>Video List</a>
-            <a class="mdl-navigation__link" href={%url "results"%}>Results</a>
-            
-          </nav>
-        </div>
-      </header>
-      <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Club-EX</span>
-        <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href={%url "index"%}>Home</a>
-          <a class="mdl-navigation__link" href={%url "stats"%}>Statistics</a>
-          <a class="mdl-navigation__link" href={%url "videolist"%}>Video List</a>
-          <a class="mdl-navigation__link" href={%url "results"%}>Results</a>
-          <a class="mdl-navigation__link" href={%url "login"%}>Sign In</a>
-          <a class="mdl-navigation__link" href={%url "signup"%}>Sign Up</a>
-        </nav>
+    <nav class="white" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href='{%url "index"%}' class="brand-logo">
+          <img width="80%" class="responsive-img"  src="{% static 'img/logo_blue.png' %}" />
+        </a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="{%url 'index'%}">Home</a></li>
+
+          {% if user.is_authenticated %}
+            <li><a href='{%url "stats"%}'>Statistics</a></li>
+            <li><a href='{%url "videolist"%}'>Video List</a></li> 
+            <li><a href='{%url "logout"%}'>Logout</a></li>           
+          {% else %}
+          <li><a href='{%url "login"%}'>Sign In</a></li>
+          <li><a href='{%url "register"%}'>Sign Up</a></li>
+
+          {% endif %}
+        </ul>
+
+        <ul id="nav-mobile" class="sidenav">
+          <li><a href='{%url "index"%}'>Home</a></li>
+          
+          {% if user.is_authenticated %}
+          <li><a href='{%url "stats"%}'>Statistics</a></li>
+          <li><a href='{%url "videolist"%}'>Video List</a></li>
+          <li><a href='{%url "logout"%}'>Logout</a></li>
+          {% else %}
+          <li><a href='{%url "login"%}'>Sign In</a></li>
+          <li><a href='{%url "register"%}'>Sign Up</a></li>
+          {% endif %}
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger blue-text"
+          ><i class="material-icons">menu</i></a
+        >
       </div>
-      <main class="mdl-layout__content">
-        <div class="page-content">{% block content %} {% endblock content %}</div>
-      </main>
-      <footer class="mdl-mini-footer">
-        <!-- Footer Content -->
-      </footer>
-    </div>
-     
-      
-    </div>
+    </nav>
+
+    {% block content %} {% endblock content %}
+
+    <footer class="page-footer blue">
+      {% block footer_content %} {% endblock footer_content %}
+      <div class="footer-copyright">
+        <div class="container">
+        Made by <span class="brown-text text-lighten-3">Edible Coders</span>
+        </div>
+      </div>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+    {% block scripts %} {% endblock scripts %}
+    
   </body>
 </html>
+

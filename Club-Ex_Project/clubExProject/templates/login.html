@@ -1,4 +1,42 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
+
 {% block content %}
-<p> Login page </p>
+<div class="container">
+  <div class="row">
+    <div class="col s12"><h2 class="blue-text">Login</h2></div>
+  </div>
+  <div class="row">
+
+    <form class="col s12" method='POST'>
+    {% csrf_token %}
+      <div class="row">
+
+        <div class="input-field col s12">
+          <input id="username" type="text" name="username" class="validate blue-text" />
+          <label for="username">Username</label>
+          <span
+            class="helper-text"
+            data-error="Please enter a valid username"
+            data-success=""
+          ></span>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="password" type="password" name="password" class="blue-text" />
+          <label for="password">Password</label>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col s12">
+          <button type="submit" class="waves-effect waves-light blue btn">
+            Submit
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
 {% endblock content %}

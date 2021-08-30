@@ -1,4 +1,36 @@
-{% extends 'base.html' %}
-{% block content %}
-<p> SignUp page </p>
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col s12"><h2 class="blue-text">Sign Up</h2></div>
+  </div>
+  <div class="row">
+
+    <form class="col s12" method='POST'>
+    {% csrf_token %}
+      <div class="row">
+
+        {% for field in form %}
+        <div class="input-field col s12">
+          {% comment %} <input id="name" type="text" class="blue-text" /> {% endcomment %}
+          {{field}}
+          <label for="name">{{field.label}}</label>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="row">
+        <div class="col s12">
+          <button type="submit" class="waves-effect waves-light blue btn"  value="Register User">
+            Submit
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+
+
+  </div>
+</div>
 {% endblock content %}

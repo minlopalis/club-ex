@@ -1,16 +1,13 @@
 from django import template
+from django.db.models.query import QuerySet
 from django.forms.forms import Form
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from django.views.generic import TemplateView
-from .models import Price
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView, ListView
+from .models import Price, Video
 
-
-
-
-# def index(request):
-#     return HttpResponse('<h1> this is index landing page</h1>')
 
 # landing page/home page
 class IndexView(TemplateView):
@@ -24,30 +21,33 @@ class IndexView(TemplateView):
         return context
 
 
-class LoginView(TemplateView):
-    template_name = "login.html"
+
+@login_required(login_url='login')
+def viewVideoList(request):
+    return render(request, "videolist.html")
 
 
-class SignUpView(TemplateView):
-    template_name = "signup.html"
-
-
-class ViewVideoListView(TemplateView):
-    template_name = "videolist.html"
-
-
-class SearchResultsView(TemplateView):
+@login_required(login_url='login')
+class SearchResultsView(ListView):
+    model = Video
     template_name = "results.html"
+    
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        object_list = Video.objects.filter(
+            Q(video_name__icontains=query) | QuerySet(video_description__icontains=query)
+        )
+        return object_list
 
 
-class VideoView(TemplateView):
-    template_name = "video.html"
+@login_required(login_url='login')
+def videoView(request,pk):
+    video = Video.objects.get(video_id=pk)
+    context = {'video':video}
+    return render(request, 'video.html', context)
 
 
-# view for the profile/account
-class AccountView(TemplateView):
-    template_name = "account.html"
-
-
-class StatsView(TemplateView):
-    template_name = "stats.html"
+@login_required(login_url='login')
+def statsView(request):
+    context = {}
+    return render(request, 'stats.html', context)
