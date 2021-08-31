@@ -5,6 +5,7 @@
   href="{% static 'css/video-slider.css' %}"
   media="screen,projection"
 />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock styles %} {% block content %}
 
 <div class="container">
@@ -26,122 +27,84 @@
   </form>
 </div>
 
-<div
-  style="
-    background: url('/static/img/videos/video2.jpeg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    overflow: hidden;
-  "
->
-  <div class="overlay">
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m9">
-          <div class="iframe-container">
-            <iframe
-              class="responsive-iframe"
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/EeF47sA_o28"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
+<div>
+  <section id="media">
+    <div class="video">
+      <iframe width="500" height="250" src="https://youtube.com/embed/Eml2xnoLpYE" frameborder="80" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p class="vidtitle">Full Body Yoga for Strength & Flexibility</p>
+        <div class="white-text accent-2">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span> 
         </div>
-        <div class="col s12 m3 white-text right-align">
-          <h3>AT HOME CARDIO Workout</h3>
-          <p>
-            Get ready for this serious sweat sesh. We're running through 15 of
-            my favorite body weight cardio exercises today - with the exception
-            of the jump rope which you can just pretend to do if you don't have
-            one! Workout from home or the gym and get that cardio workout done!
-            Woot Woot!
-          </p>
-          <div class="yellow-text accent-2">
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star_half</i>
-          </div>
+    </div>
+      
+  
+  <div class="video">
+      <iframe width="500" height="250" src="https://youtube.com/embed/fCY6SzJTZPk" frameborder="80" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p class="vidtitle">Full Body Aerobics Workout</p>
+        <div class="white-text accent-2">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
         </div>
-      </div>
-    </div>
-
-    <div class="app">
-      <ul class="hs full">
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
   </div>
+  
+
+  <div class="video">
+      <iframe width="500" height="250" src="https://youtube.com/embed/g_tea8ZNk5A" frameborder="80" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+       <p class="vidtitle">Daily Full Body Stretch</p>
+       <div class="white-text accent-2">
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+      </div>
+  </div>
+  
+  <div class="video">
+      <iframe width="500" height="250" src="https://youtube.com/embed/-YpRYNREDV8" frameborder="80" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p class="vidtitle">Full Body Workouts</p>
+        <div class="white-text accent-2">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+        </div>
+  </div>
+
+  <div class="video">
+    <iframe width="500" height="250" src="https://youtube.com/embed/IvmaekQfKiw" frameborder="80" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <p class="vidtitle">Body Cardio Workouts</p>
+      <div class="white-text accent-2">
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+      </div>
+  </div>
+
+  <div class="video">
+    <iframe width="500" height="250" src="https://youtube.com/embed/IeGrTqW5lek" frameborder="80" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <p class="vidtitle">Morning Body Workouts</p>
+      <div class="white-text accent-2">
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+      </div>
+  </div>
+
+</section>
 </div>
+
 
 {% endblock content %} {% block scripts %} {% endblock scripts %}

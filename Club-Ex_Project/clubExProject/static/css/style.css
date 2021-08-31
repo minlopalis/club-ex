@@ -72,3 +72,22 @@ footer.page-footer {
   a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):hover {
   color: #7c8ef6;
 }
+
+.video{
+  margin: 50px;
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+  background-color: rgb(17, 123, 194);
+  border-radius: 10px;
+   }
+
+.vidtitle {
+  font-weight: bold;
+}
+
+.checked {
+  color: orange;
+}
+
+
