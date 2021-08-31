@@ -1,10 +1,11 @@
 from django import template
-from django.db.models.query import QuerySet
+from django.db.models.query_utils import Q
 from django.forms.forms import Form
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import loader
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.views.generic import TemplateView, ListView
 from .models import Price, Video
 
@@ -27,15 +28,16 @@ def viewVideoList(request):
     return render(request, "videolist.html")
 
 
-@login_required(login_url='login')
-class SearchResultsView(ListView):
+
+class SearchResultsView(LoginRequiredMixin, ListView):
     model = Video
     template_name = "results.html"
-    
+
+
     def get_queryset(self):
         query = self.request.GET.get('search')
         object_list = Video.objects.filter(
-            Q(video_name__icontains=query) | QuerySet(video_description__icontains=query)
+            Q(video_name__icontains=query) | Q(video_description__icontains=query)
         )
         return object_list
 
