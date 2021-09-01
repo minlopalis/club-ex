@@ -1,3 +1,9 @@
+[type="checkbox"].leaflet-control-layers-selector {
+  position: static !important;
+  left: 0px  !important; 
+  opacity: 1  !important; 
+}
+
 nav ul a,
 nav .brand-logo {
   color: #444;

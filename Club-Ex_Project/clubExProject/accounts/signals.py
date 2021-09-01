@@ -6,7 +6,6 @@ from .models import Customer
 
 #@receiver(post_save, sender=Profile)
 def createCustomer(sender, instance, created, **kwargs):
-    print('create profile signal')
     if created:
         user = instance
         customer = Customer.objects.create(
@@ -34,6 +33,7 @@ def deleteCustomer(sender, instance, **kwargs):
     user = instance.user
     user.delete()
 
+    
 
 post_save.connect(createCustomer, sender=User)
 post_save.connect(updateCustomer, sender=Customer)

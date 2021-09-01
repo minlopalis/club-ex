@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="col s12">
+    <div class="row">
+        <div class="col s12">
+
+            <h3 class="blue-text">New Subscription</h3>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h5 class="blue-text">Select Subscription</h5>
+                <p>Subscriptions will automatically be charged to your chosen card.</p>
+                <div class="row">
+                    <!-- Column 1-->
+                    <div class="col s12 m6 l3">
+                        <div class="card blue lighten-5">
+                            <div class="card-content">
+                              <span class="card-title">$10 Monthly</span>
+                              <h6>Online Access</h6>
+                              <p>
+                                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi libero veniam atque illo. Ab, modi nisi. 
+                              </p>
+                            </div>
+                            <div class="card-action">
+                            <br>
+                            <label>
+                                <input name="sub-select" type="radio" checked class="blue lighten-5" value="1"/>
+                                <span></span>
+                            </label>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2-->
+                    <div class="col s12 m6 l3">
+                        <div class="card blue lighten-5">
+                            <div class="card-content">
+                              <span class="card-title black-text">$100 Annual</span>
+                              <h6>Online Access</h6>
+                              <p>
+                                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi libero veniam atque illo. Ab, modi nisi.
+                              </p>
+                            </div>
+                            <div class="card-action">
+                            <br>
+                            <label>
+                                <input name="sub-select" type="radio" class="blue lighten-5" value="2"/>
+                                <span></span>
+                            </label>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3-->
+                    <div class="col s12 m6 l3">
+                        <div class="card blue lighten-5">
+                            <div class="card-content">
+                              <span class="card-title black-text">$20 Monthly</span>
+                              <h6>Gym Access</h6>
+                              <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi libero veniam atque illo. Ab, modi nisi.
+                              </p>
+                            </div>
+                            <div class="card-action">
+                            <br>
+                            <label>
+                                <input name="sub-select" type="radio" class="blue lighten-5" value="3"/>
+                                <span></span>
+                            </label>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 4-->
+                    <div class="col s12 m6 l3">
+                        <div class="card blue lighten-5">
+                            <div class="card-content">
+                              <span class="card-title black-text">$200 Annual</span>
+                              <h6>Gym Access    </h6>
+                              <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi libero veniam atque illo. Ab, modi nisi.
+                              </p>
+                            </div>
+                            <div class="card-action">
+                            <br>
+                            <label>
+                                <input name="sub-select" type="radio" class="blue lighten-5" value="4"/>
+                                <span></span>
+                            </label>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <br>
+                <div class="row">
+
+        <div class="input-field col s12 l6">
+            <label>Start Date</label>
+            <input id="start-date" type="date" class="blue-text" value="{{start_date}}" readonly/>
+        </div>
+
+        <div class="input-field col s12 l6">
+            <label for="">Expiry Date</label>
+            <input id="end-date" type="date" class="blue-text" value="{{end_date}}" readonly/>          
+        </div>
+      </div>
+
+                <h5 class="blue-text">Payment Details</h5>
+                <br>
+
+                <div class="input-field col s12">
+                    <input name="card-number" placeholder="" id="card-number" type="text" class="validate">
+                    <label for="card-number" class="blue-text">Credit Card Number</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <input name="cardholder" placeholder="Enter Cardholder Name" id="cardholder" type="text" class="validate">
+                    <label for="cardholder" class="blue-text">Cardholder Name</label>
+                </div>                
+
+                <div class="col s6">
+                    <label class="blue-text">Expiry Date</label>
+                    <input type="date" name="expiry-date">
+                </div>
+
+                <div class="input-field col s6">
+                    <input name="cvv" placeholder="" id="cvv" type="text" class="validate">
+                    <label for="cvv" class="blue-text">CVV</label>
+                </div> 
+                <br>
+                <button type="submit" class="waves-effect waves-light btn">Purchase Subscription</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.datepicker');
+        var instances = M.Datepicker.init(elems, defaultDate=new Date());
+    });
+</script>
+
+<script>
+ 
+    document.addEventListener('DOMContentLoaded', function() {
+        var endDate = new Date();
+        endDate.setDate(endDate.getDate()+30);
+        console.log((endDate));
+        document.getElementById('end-date').value = formatDate(endDate);
+    });
+
+    $("form input:radio").on('click', function() {
+        console.log((this.value));
+        
+        var endDate = new Date();
+        switch (this.value){
+            case '1':
+                endDate.setDate(endDate.getDate()+30);
+                document.getElementById('end-date').value = formatDate(endDate);
+                break;
+            case '2':
+                endDate.setDate(endDate.getDate()+365);
+                document.getElementById('end-date').value = formatDate(endDate);
+                break;
+            case '3':
+                endDate.setDate(endDate.getDate()+30);
+                document.getElementById('end-date').value = formatDate(endDate);
+                
+                break;
+            case '4':
+                
+                endDate.setDate(endDate.getDate()+365);
+                
+                document.getElementById('end-date').value = formatDate(endDate);
+                
+                break;
+        }
+    });
+
+
+    function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    console.log(([year, month, day].join('-')));
+    return [year, month, day].join('-');
+}
+
+
+</script>
+{% endblock scripts %}
+

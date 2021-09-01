@@ -8,5 +8,9 @@ urlpatterns = [
 
     path('account/<str:pk>', views.userAccount, name="user-account"),
     path('edit-account/', views.editAccount, name="edit-account"),
+
+    path('subscription/new/', views.subscription_new, name="subscription-new"),
+    path('subscription/success/', views.subscription_success, name="subscription-success"),
+    path('edit-subscription/<str:pk>', views.edit_subscription, name="renew-subscription")
 ]
 

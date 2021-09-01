@@ -7,6 +7,7 @@ from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, ListView
 from .models import Price, Video
+from accounts.decorators import valid_subscription_required
 
 
 # landing page/home page
@@ -21,8 +22,8 @@ class IndexView(TemplateView):
         return context
 
 
-
 @login_required(login_url='login')
+@valid_subscription_required
 def viewVideoList(request):
     return render(request, "videolist.html")
 
@@ -35,7 +36,7 @@ class SearchResultsView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('search')
         object_list = Video.objects.filter(
-            Q(video_name__icontains=query) | QuerySet(video_description__icontains=query)
+            QuerySet(video_name__icontains=query) | QuerySet(video_description__icontains=query)
         )
         return object_list
 

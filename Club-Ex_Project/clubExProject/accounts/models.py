@@ -6,7 +6,6 @@ import datetime
 # Create your models here.
 
 
-
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     username = models.CharField(max_length=200, blank=True, null=True)
@@ -26,18 +25,33 @@ class Customer(models.Model):
         return str(self.user)
 
 
-# Subscription Model
+# Subscription Choices
+SUBSCRIPTION_CHOICES = (
+    ('ANNUAL_GYM' , 'Annual Gym Membership',),
+    ('MONTHLY_GYM' , 'Monthly Gym Membership',),
+    ('ANNUAL_ONLINE' , 'Annual Online Membership',),
+    ('MONTHLY_ONLINE' , 'Monthly Online Membership',),
+)
+
+
 class Subscription(models.Model):
     subscription_id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    subscription = models.CharField(max_length=50)
-    billing_cycle_days = models.IntegerField()
-    gym_access = models.BooleanField(default=False)
-
-
-# Customer Subsription Model
-class CustomerSubscription(models.Model):
-    customer_subscription_id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    subscription_id = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    subscription_choice = models.CharField(max_length=30, choices=SUBSCRIPTION_CHOICES,default='0')
+    renewal_date = models.DateField(default=datetime.date.today)
     start_date = models.DateField(default=datetime.date.today)
-    auto_reccurring_subscription = models.BooleanField(default=True)
+    customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    created_date = models.DateField(default=datetime.date.today)
+
+
+class Payment(models.Model):
+    customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    card_holder = models.CharField(max_length=100)
+    number = models.CharField(max_length=100)
+    expiry = models.DateField(default=datetime.date.today)
+    cvv = models.CharField(max_length=100)
+    payment_amount = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    created_date = models.DateField(default=datetime.date.today)
+
+    def __str__(self):
+        return str(self.card_holder)
+
