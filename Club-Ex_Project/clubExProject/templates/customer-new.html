@@ -1,0 +1,99 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+
+    <form class="col s12" method='POST'>
+    {% csrf_token %}
+      {{form.path}}
+      <div class="row">
+        <h4 class="blue-text">Complete Signup</h4>
+        <br>
+        <h5 class="blue-text">Contact Information</h5>
+
+        <div class="input-field col s12">
+            {{form.phone}}
+            <label for="phone" class="blue-text">Phone Number</label>
+            <p class="helper-text">{{form.phone.help_text}}</p>
+            <p style="color: red;">{{form.phone.errors}}</p>
+            
+        </div>
+
+        <div class="input-field col s12">
+            <label for="email" class="blue-text">Email Address</label>
+           {{form.email}}
+            <p class="helper-text">{{form.email.help_text}}</p>
+            {% for error in form.email.errors %}
+              <p>{{error}}</p>
+            {% endfor %}
+        </div>
+    
+        <br><br>
+
+        <h5 class="blue-text">Address</h5>
+        <div class="input-field col s12">
+            {{form.address_1}}
+            <label for="address_1" class="blue-text">Address Line 1</label>
+            <p class="helper-text text-red">{{form.address_1.help_text}}</p>
+            <p>{{form.address_1.errors}}</p>
+        </div>
+
+        <div class="input-field col s12">
+            {{form.address_2}}
+            <label for="address_2" class="blue-text">Address Line 2</label>
+            <p class="helper-text">{{form.address_2.help_text}}</p>
+            <p>{{form.address_2.errors}}</p>
+        </div>
+
+        <div class="input-field col s12 l6">
+            <label for="id_city" class="blue-text">City</label>
+            {{form.city}}
+            <!-- <input id="id_city" value="{{form.city.value}}" name="city" type="text" class="blue-text" class="col s6"/> -->
+            <p class="helper-text">{{form.city.help_text}}</p>
+            <p>{{form.city.errors}}</p>
+        </div>
+
+        <div class="input-field col s12 l6">
+            <label for="zip_address" class="blue-text">Zip/Post Code</label>
+            {{form.zip_address}}
+            <p class="helper-text">{{form.zip_address.help_text}}</p>
+            <p>{{form.zip_address.errors}}</p>
+        </div>
+
+        <div class="input-field col s12">
+            <label for="country" class="blue-text">Country</label>
+            {{form.country}}
+            <p class="helper-text">{{form.country.help_text}}</p>
+            <p>{{form.country.errors}}</p>
+        </div>
+      </div>
+
+      {% if form.errors %}
+      {% for field in form %}
+          {% for error in field.errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+          </div>
+      {% endfor %}
+  {% endif %}
+
+      <br>
+
+      <div class="row">
+        <div class="col s12">
+          <button type="submit" class="waves-effect waves-light blue btn"  value="Continue">
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <br>
+
+    </form>
+  </div>
+</div>
+{% endblock content %}

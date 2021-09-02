@@ -6,14 +6,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from .models import Customer, Subscription, Payment
-from .forms import CustomUserCreationForm
-from .utils import SubscriptionHelper
+from .forms import CustomUserCreationForm, CustomerForm
+from .utils import SubscriptionHelper, renew_subscription, save_subscription
 from decimal import Decimal
+
 
 # Create your views here.
 def loginUser(request):
     page = 'login'
     subscription_helper = SubscriptionHelper()
+
     errors = {}
 
     if request.user.is_authenticated:
@@ -60,7 +62,7 @@ def registerUser(request):
             messages.success(request, 'User account was created!')
 
             login(request, user)
-            return redirect('subscription-new')
+            return redirect('customer-new')
 
     context = {'page': page, 'form': form}
     return render(request, 'signup.html', context)
@@ -90,6 +92,39 @@ def editAccount(request):
     return render(request, 'account.html', context)
 
 
+
+@login_required(login_url='login')
+def customer_new(request):
+    customer = Customer.objects.get(user=request.user)
+    form = CustomerForm(instance=customer)
+    context = {'form': form}
+
+    if request.method == 'POST':
+        phone = request.POST['phone']
+        email = request.POST['email']
+        address_1 = request.POST['address_1']
+        address_2 = request.POST['address_2']
+        city = request.POST['city']
+        zip_address = request.POST['zip_address']
+        country = request.POST['country']
+
+        customer.phone = phone
+        customer.email = email
+        customer.address_1 = address_1
+        customer.address_2 = address_2
+        customer.city = city
+        customer.zip_address = zip_address
+        customer.country = country
+        
+        try: 
+            customer.save()
+            return redirect('subscription-new')
+        except: 
+            return redirect(request, 'customer-new.html', context)
+
+    return render(request, 'customer-new.html', context)
+
+
 @login_required(login_url='login')
 def subscription_new(request):
 
@@ -105,55 +140,10 @@ def subscription_new(request):
     ## TODO: Add Server Side Form Validation 
 
     if request.method == 'POST':
-        customer = Customer.objects.get(user=request.user)
-        subscription = request.POST['sub-select']
-        if subscription == '1':
-            sub_type = 'MONTHLY_ONLINE'
-            renewal = date.today() + timedelta(days=30)
-            cost = 10.00
-        elif subscription == '2':
-            sub_type = 'ANNUAL_ONLINE'
-            cost = 100.00
-            renewal = date.today() + timedelta(days=365)
-        elif subscription == '3': 
-            sub_type = 'MONTHLY_GYM'
-            cost = 20.00
-            renewal = date.today() + timedelta(days=30)
-        elif subscription == '4':
-            sub_type = 'ANNUAL_GYM'
-            cost = 200.00
-            renewal = date.today() + timedelta(days=365)
-        else: 
-            cost = 0 
-
-        if cost != 0:
-            # Save Subscription Data
-            record = Subscription.objects.create(
-                subscription_choice = sub_type,
-                start_date = date.today(), 
-                renewal_date = renewal,
-                customer_id = customer
-            )
-            record.save()
-
-            # Save Payment Data
-            payment_record = Payment.objects.create(
-                customer_id = customer, 
-                card_holder = request.POST['cardholder'],
-                number = request.POST['card-number'], 
-                expiry = request.POST['expiry-date'],
-                cvv = request.POST['cvv'], 
-                payment_amount = cost
-            )
-            payment_record.save()
-            
-            # Add user to 'subscriber' group
-            group = Group.objects.get(name='subscriber')
-            request.user.groups.add(group)
-
-            return redirect('subscription-success')
-
-    return render(request, 'subscription-new.html', context)
+        save_subscription(request)
+        return redirect('subscription-success')
+    else:
+        return render(request, 'subscription-new.html', context)
 
 
 
@@ -164,14 +154,30 @@ def subscription_success(request):
 
 
 def edit_subscription(request, pk):
-    subscription_model = Subscription.objects.get(subscription_id = pk)
-    payment_model = Payment
+    try:
+        subscription_model = Subscription.objects.get(customer_id = pk)
+        print("INITIAL SUBSCRIPTION_TYPE: ", type(subscription_model))
+    except:
+        return redirect('subscription-new')
+
+    try:
+        customer = Customer.objects.get(id = pk)
+        payment_model = Payment.objects.get(customer_id = customer)
+    except:
+        return redirect('subscription-new')
+    
     todaysDate = date.today().strftime('%Y-%m-%d')
     endDate = date.today().strftime('%Y-%m-%d')
     
     cost = 200
-
+    print(subscription_model)
     if request.method == 'POST':
-        print(request.POST)
+        #print(request.POST)
+        renew_subscription(request, subscription_model, payment_model)
+        return redirect('subscription-success')
+
+        
+
     context = { 'start_date' : todaysDate, 'end_date': endDate, 'cost': cost}
     return render(request, 'subscription-new.html', context)
+

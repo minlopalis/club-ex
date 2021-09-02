@@ -1,11 +1,12 @@
+from django.db.models import fields
 from django.db.models.base import Model
 from django.forms import ModelForm, widgets
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Customer, Subscription
+from .models import Customer, Payment, Subscription
 from django import forms
 from datetime import date
-
+from django.utils.translation import gettext_lazy as _
 from accounts import models
 
 class CustomUserCreationForm(UserCreationForm):
@@ -28,19 +29,31 @@ class CustomUserCreationForm(UserCreationForm):
             field.widget.attrs.update({'class': 'blue-text'})
 
 
-
-class CustomerForm(ModelForm):
+class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['first_name', 'last_name', 'address_1', 'address_2', 'city', 'country', 'zip_address', 'email', 'phone', 'user']
+        help_texts = {
+            'first_name': _('Enter your given name?'),
+            'last_name': _('Enter your surname'),
+            'address_1': _('Enter the first line of your address'), 
+            'address_2': _('Enter the second line of your address, often this is a suburb'),
+            'city': _('Enter the city or town'),
+            'country': _('Enter the country'),
+            'zip_address':_('Enter your zip or postal code'),
+            'email': _('Enter your email address'),
+            'phone': _('Enter your phone number')
+        }
 
     def __init__(self, *args, **kwargs):
         super(CustomerForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'blue-text'})
+            field.widget.attrs.update({'class': 'black-text'})
 
 
+
+    
 
 # Subscription Choices
 SUBSCRIPTION_CHOICES = (

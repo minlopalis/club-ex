@@ -9,20 +9,20 @@ import datetime
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     username = models.CharField(max_length=200, blank=True, null=True)
-    first_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
-    address_1 = models.CharField(max_length=50, null=True, blank=True)
+    first_name = models.CharField(max_length=50, default='', null=True, blank=True)
+    last_name = models.CharField(max_length=50, default='', null=True, blank=True)
+    address_1 = models.CharField(max_length=50, default='', null=True, blank=True)
     address_2 = models.CharField(max_length=50, null=True, blank=True)
-    city = models.CharField(max_length=50)
-    country = models.CharField(max_length=50, null=False)
-    zip_address = models.CharField(max_length=10)
-    email = models.EmailField(max_length=100, null=True, blank=True)
-    phone = models.CharField(max_length=20, null=False, blank=False)
+    city = models.CharField(max_length=50, default='', null=True, blank=True)
+    country = models.CharField(max_length=50, null=True, blank=True)
+    zip_address = models.CharField(max_length=10, null=True, blank=True)
+    email = models.EmailField(max_length=100, default='', null=True, blank=True)
+    phone = models.CharField(max_length=20, default='', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=True)
 
     def __str__(self):
-        return str(self.user)
+        return (self.username)
 
 
 # Subscription Choices
@@ -42,6 +42,8 @@ class Subscription(models.Model):
     customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
     created_date = models.DateField(default=datetime.date.today)
 
+    def __str__(self):
+        return str(self.subscription_choice)
 
 class Payment(models.Model):
     customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)

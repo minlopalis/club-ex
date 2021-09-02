@@ -6,7 +6,6 @@
       <h2 class="blue-text">Sign Up</h2>
     </div>
   </div>
-
   <div class="row">
 
     <form class="col s12" method='POST'>
@@ -16,10 +15,10 @@
         {% for field in form %}
         <div class="input-field col s12">
           {% comment %} <input id="name" type="text" class="blue-text" /> {% endcomment %}
+          <p class="helper-text">{{field.help_texts}}</p>
           {{field}}
-          <p class="helper-text">{{field.errors}}</p>
           <label for="name class=red-text">{{field.label}}</label>
-          
+      
         </div>
         {% endfor %}
 
@@ -28,7 +27,7 @@
       <div class="row">
         <div class="col s12">
           <button type="submit" class="waves-effect waves-light blue btn"  value="Register User">
-            Submit
+            Continue
           </button>
         </div>
       </div>
