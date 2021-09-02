@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col s12">
         <h3 class="blue-text">New Subscription</h3>
-
+        <h2>{{FormIncomplete}}</h2>
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
 
@@ -201,6 +201,8 @@
               id="cvv"
               type="text"
               class="validate"
+              maxlength="5"
+              pattern="[0-9]+"
             />
             <label for="cvv" class="blue-text">CVV</label>
           </div>

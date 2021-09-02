@@ -140,8 +140,13 @@ def subscription_new(request):
     ## TODO: Add Server Side Form Validation 
 
     if request.method == 'POST':
-        save_subscription(request)
-        return redirect('subscription-success')
+        did_it_save = save_subscription(request)
+        if did_it_save:
+            return redirect('subscription-success')
+        else:
+            formIncomplete = "Payment Details were either entered incorrectly or are invalid please try again"
+            context = {'FormIncomplete': formIncomplete, 'start_date' : todaysDate, 'end_date': endDate}
+            return render(request, 'subscription-new.html', context)
     else:
         return render(request, 'subscription-new.html', context)
 
@@ -156,10 +161,8 @@ def subscription_success(request):
 def edit_subscription(request, pk):
     try:
         subscription_model = Subscription.objects.get(customer_id = pk)
-        print("INITIAL SUBSCRIPTION_TYPE: ", type(subscription_model))
     except:
         return redirect('subscription-new')
-
     try:
         customer = Customer.objects.get(id = pk)
         payment_model = Payment.objects.get(customer_id = customer)
@@ -173,10 +176,13 @@ def edit_subscription(request, pk):
     print(subscription_model)
     if request.method == 'POST':
         #print(request.POST)
-        renew_subscription(request, subscription_model, payment_model)
-        return redirect('subscription-success')
-
-        
+        did_it_save = renew_subscription(request, subscription_model, payment_model)
+        if did_it_save:
+            return redirect('subscription-success')
+        else:
+            formIncomplete = "Payment Details were either entered incorrectly or are invalid please try again"
+            context = {'FormIncomplete': formIncomplete, 'start_date' : todaysDate, 'end_date': endDate, 'cost': cost}
+            return render(request, 'subscription-new.html', context)
 
     context = { 'start_date' : todaysDate, 'end_date': endDate, 'cost': cost}
     return render(request, 'subscription-new.html', context)

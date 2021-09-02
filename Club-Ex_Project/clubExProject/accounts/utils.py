@@ -21,6 +21,8 @@ class SubscriptionHelper():
 def save_subscription(request):
     customer = Customer.objects.get(user=request.user)
     subscription = request.POST['sub-select']
+    did_it_save_payment = False
+    did_it_save_subscription = False
     if subscription == '1':
         sub_type = 'MONTHLY_ONLINE'
         renewal = date.today() + timedelta(days=30)
@@ -41,33 +43,44 @@ def save_subscription(request):
         cost = 0 
 
     if cost != 0:
-        # Save Subscription Data
-        record = Subscription.objects.create(
-            subscription_choice = sub_type,
-            start_date = date.today(), 
-            renewal_date = renewal,
-            customer_id = customer
-        )
-        record.save()
+        try:
+            # Save Subscription Data
+            record = Subscription.objects.create(
+                subscription_choice = sub_type,
+                start_date = date.today(), 
+                renewal_date = renewal,
+                customer_id = customer
+            )
+            record.save()
+            did_it_save_subscription = True
+        except:
+            did_it_save_subscription = False
 
-        # Save Payment Data
-        payment_record = Payment.objects.create(
-            customer_id = customer, 
-            card_holder = request.POST['cardholder'],
-            number = request.POST['card-number'], 
-            expiry = request.POST['expiry-date'],
-            cvv = request.POST['cvv'], 
-            payment_amount = cost
-        )
-        payment_record.save()
-        
-        # Add user to 'subscriber' group
-        group = Group.objects.get(name='subscriber')
-        request.user.groups.add(group)
-    return
+        try:
+            # Save Payment Data
+            payment_record = Payment.objects.create(
+                customer_id = customer, 
+                card_holder = request.POST['cardholder'],
+                number = request.POST['card-number'], 
+                expiry = request.POST['expiry-date'],
+                cvv = request.POST['cvv'], 
+                payment_amount = cost
+            )
+            payment_record.save()
+            did_it_save_payment = True
+        except:
+            did_it_save_payment = False
+        did_it_save = False
+        if did_it_save_payment & did_it_save_subscription:
+            # Add user to 'subscriber' group
+            group = Group.objects.get(name='subscriber')
+            request.user.groups.add(group)
+            did_it_save = True
+    return did_it_save
 
 def renew_subscription(request, subscription_obj, payment_obj):
-    print(request.POST)
+    did_it_save_payment = False
+    did_it_save_subscription = False
     customer = Customer.objects.get(user=request.user)
     subscription = request.POST['sub-select']
     if subscription == '1':
@@ -89,20 +102,34 @@ def renew_subscription(request, subscription_obj, payment_obj):
     else: 
         cost = 0 
     if cost != 0:
-        # Save Updated Subscription Data
-        subscription_obj.subscription_choice = sub_type
-        subscription_obj.start_date = date.today()
-        subscription_obj.renewal_date = renewal
-        subscription_obj.save()
+        try:
+            # Save Updated Subscription Data
+            subscription_obj.subscription_choice = sub_type
+            subscription_obj.start_date = date.today()
+            subscription_obj.renewal_date = renewal
+            subscription_obj.save()
+            did_it_save_subscription = True
+        except:
+            did_it_save_subscription = False
 
-        # Save Updated Payment Data
-        payment_obj.card_holder = request.POST['cardholder']
-        payment_obj.number = request.POST['card-number'] 
-        payment_obj.expiry = request.POST['expiry-date']
-        payment_obj.cvv = request.POST['cvv']
-        payment_obj.payment_amount = cost
-        payment_obj.save()
+        try:
+            # Save Updated Payment Data
+            payment_obj.card_holder = request.POST['cardholder']
+            payment_obj.number = request.POST['card-number'] 
+            payment_obj.expiry = request.POST['expiry-date']
+            payment_obj.cvv = request.POST['cvv']
+            payment_obj.payment_amount = cost
+            payment_obj.save()
+            did_it_save_payment = True
+        except:
+            did_it_save_payment = False
+        
+        
+        did_it_save = False
         # Add user to 'subscriber' group
-        group = Group.objects.get(name='subscriber')
-        request.user.groups.add(group)
-    return
+        if did_it_save_payment & did_it_save_subscription:
+            group = Group.objects.get(name='subscriber')
+            request.user.groups.add(group)
+            did_it_save = True
+
+    return did_it_save
