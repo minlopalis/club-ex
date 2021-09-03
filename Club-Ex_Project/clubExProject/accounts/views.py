@@ -1,4 +1,5 @@
 from datetime import date, datetime, timedelta
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
@@ -8,8 +9,9 @@ from django.contrib.auth.models import User, Group
 from .models import Customer, Subscription, Payment
 from .forms import CustomUserCreationForm, CustomerForm
 from .utils import SubscriptionHelper, renew_subscription, save_subscription
-from decimal import Decimal
 
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 def loginUser(request):
@@ -92,37 +94,29 @@ def editAccount(request):
     return render(request, 'account.html', context)
 
 
-
 @login_required(login_url='login')
 def customer_new(request):
     customer = Customer.objects.get(user=request.user)
     form = CustomerForm(instance=customer)
-    context = {'form': form}
 
     if request.method == 'POST':
-        phone = request.POST['phone']
-        email = request.POST['email']
-        address_1 = request.POST['address_1']
-        address_2 = request.POST['address_2']
-        city = request.POST['city']
-        zip_address = request.POST['zip_address']
-        country = request.POST['country']
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            customer.phone = form.cleaned_data['phone']
+            customer.email = form.cleaned_data['email']
+            customer.address_1 = form.cleaned_data['address_1']
+            customer.address_2 = form.cleaned_data['address_2']
+            customer.city = form.cleaned_data['city']
+            customer.zip_address = form.cleaned_data['zip_address']
+            customer.country = form.cleaned_data['country']
 
-        customer.phone = phone
-        customer.email = email
-        customer.address_1 = address_1
-        customer.address_2 = address_2
-        customer.city = city
-        customer.zip_address = zip_address
-        customer.country = country
-        
-        try: 
-            customer.save()
-            return redirect('subscription-new')
-        except: 
-            return redirect(request, 'customer-new.html', context)
+            try: 
+                customer.save()
+                return redirect('subscription-new')
+            except: 
+                return redirect(request, 'customer-new.html', {'form':form})
 
-    return render(request, 'customer-new.html', context)
+    return render(request, 'customer-new.html', {'form': form})
 
 
 @login_required(login_url='login')

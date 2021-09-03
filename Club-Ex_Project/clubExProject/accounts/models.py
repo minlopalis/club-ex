@@ -45,6 +45,7 @@ class Subscription(models.Model):
     def __str__(self):
         return str(self.subscription_choice)
 
+
 class Payment(models.Model):
     customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
     card_holder = models.CharField(max_length=100)

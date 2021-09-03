@@ -15,12 +15,6 @@ class IndexView(TemplateView):
     template_name = "index.html"
     model = Price
 
-    # price model def
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['prices'] = Price.objects.get(pk=1)
-        return context
-
 
 @login_required(login_url='login')
 @valid_subscription_required

@@ -16,6 +16,7 @@ def createCustomer(sender, instance, created, **kwargs):
             last_name=user.last_name
         )
 
+
 def updateCustomer(sender, instance, created, **kwargs):
     customer = instance
     user = customer.user
@@ -28,12 +29,10 @@ def updateCustomer(sender, instance, created, **kwargs):
         user.save()
 
 
-
 def deleteCustomer(sender, instance, **kwargs):
     user = instance.user
     user.delete()
 
-    
 
 post_save.connect(createCustomer, sender=User)
 post_save.connect(updateCustomer, sender=Customer)

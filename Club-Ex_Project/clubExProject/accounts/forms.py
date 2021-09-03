@@ -33,27 +33,31 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['first_name', 'last_name', 'address_1', 'address_2', 'city', 'country', 'zip_address', 'email', 'phone', 'user']
-        help_texts = {
-            'first_name': _('Enter your given name?'),
-            'last_name': _('Enter your surname'),
-            'address_1': _('Enter the first line of your address'), 
-            'address_2': _('Enter the second line of your address, often this is a suburb'),
-            'city': _('Enter the city or town'),
-            'country': _('Enter the country'),
-            'zip_address':_('Enter your zip or postal code'),
-            'email': _('Enter your email address'),
-            'phone': _('Enter your phone number')
+        help_texts = {}
+        error_messages = {
+            'first_name': {'required': 'First name is required'},
+            'last_name': {'required': 'First name is required'},
+            'address_1': {'required': 'Address Line 1 is required'},
+            'city': {'required': 'City is required'},
+            'country': {'required': 'Country is required'},
+            'email': {'required': 'Email is required'},
+            'phone': {'required': 'Phone number is requried'},
         }
 
     def __init__(self, *args, **kwargs):
         super(CustomerForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = False
+        self.fields['last_name'].required = False
+        self.fields['address_1'].required = True
+        self.fields['city'].required = True
+        self.fields['country'].required = True
+        self.fields['email'].required = True
+        self.fields['phone'].required = True
+
 
         for name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'black-text'})
+            field.widget.attrs.update({'class': 'black-text validate'})
 
-
-
-    
 
 # Subscription Choices
 SUBSCRIPTION_CHOICES = (
