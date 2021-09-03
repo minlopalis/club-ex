@@ -86,9 +86,11 @@ AUTORECURING_CHOICES = (
 )
 
 
-# class SubscriptionForm(forms.Form):
-#     renewal_date = forms.DateField(help_text="This Will be the Next payment date and will update automatically", widget=forms.DateInput(attrs={'class': 'datepicker', 'type': 'date'}))
-#     start_date = forms.DateField(help_text="This Will be the start date of your subscription", widget=forms.DateInput(attrs={'class': 'datepicker1', 'type': 'date'}))
-#     subscritpion_choice = forms.CharField(label="Select Subscription",widget=forms.Select(choices=SUBSCRIPTION_CHOICES, attrs ={'id':"subscription-choices"}) )
-#     autorecurring_choice = forms.CharField(label="Automatically Recur Subscription",widget=forms.Select(choices=AUTORECURING_CHOICES,attrs={'id':"autorecurring-choices"}) )
-#     cost =  forms.CharField(label="Subscription Cost", max_length=10)
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Subscription
+        fields = ['subscription_choice', 'renewal_date', 'start_date', 'customer_id', 'created_date']
+    
+    def __init__(self, *args, **kwargs):
+        super(SubscriptionForm, self).__init__(*args, **kwargs)
+        

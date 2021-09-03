@@ -7,16 +7,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from .models import Customer, Subscription, Payment
-from .forms import CustomUserCreationForm, CustomerForm
-from .utils import SubscriptionHelper, renew_subscription, save_subscription
+from .forms import CustomUserCreationForm, CustomerForm, SubscriptionForm
+from .utils import has_current_subscription, renew_subscription, save_subscription
 
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.utils.decorators import method_decorator
 
+
 # Create your views here.
 def loginUser(request):
     page = 'login'
-    subscription_helper = SubscriptionHelper()
 
     errors = {}
 
@@ -30,7 +30,7 @@ def loginUser(request):
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            if subscription_helper.has_current_subscription(user):
+            if has_current_subscription(user):
                 login(request, user)
                 return redirect('index')
             else:
@@ -148,7 +148,10 @@ def subscription_new(request):
 
 @login_required(login_url='login')
 def subscription_success(request):
-    return render(request, 'subscription-success.html')
+    customer = Customer.objects.get(user=request.user)
+    subscription = Subscription.objects.get(customer_id=customer.id, start_date=datetime.today())
+    form = SubscriptionForm(instance=subscription)
+    return render(request, 'subscription-success.html', {'form': form, 'customer': customer})
 
 
 

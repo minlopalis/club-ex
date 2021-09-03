@@ -4,20 +4,20 @@ from django.shortcuts import redirect
 from .models import Customer, Payment, Subscription
 from datetime import date, datetime, timedelta
 
-class SubscriptionHelper():
+
+def has_current_subscription(user):
+    if not user.is_superuser:
+        customer = Customer.objects.get(user=user.id)
+        customer_subscriptions = Subscription.objects.filter(
+            customer_id = customer.id, 
+            renewal_date__gte=datetime.now().date()
+            )
+        if not customer_subscriptions.count() > 0:
+            group = Group.objects.get(name='subscriber') 
+            user.groups.remove(group)
+        return customer_subscriptions.count() > 0
     
-    def has_current_subscription(request, user):
-        if not user.is_superuser:
-            customer = Customer.objects.get(user=user.id)
-            customer_subscriptions = Subscription.objects.filter(
-                customer_id = customer.id, 
-                renewal_date__gte=datetime.now().date()
-                )
-            if not customer_subscriptions.count() > 0:
-                group = Group.objects.get(name='subscriber') 
-                user.groups.remove(group)
-            return customer_subscriptions.count() > 0
-    
+
 def save_subscription(request):
     customer = Customer.objects.get(user=request.user)
     subscription = request.POST['sub-select']
@@ -77,6 +77,7 @@ def save_subscription(request):
             request.user.groups.add(group)
             did_it_save = True
     return did_it_save
+
 
 def renew_subscription(request, subscription_obj, payment_obj):
     did_it_save_payment = False
