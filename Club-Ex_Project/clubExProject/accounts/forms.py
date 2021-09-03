@@ -5,9 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Customer, Payment, Subscription
 from django import forms
-from datetime import date
 from django.utils.translation import gettext_lazy as _
-from accounts import models
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -21,12 +19,27 @@ class CustomUserCreationForm(UserCreationForm):
             'password1': 'Enter Password',
             'password2': 'Confirm Password',
         }
+        error_messages = {
+            'first_name': {'required': 'First name is required'},
+            'last_name': {'required': 'First name is required'},
+            'email': {'required': 'Email address is required'},
+            'username': {'required': 'Username is required'},
+            'password1': {'required': 'Password is required'},
+            'password2': {'required': 'Repeated Password is required'},
+        }
 
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'blue-text'})
+            field.widget.attrs.update({'class': 'black-text validate'})
+            self.fields['first_name'].required = True
+            self.fields['last_name'].required = True
+            self.fields['email'].required = True
+            self.fields['username'].required = True
+            self.fields['password1'].required = True
+            self.fields['password2'].required = True
+
 
 
 class CustomerForm(forms.ModelForm):
@@ -46,8 +59,8 @@ class CustomerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CustomerForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].required = False
-        self.fields['last_name'].required = False
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
         self.fields['address_1'].required = True
         self.fields['city'].required = True
         self.fields['country'].required = True
