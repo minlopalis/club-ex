@@ -70,12 +70,16 @@ def registerUser(request):
     return render(request, 'signup.html', context)
 
 
-@login_required(login_url='login')
-def userAccount(request, pk):
-    account = Customer.objects.get(id=pk)
 
-    context = {'account': account}
-    return render(request, 'club/account.html', context)
+@login_required(login_url='login')
+def view_account(request):
+    customer = Customer.objects.get(user=request.user)
+    subscriptions = Subscription.objects.filter(customer_id=customer)
+
+    context = {'customer': customer, 'subscriptions': subscriptions}
+    return render(request, 'account.html', context)
+
+
 
 
 @login_required(login_url='login')
