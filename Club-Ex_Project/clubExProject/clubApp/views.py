@@ -23,6 +23,7 @@ def viewVideoList(request):
 
 
 @login_required(login_url='login')
+@valid_subscription_required
 class SearchResultsView(ListView):
     model = Video
     template_name = "results.html"
@@ -36,6 +37,7 @@ class SearchResultsView(ListView):
 
 
 @login_required(login_url='login')
+@valid_subscription_required
 def videoView(request,pk):
     video = Video.objects.get(video_id=pk)
     context = {'video':video}
