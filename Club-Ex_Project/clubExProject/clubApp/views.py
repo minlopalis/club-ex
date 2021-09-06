@@ -9,7 +9,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from .models import Price, Video
+from .models import Price, Video, VideoCategory
 from accounts.models import Customer
 from accounts.decorators import valid_subscription_required
 
@@ -26,11 +26,10 @@ class IndexView(TemplateView):
 @login_required(login_url='login')
 @valid_subscription_required
 def viewVideoList(request):
-    aerobics = Video.objects.filter(videoCategory__video_category="Aerobics")
-    boxing = Video.objects.filter(videoCategory__video_category="Boxing")
-    pilates = Video.objects.filter(videoCategory__video_category="Pilates")
-    yoga = Video.objects.filter(videoCategory__video_category="Yoga")
-    context={'aerobics':aerobics, 'boxing':boxing, 'pilates':pilates, 'yoga':yoga }
+    categories = VideoCategory.objects.all()
+    videos = Video.objects.all()
+    
+    context={'videos':videos, 'categories':categories}
     
     return render(request, "videolist.html",context)
 

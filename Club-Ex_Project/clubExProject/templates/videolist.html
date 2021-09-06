@@ -83,144 +83,65 @@
     </div>
 
     <div class="container">
+      {% for c in categories %}
       <div class="row">
-        <div class="col s-6 white-text"><h3>Aerobics</h3></div>
+        <div class="col s-6 white-text"><h3>{{c}}</h3></div>
       </div>
-      <div id="image-slider1" class="splide mt-4">
+      <div id="image-slider{{for.counter}}" class="splide mt-4">
         <div class="splide__track">
           <ul class="splide__list">
-            {% for a in aerobics %}
-            <li class="splide__slide">
-              <img src="{{b.video_image_URL}}" 
-              onclick="updateSelectedVideo('{{a.video_name}}', '{{a.video_URL}}','{{a.video_description}}')" />
-            </li>
+            {% for v in videos %}
+              {% if v.videoCategory == c %}
+                <li class="splide__slide">
+                  <img src="{{v.video_image_URL}}" 
+                  width="300"
+                  onclick="updateSelectedVideo('{{v.video_name}}', '{{v.video_URL}}','{{v.video_description}}')" />
+                </li>
+              {% endif %}
             {% endfor %}
           </ul>
         </div>
       </div>
+      {% endfor %}
 
-      <div class="row">
-        <div class="col s-6 white-text"><h3>Boxing</h3></div>
-      </div>
-      <div id="image-slider2" class="splide mt-4">
-        <div class="splide__track">
-          <ul class="splide__list">
-            {% for b in boxing %}
-            <li class="splide__slide">
-              <img src="{{b.video_image_URL}}" 
-              onclick="updateSelectedVideo('{{b.video_name}}', '{{b.video_URL}}','{{b.video_description}}')" />
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col s-6 white-text"><h3>Pilates</h3></div>
-      </div>
-      <div id="image-slider3" class="splide">
-        <div class="splide__track">
-          <ul class="splide__list">
-            {% for p in pilates %}
-            <li class="splide__slide">
-              <img src="{{p.video_image_URL}}" 
-              onclick="updateSelectedVideo('{{p.video_name}}', '{{p.video_URL}}','{{p.video_description}}')" />
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col s-6 white-text"><h3>Yoga</h3></div>
-      </div>
-      <div id="image-slider4" class="splide">
-        <div class="splide__track">
-          <ul class="splide__list">
-            {% for y in Yoga %}
-            <li class="splide__slide">
-              <img src="{{y.video_image_URL}}" 
-              onclick="updateSelectedVideo('{{y.video_name}}', '{{y.video_URL}}','{{y.video_description}}')" />
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
+     
       <div style="margin-top: 3rem"></div>
     </div>
 
     {% endblock content %} {% block scripts %}
 
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        new Splide('#image-slider1', {
-          // type: 'loop',
-          pagination: false,
-          autoWidth: true,
-          gap: 25,
-          perPage: 2,
-          perMove: 1,
-          focus: 'center',
-          padding: {
-            right: '5rem',
-            left: '5rem',
-          },
-        }).mount();
+
+      document.addEventListener("DOMContentLoaded", function () {
+
+        global_carousel__ctrl();
       });
 
-      document.addEventListener('DOMContentLoaded', function () {
-        new Splide('#image-slider2', {
-          type: 'loop',
-          pagination: false,
-          autoWidth: true,
-          gap: 25,
-          perPage: 2,
-          perMove: 1,
-          focus: 'center',
-          padding: {
-            right: '5rem',
-            left: '5rem',
-          },
-        }).mount();
-      });
-
-      document.addEventListener('DOMContentLoaded', function () {
-        new Splide('#image-slider3', {
-          type: 'loop',
-          pagination: false,
-          autoWidth: true,
-          gap: 25,
-          perPage: 2,
-          perMove: 1,
-          focus: 'center',
-          padding: {
-            right: '5rem',
-            left: '5rem',
-          },
-        }).mount();
-      });
-
-      document.addEventListener('DOMContentLoaded', function () {
-        new Splide('#image-slider4', {
-          type: 'loop',
-          pagination: false,
-          autoWidth: true,
-          gap: 25,
-          perPage: 2,
-          perMove: 1,
-          focus: 'center',
-          padding: {
-            right: '5rem',
-            left: '5rem',
-          },
-        }).mount();
-      });
-
+      function global_carousel__ctrl() {
+        var elms = document.getElementsByClassName("splide");
+        for (var i = 0; i < elms.length; i++) {
+          new Splide(elms[i], {
+            type: 'loop',
+            pagination: false,
+            autoWidth: true,
+            gap: 25,
+            perPage: 2,
+            perMove: 1,
+            focus: 'center',
+            padding: {
+              right: '5rem',
+              left: '5rem',
+            },
+          }).mount();
+        }
+      }
+    
 
 
       const updateSelectedVideo=(title, url, description)=>{
         $('.selected-video').replaceWith(
-          `<div class="col s12 m9">
+          ` <div class="row selected-video">
+          <div class="col s12 m9">
           <div class="iframe-container">
             <iframe
               class="responsive-iframe"
@@ -246,7 +167,7 @@
             <i class="small material-icons">star</i>
             <i class="small material-icons">star_half</i>
           </div>
-        </div>`
+        </div></div>`
         )
       };
     </script>
