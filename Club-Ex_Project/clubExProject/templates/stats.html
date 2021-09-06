@@ -1,4 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
-<p> Stats page </p>
+<div class="container">
+
+    <div class="col s12">
+      <h2 class="blue-text">Statistics</h2>
+    </div>
+
+    <p>Showing Statistics for <strong>{{user.first_name}} {{user.last_name}}</strong></p>
+
+    <br>
+
+    <!-- Watch History -->
+    <h5>Video Watch History</h5>
+    {% if user.customer.customer_watch_times.all %}
+        <table>
+            <thead>
+            <tr>
+                <th>Video Title</th>
+                <th>Category</th>
+                <th>Watch Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for video in user.customer.customer_watch_times.all %}
+            <tr>
+                <td><a href="">{{video.video_id.video_name}}</a></td>
+                <td>{{video.videoCategory}}</td>
+                <td>{{video.total_watch_time}}mins</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have not watched any videos yet</p>
+    {% endif %}
+</div>
+<br>
 {% endblock content %}

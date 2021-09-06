@@ -5,9 +5,16 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic.edit import UpdateView, DeleteView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from .models import Price, Video
+from accounts.models import Customer
 from accounts.decorators import valid_subscription_required
+
+
+
 
 
 # landing page/home page
@@ -55,3 +62,13 @@ def videoView(request,pk):
 def statsView(request):
     context = {}
     return render(request, 'stats.html', context)
+
+
+class StatisticsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'stats.html'
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
