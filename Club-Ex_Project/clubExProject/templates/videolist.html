@@ -47,7 +47,7 @@
 >
   <div class="overlay">
     <div class="container">
-      <div class="row">
+      <div class="row selected-video">
         <div class="col s12 m9">
           <div class="iframe-container">
             <iframe
@@ -84,57 +84,17 @@
 
     <div class="container">
       <div class="row">
-        <div class="col s-6 white-text"><h3>Cardio</h3></div>
+        <div class="col s-6 white-text"><h3>Aerobics</h3></div>
       </div>
       <div id="image-slider1" class="splide mt-4">
         <div class="splide__track">
           <ul class="splide__list">
+            {% for a in aerobics %}
             <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
+              <img src="{{b.video_image_URL}}" 
+              onclick="updateSelectedVideo('{{a.video_name}}', '{{a.video_URL}}','{{a.video_description}}')" />
             </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col s-6 white-text"><h3>Pillates</h3></div>
-      </div>
-      <div id="image-slider2" class="splide mt-4">
-        <div class="splide__track">
-          <ul class="splide__list">
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -142,27 +102,47 @@
       <div class="row">
         <div class="col s-6 white-text"><h3>Boxing</h3></div>
       </div>
+      <div id="image-slider2" class="splide mt-4">
+        <div class="splide__track">
+          <ul class="splide__list">
+            {% for b in boxing %}
+            <li class="splide__slide">
+              <img src="{{b.video_image_URL}}" 
+              onclick="updateSelectedVideo('{{b.video_name}}', '{{b.video_URL}}','{{b.video_description}}')" />
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s-6 white-text"><h3>Pilates</h3></div>
+      </div>
       <div id="image-slider3" class="splide">
         <div class="splide__track">
           <ul class="splide__list">
+            {% for p in pilates %}
             <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
+              <img src="{{p.video_image_URL}}" 
+              onclick="updateSelectedVideo('{{p.video_name}}', '{{p.video_URL}}','{{p.video_description}}')" />
             </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s-6 white-text"><h3>Yoga</h3></div>
+      </div>
+      <div id="image-slider4" class="splide">
+        <div class="splide__track">
+          <ul class="splide__list">
+            {% for y in Yoga %}
             <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
+              <img src="{{y.video_image_URL}}" 
+              onclick="updateSelectedVideo('{{y.video_name}}', '{{y.video_URL}}','{{y.video_description}}')" />
             </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
-            <li class="splide__slide">
-              <img src="{% static 'img/videos/video1.jpeg' %}" />
-            </li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -174,7 +154,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         new Splide('#image-slider1', {
-          type: 'loop',
+          // type: 'loop',
           pagination: false,
           autoWidth: true,
           gap: 25,
@@ -219,6 +199,56 @@
           },
         }).mount();
       });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        new Splide('#image-slider4', {
+          type: 'loop',
+          pagination: false,
+          autoWidth: true,
+          gap: 25,
+          perPage: 2,
+          perMove: 1,
+          focus: 'center',
+          padding: {
+            right: '5rem',
+            left: '5rem',
+          },
+        }).mount();
+      });
+
+
+
+      const updateSelectedVideo=(title, url, description)=>{
+        $('.selected-video').replaceWith(
+          `<div class="col s12 m9">
+          <div class="iframe-container">
+            <iframe
+              class="responsive-iframe"
+              width="560"
+              height="315"
+              src="${url}"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+        <div class="col s12 m3 white-text right-align">
+          <h3>${title}</h3>
+          <p>
+            ${description}
+          </p>
+          <div class="yellow-text accent-2">
+            <i class="small material-icons">star</i>
+            <i class="small material-icons">star</i>
+            <i class="small material-icons">star</i>
+            <i class="small material-icons">star</i>
+            <i class="small material-icons">star_half</i>
+          </div>
+        </div>`
+        )
+      };
     </script>
     {% endblock scripts %}
   </div>

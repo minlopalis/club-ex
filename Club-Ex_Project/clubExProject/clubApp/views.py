@@ -19,7 +19,13 @@ class IndexView(TemplateView):
 @login_required(login_url='login')
 @valid_subscription_required
 def viewVideoList(request):
-    return render(request, "videolist.html")
+    aerobics = Video.objects.filter(videoCategory__video_category="Aerobics")
+    boxing = Video.objects.filter(videoCategory__video_category="Boxing")
+    pilates = Video.objects.filter(videoCategory__video_category="Pilates")
+    yoga = Video.objects.filter(videoCategory__video_category="Yoga")
+    context={'aerobics':aerobics, 'boxing':boxing, 'pilates':pilates, 'yoga':yoga }
+    
+    return render(request, "videolist.html",context)
 
 
 @login_required(login_url='login')
@@ -41,6 +47,7 @@ class SearchResultsView(ListView):
 def videoView(request,pk):
     video = Video.objects.get(video_id=pk)
     context = {'video':video}
+    
     return render(request, 'video.html', context)
 
 

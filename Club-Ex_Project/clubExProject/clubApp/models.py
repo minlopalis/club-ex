@@ -43,6 +43,7 @@ class Video(models.Model):
     video_name = models.CharField(max_length=200, null=False)
     video_description = models.CharField(max_length=500, null=False)
     video_URL = models.URLField(max_length=500)
+    video_image_URL=models.URLField(max_length=500)
     videoCategory = models.ForeignKey(VideoCategory, on_delete=CASCADE, null=False)
 
 # # Subscription Model
