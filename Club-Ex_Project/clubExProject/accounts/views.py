@@ -177,9 +177,14 @@ def edit_subscription(request, pk):
     print(subscription_model)
     if request.method == 'POST':
         #print(request.POST)
-        did_it_save = renew_subscription(request, subscription_model, payment_model)
-        if did_it_save:
-            return redirect('subscription-success')
+        if request.POST['expiry-date'] >= todaysDate:
+            did_it_save = renew_subscription(request, subscription_model, payment_model)
+            if did_it_save:
+                return redirect('subscription-success')
+            else:
+                formIncomplete = "Payment Details were either entered incorrectly or are invalid please try again"
+                context = {'FormIncomplete': formIncomplete, 'start_date' : todaysDate, 'end_date': endDate, 'cost': cost}
+                return render(request, 'subscription-new.html', context)
         else:
             formIncomplete = "Payment Details were either entered incorrectly or are invalid please try again"
             context = {'FormIncomplete': formIncomplete, 'start_date' : todaysDate, 'end_date': endDate, 'cost': cost}
