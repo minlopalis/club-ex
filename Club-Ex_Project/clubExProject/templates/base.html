@@ -42,7 +42,7 @@
           <li><a href="{%url 'index'%}">Home</a></li>
 
           {% if user.is_authenticated %}
-          <li><a href='{%url "stats"%}'>Statistics</a></li>
+          <li><a href='{%url "stats" user.id %}'>Statistics</a></li>
           <li><a href='{%url "videolist"%}'>Video List</a></li>
           <li><a href='{%url "view-account"%}'>Account</a></li>
           <li><a href='{%url "logout"%}'>Logout</a></li>
@@ -57,7 +57,7 @@
           <li><a href='{%url "index"%}'>Home</a></li>
 
           {% if user.is_authenticated %}
-          <li><a href='{%url "stats"%}'>Statistics</a></li>
+          <li><a href='{%url "stats" user.id %}'>Statistics</a></li>
           <li><a href='{%url "videolist"%}'>Video List</a></li>
           <li><a href='{%url "view-account"%}'>Account</a></li>
           <li><a href='{%url "logout"%}'>Logout</a></li>
