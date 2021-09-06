@@ -148,18 +148,8 @@
           <div name="card-type" class="input-field col s12">
             <select tabindex="11" id="CardType">
               <option value="AmEx">American Express</option>
-              <option value="CarteBlanche">Carte Blanche</option>
-              <option value="DinersClub">Diners Club</option>
-              <option value="Discover">Discover</option>
-              <option value="EnRoute">enRoute</option>
-              <option value="JCB">JCB</option>
-              <option value="Maestro">Maestro</option>
               <option value="MasterCard">MasterCard</option>
-              <option value="Solo">Solo</option>
-              <option value="Switch">Switch</option>
               <option value="Visa">Visa</option>
-              <option value="VisaElectron">Visa Electron</option>
-              <option value="LaserCard">Laser</option>
             </select>
             <label for="card-type" class="blue-text"
               >Credit Card Type</label
@@ -172,7 +162,9 @@
               id="card-number"
               type="text"
               class="validate"
+              required
             />
+            <span class="helper-text" data-error="This is not a valid card" id="card-no-error" data-success="This is a valid card number"></span>
             <label for="card-number" class="blue-text"
               >Credit Card Number</label
             >
@@ -185,13 +177,15 @@
               id="cardholder"
               type="text"
               class="validate"
+              required
             />
             <label for="cardholder" class="blue-text">Cardholder Name</label>
           </div>
 
           <div class="col s6">
             <label class="blue-text">Expiry Date</label>
-            <input type="date" name="expiry-date" />
+            <input class="datepicker" type="date" id="expiry-date" min={{start_date}} name="expiry-date" required/>
+            <span class="helper-text">Enter the cards expiry date.</span>
           </div>
 
           <div class="input-field col s6">
@@ -203,7 +197,9 @@
               class="validate"
               maxlength="5"
               pattern="[0-9]+"
+              required
             />
+            <span class="helper-text">This is the number on the back of your card you are using.</span>
             <label for="cvv" class="blue-text">CVV</label>
           </div>
           <br /><br />
@@ -228,7 +224,7 @@
     var instances = M.FormSelect.init(elems);
   });
   document.addEventListener("DOMContentLoaded", function () {
-    var elems = document.querySelectorAll(".datepicker");
+    var elems = document.querySelectorAll(".expiry-date");
     var instances = M.Datepicker.init(elems, (defaultDate = new Date()));
   });
 </script>
@@ -300,9 +296,13 @@
     myCardType = document.getElementById("CardType").value;
     if (checkCreditCard(myCardNo, myCardType)) {
       /*alert("Credit card has a valid format");*/
+      document.getElementById("card-number").removeAttribute('class', 'invalid');
+      document.getElementById("card-number").setAttribute('class', 'validate');
       submit_button.disabled = false
     } else {
-      alert(ccErrors[ccErrorNo]);
+      document.getElementById("card-number").removeAttribute('class', 'validate');
+      document.getElementById("card-number").setAttribute('class', 'invalid');
+      document.getElementById("card-no-error").setAttribute('data-error', ccErrors[ccErrorNo]);
       submit_button.disabled = true
     }
   }
@@ -389,61 +389,7 @@
       prefixes: "36,38,54,55",
       checkdigit: true,
     };
-    cards[3] = {
-      name: "CarteBlanche",
-      length: "14",
-      prefixes: "300,301,302,303,304,305",
-      checkdigit: true,
-    };
-    cards[4] = {
-      name: "AmEx",
-      length: "15",
-      prefixes: "34,37",
-      checkdigit: true,
-    };
-    cards[5] = {
-      name: "Discover",
-      length: "16",
-      prefixes: "6011,622,64,65",
-      checkdigit: true,
-    };
-    cards[6] = { name: "JCB", length: "16", prefixes: "35", checkdigit: true };
-    cards[7] = {
-      name: "enRoute",
-      length: "15",
-      prefixes: "2014,2149",
-      checkdigit: true,
-    };
-    cards[8] = {
-      name: "Solo",
-      length: "16,18,19",
-      prefixes: "6334,6767",
-      checkdigit: true,
-    };
-    cards[9] = {
-      name: "Switch",
-      length: "16,18,19",
-      prefixes: "4903,4905,4911,4936,564182,633110,6333,6759",
-      checkdigit: true,
-    };
-    cards[10] = {
-      name: "Maestro",
-      length: "12,13,14,15,16,18,19",
-      prefixes: "5018,5020,5038,6304,6759,6761,6762,6763",
-      checkdigit: true,
-    };
-    cards[11] = {
-      name: "VisaElectron",
-      length: "16",
-      prefixes: "4026,417500,4508,4844,4913,4917",
-      checkdigit: true,
-    };
-    cards[12] = {
-      name: "LaserCard",
-      length: "16,17,18,19",
-      prefixes: "6304,6706,6771,6709",
-      checkdigit: true,
-    };
+    
 
     // Establish card type
     var cardType = -1;
