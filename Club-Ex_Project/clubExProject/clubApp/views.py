@@ -1,5 +1,6 @@
 from django import template
 from django.db.models.query import QuerySet
+from django.db.models.query_utils import Q
 from django.forms.forms import Form
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -34,7 +35,7 @@ def viewVideoList(request):
     return render(request, "videolist.html",context)
 
 
-@valid_subscription_required
+# Search Results View
 class SearchResultsView(LoginRequiredMixin, ListView):
     model = Video
     template_name = "results.html"
