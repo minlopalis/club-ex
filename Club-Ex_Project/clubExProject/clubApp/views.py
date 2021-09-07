@@ -34,16 +34,16 @@ def viewVideoList(request):
     return render(request, "videolist.html",context)
 
 
-@login_required(login_url='login')
 @valid_subscription_required
-class SearchResultsView(ListView):
+class SearchResultsView(LoginRequiredMixin, ListView):
     model = Video
     template_name = "results.html"
-    
+
+
     def get_queryset(self):
         query = self.request.GET.get('search')
         object_list = Video.objects.filter(
-            QuerySet(video_name__icontains=query) | QuerySet(video_description__icontains=query)
+            Q(video_name__icontains=query) | Q(video_description__icontains=query)
         )
         return object_list
 
