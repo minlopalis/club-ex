@@ -73,12 +73,14 @@ def registerUser(request):
 
 @login_required(login_url='login')
 def view_account(request):
-    customer = Customer.objects.get(user=request.user)
-    subscriptions = Subscription.objects.filter(customer_id=customer)
-
-    context = {'customer': customer, 'subscriptions': subscriptions}
+    try:
+        customer = Customer.objects.get(user=request.user)
+        subscriptions = Subscription.objects.filter(customer_id=customer)
+        context = {'logged_user': customer, 'subscriptions': subscriptions }
+    except:
+        admin = User.objects.get(username=request.user)
+        context = {'logged_user': admin}
     return render(request, 'account.html', context)
-
 
 
 
@@ -177,9 +179,14 @@ def edit_subscription(request, pk):
     print(subscription_model)
     if request.method == 'POST':
         #print(request.POST)
-        did_it_save = renew_subscription(request, subscription_model, payment_model)
-        if did_it_save:
-            return redirect('subscription-success')
+        if request.POST['expiry-date'] >= todaysDate:
+            did_it_save = renew_subscription(request, subscription_model, payment_model)
+            if did_it_save:
+                return redirect('subscription-success')
+            else:
+                formIncomplete = "Payment Details were either entered incorrectly or are invalid please try again"
+                context = {'FormIncomplete': formIncomplete, 'start_date' : todaysDate, 'end_date': endDate, 'cost': cost}
+                return render(request, 'subscription-new.html', context)
         else:
             formIncomplete = "Payment Details were either entered incorrectly or are invalid please try again"
             context = {'FormIncomplete': formIncomplete, 'start_date' : todaysDate, 'end_date': endDate, 'cost': cost}

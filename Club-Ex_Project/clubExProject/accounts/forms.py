@@ -72,6 +72,8 @@ class CustomerForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'black-text validate'})
 
 
+
+
 # Subscription Choices
 SUBSCRIPTION_CHOICES = (
     ('ANNUAL_GYM' , 'Annual Gym Membership',),

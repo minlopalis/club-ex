@@ -7,7 +7,7 @@ import datetime
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='customer')
     username = models.CharField(max_length=200, blank=True, null=True)
     first_name = models.CharField(max_length=50, default='', null=True, blank=True)
     last_name = models.CharField(max_length=50, default='', null=True, blank=True)
@@ -23,6 +23,7 @@ class Customer(models.Model):
 
     def __str__(self):
         return (self.username)
+
 
 
 # Subscription Choices
