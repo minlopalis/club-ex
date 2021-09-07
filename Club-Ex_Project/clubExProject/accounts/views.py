@@ -73,10 +73,13 @@ def registerUser(request):
 
 @login_required(login_url='login')
 def view_account(request):
-    customer = Customer.objects.get(user=request.user)
-    subscriptions = Subscription.objects.filter(customer_id=customer)
-
-    context = {'customer': customer, 'subscriptions': subscriptions}
+    try:
+        customer = Customer.objects.get(user=request.user)
+        subscriptions = Subscription.objects.filter(customer_id=customer)
+        context = {'logged_user': customer, 'subscriptions': subscriptions}
+    except:
+        admin = User.objects.get(username=request.user)
+        context = {'logged_user': admin}
     return render(request, 'account.html', context)
 
 

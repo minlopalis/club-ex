@@ -9,70 +9,73 @@
         <h3>Account Information</h3>
         <table>
             <thead>
-                <tr>
-                    <th>User Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                </tr>
+            <tr>
+                <th>Field</th>
+                <th>Data</th>
+            </tr>
             </thead>
 
             <tbody>
-                <tr>
-                    <td>{{customer.username}}</td>
-                    <td>{{customer.first_name}}</td>
-                    <td>{{customer.last_name}}</td>
-                    <td>{{customer.phone}}</td>
-                    <td>{{customer.email}}</td>
-                </tr>
+            <tr>
+                <td><strong>Username</strong></td>
+                <td>{{logged_user.username}}</td>
+            </tr>
+            <tr>
+                <td><strong>First Name</strong></td>
+                <td>{{logged_user.first_name}}</td>
+            </tr>
+            <tr>
+                <td><strong>Last Name</strong></td>
+                <td>{{logged_user.last_name}}</td>
+            </tr>
+            <tr>
+                <td><strong>Phone</strong></td>
+                <td>{{logged_user.phone}}</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>{{logged_user.email}}</td>
+            </tr> 
+            <tr>
+                <td><strong>Address</strong></td>
+                <td>
+                {{logged_user.address_1}}<br>
+                {% if logged_user.address_2 %}
+                    {{logged_user.address_2}}<br>
+                {% endif %}
+                {{logged_user.city}} {{logged_user.zip_address}}<br>
+                {{logged_user.country}}
+                </td>
+            </tr>                 
             </tbody>
         </table>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Address 1</th>
-                    <th>Address 2</th>
-                    <th>City</th>
-                    <th>Country</th>
-                    <th>Zip Address</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>{{customer.address_1}}</td>
-                    <td>{{customer.address_2}}</td>
-                    <td>{{customer.city}}</td>
-                    <td>{{customer.country}}</td>
-                    <td>{{customer.zip_address}}</td>
-                </tr>
-            </tbody>
-        </table>
-
-
+           
 
         <h4>Your Subscriptions</h4>
-        <table>
-            <thead>
-              <tr>
-                  <th>Start Date</th>
-                  <th>Subscription Type</th>
-                  <th>Renewal Date</th>
-              </tr>
-            </thead>
-    
-            <tbody>
-                {% for field in subscriptions %}
+        {% if subscriptions.all %}
+            <table>
+                <thead>
                 <tr>
-                    <td>{{field.start_date}}</td>
-                    <td>{{field.subscription_choice}}</td>
-                    <td>{{field.renewal_date}}</td>
-                  </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    <th>Start Date</th>
+                    <th>Subscription Type</th>
+                    <th>Renewal Date</th>
+                </tr>
+                </thead>
+        
+                <tbody>
+                    {% for field in subscriptions %}
+                    <tr>
+                        <td>{{field.start_date}}</td>
+                        <td>{{field.subscription_choice}}</td>
+                        <td>{{field.renewal_date}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+        <p>You don't have any Subscriptions</p>
+        {% endif %}
+    </p>
 
     
 </div>
