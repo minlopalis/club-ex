@@ -31,6 +31,9 @@ class Video(models.Model):
     video_image_URL=models.URLField(max_length=500)
     videoCategory = models.ForeignKey(VideoCategory, on_delete=CASCADE, null=False)
 
+    def __str__(self):
+        return self.video_name
+
 
 
 # Video Watch Time Model
