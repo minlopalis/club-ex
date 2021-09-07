@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import IndexView
+from .views import IndexView, SearchResultsView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
