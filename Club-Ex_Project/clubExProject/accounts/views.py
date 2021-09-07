@@ -69,8 +69,6 @@ def registerUser(request):
     context = {'page': page, 'form': form}
     return render(request, 'signup.html', context)
 
-
-
 @login_required(login_url='login')
 def view_account(request):
     try:
@@ -81,6 +79,8 @@ def view_account(request):
         admin = User.objects.get(username=request.user)
         context = {'logged_user': admin}
     return render(request, 'account.html', context)
+
+
 
 
 
