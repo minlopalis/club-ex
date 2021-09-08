@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load apptags %}
 {% block content %}
 <div class="container">
 
@@ -6,9 +7,57 @@
       <h2 class="blue-text">Statistics</h2>
     </div>
 
-    <p>Showing Statistics for <strong>{{user.first_name}} {{user.last_name}}</strong></p>
+    <p>
+        <span>Showing Statistics for <strong>{{user.username}}</strong> <span>
+        {% if user.first_name %}
+            <span> - {{user.first_name}} {{user.last_name}}</span>
+        {% endif %}
+    </p>
 
     <br>
+
+    <!-- Management Only Statistics -->
+    {% for group in user.groups.all %}
+        {% if group.name == "management" %}
+            <h5>Management Statistics</h5>
+
+            <!-- Total Videos-->
+            <div class="row">
+                <div class="col s12 m4">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                    <span class="card-title">Total Videos</span>
+                    <p>{% count_videos %}</p>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Total Video Watch Time-->
+                <div class="col s12 m4">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                    <span class="card-title">Total Watch Time</span>
+                    <p>{% sum_watch_time %} minutes</p>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Total Customers -->
+                <div class="col s12 m4">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                    <span class="card-title">Total Customers</span>
+                    <p>{% count_videos %}</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
+        <br>
+        {% endif %}
+    {% endfor %}
+
 
     <!-- Watch History -->
     <h5>Video Watch History</h5>
@@ -24,8 +73,11 @@
             <tbody>
             {% for video in user.customer.customer_watch_times.all %}
             <tr>
+                {% for video_detail in video.all %}
+                    {{video_detail}}
+                {% endfor %}
                 <td><a href="">{{video.video_id.video_name}}</a></td>
-                <td>{{video.videoCategory}}</td>
+                <td>{{video.video_id.videoCategory}}</td>
                 <td>{{video.total_watch_time}}mins</td>
             </tr>
             {% endfor %}

@@ -44,6 +44,8 @@ class VideoWatchTime(models.Model):
     videoCategory = models.ForeignKey(VideoCategory, on_delete=CASCADE, null=False) ## DO WE NEED THIS FIELD???
     total_watch_time = models.IntegerField()
 
+    def __str__(self):
+        return str(self.customer_id) + ' watched  ' +  str(self.video_id.video_name) + ' for ' +str(self.total_watch_time) + "mins"
 
 # Video Ratings Model
 class VideoRating(models.Model):
