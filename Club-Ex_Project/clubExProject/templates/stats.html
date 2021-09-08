@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load apptags %}
+{% load app_tags %}
 {% block content %}
 <div class="container">
 
@@ -19,7 +19,7 @@
     <!-- Management Only Statistics -->
     {% for group in user.groups.all %}
         {% if group.name == "management" %}
-            <h5>Management Statistics</h5>
+            <h4>Management Statistics</h4>
 
             <!-- Total Videos-->
             <div class="row">
@@ -53,6 +53,35 @@
                 </div>
             </div>
 
+            <!-- Group Videos and Sum Watch Time -->
+            {% sum_watch_time_by_videos as videos %}
+            <h5>Video Total Watch Time</h5>
+            <table>
+            <thead>
+            <tr>
+                <th>Video Title</th>
+                <th>Category</th>
+                <th>Total Watch Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for video in videos %}
+            <tr>
+                {% for video_detail in video.all %}
+                    {{video_detail}}
+                {% endfor %}
+                <td><a href="">{{video.video_name}}</a></td>
+                <td>{{video.videoCategory}}</td>
+                {% if video.watch_time%}
+                    <td>{{video.watch_time}}mins</td>
+                {% else %}
+                    <td>0mins</td>
+                {% endif %}
+                
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
         <br>
         {% endif %}

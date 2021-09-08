@@ -35,7 +35,6 @@ class Video(models.Model):
         return self.video_name
 
 
-
 # Video Watch Time Model
 class VideoWatchTime(models.Model):
     video_id = models.ForeignKey(Video, on_delete=CASCADE, null=False, related_name="watch_times")
@@ -46,6 +45,7 @@ class VideoWatchTime(models.Model):
 
     def __str__(self):
         return str(self.customer_id) + ' watched  ' +  str(self.video_id.video_name) + ' for ' +str(self.total_watch_time) + "mins"
+
 
 # Video Ratings Model
 class VideoRating(models.Model):

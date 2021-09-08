@@ -52,7 +52,7 @@ class SearchResultsView(LoginRequiredMixin, ListView):
 @login_required(login_url='login')
 @valid_subscription_required
 def videoView(request,pk):
-    video = Video.objects.get(video_id=pk)
+    video = Video.objects.get(video_id=pk).orderby('video_name')
     context = {'video':video}
     
     return render(request, 'video.html', context)
