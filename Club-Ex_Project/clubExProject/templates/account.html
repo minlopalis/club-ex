@@ -72,12 +72,16 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <form action='{%url "edit-account"%}'>
+                <input type="submit" class="waves-effect waves-light blue btn" value="Edit Account" />
+            </form>
+        
         {% else %}
         <p>You don't have any Subscriptions</p>
         {% endif %}
     </p>
-
-    
+   
 </div>
 
 {% endblock content %}
