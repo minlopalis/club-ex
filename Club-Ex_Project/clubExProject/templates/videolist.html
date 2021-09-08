@@ -47,38 +47,9 @@
 >
   <div class="overlay">
     <div class="container">
-      <div class="row selected-video">
-        <div class="col s12 m9">
-          <div class="iframe-container">
-            <iframe
-              class="responsive-iframe"
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/EeF47sA_o28"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
-        <div class="col s12 m3 white-text right-align">
-          <h3>AT HOME CARDIO Workout</h3>
-          <p>
-            Get ready for this serious sweat sesh. We're running through 15 of
-            my favorite body weight cardio exercises today - with the exception
-            of the jump rope which you can just pretend to do if you don't have
-            one! Workout from home or the gym and get that cardio workout done!
-            Woot Woot!
-          </p>
-          <div class="yellow-text accent-2">
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star_half</i>
-          </div>
-        </div>
+      <div class="col selected-video">
+
+
       </div>
     </div>
 
@@ -93,9 +64,11 @@
             {% for v in videos %}
               {% if v.videoCategory == c %}
                 <li class="splide__slide">
+                  <a href="#">
                   <img src="{{v.video_image_URL}}" 
-                  width="300"
+                  width="300px"
                   onclick="updateSelectedVideo('{{v.video_name}}', '{{v.video_URL}}','{{v.video_description}}')" />
+                  </a>
                 </li>
               {% endif %}
             {% endfor %}
@@ -140,22 +113,23 @@
 
       const updateSelectedVideo=(title, url, description)=>{
         $('.selected-video').replaceWith(
-          ` <div class="row selected-video">
-          <div class="col s12 m9">
+          ` <div class="col selected-video">
+            <div class="row s12 m9"></div>
+            <div class="row s12 m9">
           <div class="iframe-container">
             <iframe
               class="responsive-iframe"
-              width="560"
-              height="315"
               src="${url}"
               title="YouTube video player"
+              width="100%"
+              height="600"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
           </div>
         </div>
-        <div class="col s12 m3 white-text right-align">
+        <div class="row s12 m3 white-text right-align">
           <h3>${title}</h3>
           <p>
             ${description}
