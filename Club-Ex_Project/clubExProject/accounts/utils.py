@@ -16,7 +16,7 @@ def has_current_subscription(user):
             group = Group.objects.get(name='subscriber') 
             user.groups.remove(group)
         return customer_subscriptions.count() > 0
-    
+
 
 def save_subscription(request):
     customer = Customer.objects.get(user=request.user)

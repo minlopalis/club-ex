@@ -29,7 +29,7 @@ class Video(models.Model):
     video_description = models.CharField(max_length=500, null=False)
     video_URL = models.URLField(max_length=500)
     video_image_URL=models.URLField(max_length=500)
-    videoCategory = models.ForeignKey(VideoCategory, on_delete=CASCADE, null=False)
+    video_category = models.ForeignKey(VideoCategory, on_delete=CASCADE, null=False)
 
     def __str__(self):
         return self.video_name
@@ -40,7 +40,6 @@ class VideoWatchTime(models.Model):
     video_id = models.ForeignKey(Video, on_delete=CASCADE, null=False, related_name="watch_times")
     video_watch_time_id = models.AutoField(primary_key=True)
     customer_id = models.ForeignKey(Customer, on_delete=CASCADE, null=False, related_name="customer_watch_times")
-    videoCategory = models.ForeignKey(VideoCategory, on_delete=CASCADE, null=False) ## DO WE NEED THIS FIELD???
     total_watch_time = models.IntegerField()
 
     def __str__(self):
@@ -52,5 +51,4 @@ class VideoRating(models.Model):
     video_id = models.ForeignKey(Video, on_delete=CASCADE, null=False, related_name="ratings")
     video_rating_id = models.AutoField(primary_key=True)
     customer_id = models.ForeignKey(Customer, on_delete=CASCADE, null=False, related_name="customer_ratings")
-    videoCategory = models.ForeignKey(VideoCategory, on_delete=CASCADE, null=False)
     rating = models.IntegerField()
