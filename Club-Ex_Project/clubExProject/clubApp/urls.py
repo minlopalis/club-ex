@@ -7,5 +7,6 @@ urlpatterns = [
     path('club/videos/', views.viewVideoList, name='videolist'),
     path('club/searchresults/', views.SearchResultsView.as_view(), name='results'),
     path('club/video/<int:pk>', views.videoView, name='video'),
-    path('club/stats/<int:pk>', views.StatisticsView.as_view(), name='stats'),      
+    path('club/stats/<int:pk>', views.StatisticsView.as_view(), name='stats'), 
+    path('sandbox/', views.view_sandbox, name='sandbox'),
 ]

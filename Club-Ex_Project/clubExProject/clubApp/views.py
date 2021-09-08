@@ -16,12 +16,17 @@ from accounts.decorators import valid_subscription_required
 
 
 
-
-
 # landing page/home page
 class IndexView(TemplateView):
     template_name = "index.html"
     model = Price
+
+
+# Sandbox for testing features
+def view_sandbox(request):
+    video = Video.objects.get(video_id=1)
+    context = {'video': video}
+    return render(request, 'sandbox.html', context)
 
 
 @login_required(login_url='login')
@@ -54,7 +59,7 @@ class SearchResultsView(LoginRequiredMixin, ListView):
 def videoView(request,pk):
     video = Video.objects.get(video_id=pk).orderby('video_name')
     context = {'video':video}
-    
+
     return render(request, 'video.html', context)
 
 

@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block styles %}
+{% extends 'base.html' %} {% load static %} {% load app_tags %} {% block styles %}
 <link
   type="text/css"
   rel="stylesheet"
@@ -67,7 +67,7 @@
                   <a href="#">
                   <img src="{{v.video_image_URL}}" 
                   width="300px"
-                  onclick="updateSelectedVideo('{{v.video_name}}', '{{v.video_URL}}','{{v.video_description}}')" />
+                  onclick="updateSelectedVideo('{{v.video_name}}', '{% get_video_views v %}', '{{v.video_URL}}','{{v.video_description}}')" />
                   </a>
                 </li>
               {% endif %}
@@ -111,7 +111,7 @@
     
 
 
-      const updateSelectedVideo=(title, url, description)=>{
+      const updateSelectedVideo=(title, views, url, description)=>{
         $('.selected-video').replaceWith(
           ` <div class="col selected-video">
             <div class="row s12 m9"></div>
@@ -131,6 +131,7 @@
         </div>
         <div class="row s12 m3 white-text right-align">
           <h3>${title}</h3>
+          <p>Total Views: ${views}</p>
           <p>
             ${description}
           </p>
