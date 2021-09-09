@@ -48,9 +48,25 @@
   <div class="overlay">
     <div class="container">
       <div class="col selected-video">
-
-
+        <div class="row s12 m9"></div>
+        <div class="row s12 m9">
+      <div class="iframe-container">
+        <div id="player"></div>
       </div>
+    </div>
+    <div class="row s12 m3 white-text right-align">
+      <h3 id="selected-video-title" ></h3>
+      <p id="selected-video-total-views"></p>
+      <p id="selected-video-description">
+      </p>
+      <div class="yellow-text accent-2">
+        <i class="small material-icons">star</i>
+        <i class="small material-icons">star</i>
+        <i class="small material-icons">star</i>
+        <i class="small material-icons">star</i>
+        <i class="small material-icons">star_half</i>
+      </div>
+    </div></div>
     </div>
 
     <div class="container">
@@ -67,7 +83,16 @@
                   <a href="#">
                   <img src="{{v.video_image_URL}}" 
                   width="300px"
-                  onclick="updateSelectedVideo('{{v.video_name}}', '{% get_video_views v %}', '{{v.video_URL}}','{{v.video_description}}')" />
+                  onclick="
+                  updateSelectedVideo(
+                    '{{v.video_name}}', 
+                    '{% get_video_views v %}', 
+                    '{{v.video_URL}}',
+                    '{{v.video_description}}', 
+                    '{{ user.id }}',
+                    '{{v.video_id}}'
+                    )"
+                    />
                   </a>
                 </li>
               {% endif %}
@@ -83,10 +108,16 @@
 
     {% endblock content %} {% block scripts %}
 
+    <script src="https://www.youtube.com/iframe_api" ></script>
+
+
     <script>
+      var URL = "/ajax/update_video_watch_time/";
+      let player = null;
+      let selectedVideoId;
+      let currentUserId
 
       document.addEventListener("DOMContentLoaded", function () {
-
         global_carousel__ctrl();
       });
 
@@ -111,40 +142,103 @@
     
 
 
-      const updateSelectedVideo=(title, views, url, description)=>{
-        $('.selected-video').replaceWith(
-          ` <div class="col selected-video">
-            <div class="row s12 m9"></div>
-            <div class="row s12 m9">
-          <div class="iframe-container">
-            <iframe
-              class="responsive-iframe"
-              src="${url}"
-              title="YouTube video player"
-              width="100%"
-              height="600"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
-        <div class="row s12 m3 white-text right-align">
-          <h3>${title}</h3>
-          <p>Total Views: ${views}</p>
-          <p>
-            ${description}
-          </p>
-          <div class="yellow-text accent-2">
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star_half</i>
-          </div>
-        </div></div>`
+      const updateSelectedVideo=(title, views, url, description, userId, videoDbId)=>{
+        if(player) player.destroy();
+        currentUserId = userId
+        selectedVideoId = videoDbId;
+        const urlParts = url.split("/");
+        const youTubeId = urlParts[urlParts.length - 1].split("?v=")[1];
+        player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: youTubeId,
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+
+        $('#selected-video-title').text(
+          title
+        );
+        $('#selected-video-description').text(
+          description
+        );
+        $('#selected-video-total-views').text(
+          `Total Views: ${views}`
         )
       };
+
+
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      
+      var timer;
+      function onPlayerStateChange(event) {
+          if (event.data == YT.PlayerState.PLAYING) {
+              //player play
+              timer = setInterval(
+                function() {
+                  sendHttpAsync(URL, "POST", {seconds: 1, currentUserId: +currentUserId, selectedVideoId: +selectedVideoId});
+                }, 1000
+              );
+          } else {
+            //player pause
+            clearInterval(timer);
+          }
+      }
+
+      function stopVideo() {
+          player.stopVideo();
+      }
+      console.log(`getCookie("csrftoken")`, getCookie("csrftoken"))
+
+      function sendHttpAsync(path, method, body) {
+        let props = {
+            method: method,
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            mode: "same-origin",
+        }
+
+        if (body !== null && body !== undefined) {
+            props.body = JSON.stringify(body);
+        }
+
+        return fetch(path, props)
+            .then(response => {
+                return response.json()
+                    .then(result => {
+                        return {
+                            ok: response.ok,
+                            body: result
+                        }
+                    });
+            })
+            .catch(error => {
+                throw error;
+            });
+    }
+
+
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
     </script>
     {% endblock scripts %}
   </div>

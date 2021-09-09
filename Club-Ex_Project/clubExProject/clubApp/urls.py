@@ -9,4 +9,5 @@ urlpatterns = [
     path('club/video/<int:pk>', views.videoView, name='video'),
     path('club/stats/<int:pk>', views.StatisticsView.as_view(), name='stats'), 
     path('sandbox/', views.view_sandbox, name='sandbox'),
+    path('ajax/update_video_watch_time/', views.update_video_watch_time, name='updateWatchTime')
 ]

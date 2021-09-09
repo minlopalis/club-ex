@@ -10,9 +10,11 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from .models import Price, Video, VideoCategory
+from .models import Price, Video, VideoCategory, VideoWatchTime
 from accounts.models import Customer
 from accounts.decorators import valid_subscription_required
+import json 
+from django.http import JsonResponse
 
 
 
@@ -77,3 +79,33 @@ class StatisticsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     def test_func(self):
         obj = self.get_object()
         return obj == self.request.user
+
+
+
+
+@login_required(login_url='login')
+@valid_subscription_required
+def update_video_watch_time(request):
+
+    current_user = request.user
+    print(current_user)
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        
+        second = data.get('seconds', None)
+        user_id = data.get('currentUserId', None)
+        video_id = data.get("selectedVideoId", None)
+        
+        video = Video.objects.get(video_id=video_id)
+        customer = Customer.objects.get(user=current_user.id)
+        
+        selected_video = VideoWatchTime.objects.filter(video_id = video, customer_id = customer)
+        if not selected_video:
+            VideoWatchTime.objects.create(video_id = video, customer_id = customer, total_watch_time = second)
+        else:
+            update_video = VideoWatchTime.objects.get(video_id = video, customer_id = customer)
+            new_watch_time = update_video.total_watch_time + second
+            update_video.total_watch_time = new_watch_time
+            update_video.save()
+            
+        return JsonResponse({"message": second}, status=200)
