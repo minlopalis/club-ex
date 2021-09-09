@@ -83,12 +83,10 @@ class StatisticsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 
 
-@login_required(login_url='login')
-@valid_subscription_required
-def update_video_watch_time(request):
 
+def update_video_watch_time(request):
     current_user = request.user
-    print(current_user)
+   
     if request.method == 'POST':
         data = json.loads(request.body)
         
@@ -105,7 +103,17 @@ def update_video_watch_time(request):
         else:
             update_video = VideoWatchTime.objects.get(video_id = video, customer_id = customer)
             new_watch_time = update_video.total_watch_time + second
+            
             update_video.total_watch_time = new_watch_time
             update_video.save()
             
         return JsonResponse({"message": second}, status=200)
+
+def update_video_views(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        video_id = data.get("selectedVideoId", None)
+        video = Video.objects.get(video_id = video_id)
+        print(video)
+        return JsonResponse({"views": 1}, status=200)

@@ -1,16 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% load app_tags %} {% block styles %}
-<link
-  type="text/css"
-  rel="stylesheet"
-  href="{% static 'css/splide.min.css' %}"
-  media="screen,projection"
-/>
-<link
-  type="text/css"
-  rel="stylesheet"
-  href="{% static 'css/splide-default.min.css' %}"
-  media="screen,projection"
-/>
+<link type="text/css" rel="stylesheet" href="{% static 'css/splide.min.css' %}" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="{% static 'css/splide-default.min.css' %}" media="screen,projection" />
 {% endblock styles %} {% block content %}
 
 <div class="container">
@@ -21,13 +11,7 @@
     <div class="row">
       <div class="col s4"></div>
       <div class="col s4">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search Videos"
-          aria-label="Search"
-          name="search"
-        />
+        <input class="form-control me-2" type="search" placeholder="Search Videos" aria-label="Search" name="search" />
       </div>
       <div class="col s4">
         <button class="btn btn-outline-secondary" type="submit">Search</button>
@@ -37,53 +21,52 @@
   </form>
 </div>
 
-<div
-  style="
+<div style="
     background: url('/static/img/videos/video2.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
-  "
->
+  ">
   <div class="overlay">
     <div class="container">
       <div class="col selected-video">
         <div class="row s12 m9"></div>
         <div class="row s12 m9">
-      <div class="iframe-container">
-        <div id="player"></div>
+          <div class="iframe-container">
+            <div id="player"></div>
+          </div>
+        </div>
+        <div class="row s12 m3 white-text right-align">
+          <h3 id="selected-video-title"></h3>
+          <p id="selected-video-total-views"></p>
+          <p id="selected-video-description">
+          </p>
+          <div class="yellow-text accent-2">
+            <i class="small material-icons">star</i>
+            <i class="small material-icons">star</i>
+            <i class="small material-icons">star</i>
+            <i class="small material-icons">star</i>
+            <i class="small material-icons">star_half</i>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row s12 m3 white-text right-align">
-      <h3 id="selected-video-title" ></h3>
-      <p id="selected-video-total-views"></p>
-      <p id="selected-video-description">
-      </p>
-      <div class="yellow-text accent-2">
-        <i class="small material-icons">star</i>
-        <i class="small material-icons">star</i>
-        <i class="small material-icons">star</i>
-        <i class="small material-icons">star</i>
-        <i class="small material-icons">star_half</i>
-      </div>
-    </div></div>
     </div>
 
     <div class="container">
       {% for c in categories %}
       <div class="row">
-        <div class="col s-6 white-text"><h3>{{c}}</h3></div>
+        <div class="col s-6 white-text">
+          <h3>{{c}}</h3>
+        </div>
       </div>
       <div id="image-slider{{for.counter}}" class="splide mt-4">
         <div class="splide__track">
           <ul class="splide__list">
             {% for v in videos %}
-              {% if v.video_category == c %}
-                <li class="splide__slide">
-                  <a href="#">
-                  <img src="{{v.video_image_URL}}" 
-                  width="300px"
-                  onclick="
+            {% if v.video_category == c %}
+            <li class="splide__slide">
+              <a href="#">
+                <img src="{{v.video_image_URL}}" width="300px" onclick="
                   updateSelectedVideo(
                     '{{v.video_name}}', 
                     '{% get_video_views v %}', 
@@ -91,28 +74,27 @@
                     '{{v.video_description}}', 
                     '{{ user.id }}',
                     '{{v.video_id}}'
-                    )"
-                    />
-                  </a>
-                </li>
-              {% endif %}
+                    )" />
+              </a>
+            </li>
+            {% endif %}
             {% endfor %}
           </ul>
         </div>
       </div>
       {% endfor %}
 
-     
+
       <div style="margin-top: 3rem"></div>
     </div>
 
     {% endblock content %} {% block scripts %}
 
-    <script src="https://www.youtube.com/iframe_api" ></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
 
 
     <script>
-      var URL = "/ajax/update_video_watch_time/";
+
       let player = null;
       let selectedVideoId;
       let currentUserId
@@ -139,24 +121,25 @@
           }).mount();
         }
       }
-    
 
 
-      const updateSelectedVideo=(title, views, url, description, userId, videoDbId)=>{
-        if(player) player.destroy();
+
+      const updateSelectedVideo = (title, views, url, description, userId, videoDbId) => {
         currentUserId = userId
         selectedVideoId = videoDbId;
+        addView();
+        if (player) player.destroy();
         const urlParts = url.split("/");
         const youTubeId = urlParts[urlParts.length - 1].split("?v=")[1];
         player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: youTubeId,
-        events: {
+          height: '390',
+          width: '640',
+          videoId: youTubeId,
+          events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
-        }
-    });
+          }
+        });
 
         $('#selected-video-title').text(
           title
@@ -164,81 +147,88 @@
         $('#selected-video-description').text(
           description
         );
+
+      };
+
+      function addView() {
+
+        let views = sendHttpAsync("/ajax/update_video_views/", "POST", { selectedVideoId: +selectedVideoId });
+
         $('#selected-video-total-views').text(
           `Total Views: ${views}`
         )
-      };
+      }
 
 
       function onPlayerReady(event) {
         event.target.playVideo();
       }
 
-      
+
       var timer;
       function onPlayerStateChange(event) {
-          if (event.data == YT.PlayerState.PLAYING) {
-              //player play
-              timer = setInterval(
-                function() {
-                  sendHttpAsync(URL, "POST", {seconds: 1, currentUserId: +currentUserId, selectedVideoId: +selectedVideoId});
-                }, 1000
-              );
-          } else {
-            //player pause
-            clearInterval(timer);
-          }
+        if (event.data == YT.PlayerState.PLAYING) {
+          //player play
+          timer = setInterval(
+            function () {
+              sendHttpAsync("/ajax/update_video_watch_time/", "POST", { seconds: 1, currentUserId: +currentUserId, selectedVideoId: +selectedVideoId });
+            }, 1000
+          );
+        } else {
+          //player pause
+          clearInterval(timer);
+        }
       }
 
       function stopVideo() {
-          player.stopVideo();
+        player.stopVideo();
       }
-      console.log(`getCookie("csrftoken")`, getCookie("csrftoken"))
 
-      function sendHttpAsync(path, method, body) {
+
+      function sendHttpAsync(path, method, body = null) {
         let props = {
-            method: method,
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken")
-            },
-            mode: "same-origin",
+          method: method,
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+          },
+          mode: "same-origin",
         }
 
         if (body !== null && body !== undefined) {
-            props.body = JSON.stringify(body);
+          props.body = JSON.stringify(body);
         }
 
         return fetch(path, props)
-            .then(response => {
-                return response.json()
-                    .then(result => {
-                        return {
-                            ok: response.ok,
-                            body: result
-                        }
-                    });
-            })
-            .catch(error => {
-                throw error;
-            });
-    }
+          .then(response => {
+            return response.json()
+              .then(result => {
+                return {
+                  ok: response.ok,
+                  body: result
+                }
+              });
+          })
+          .catch(error => {
+            throw error;
+          });
+      }
 
 
       function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
             }
+          }
         }
         return cookieValue;
-    }
+      }
     </script>
     {% endblock scripts %}
   </div>
