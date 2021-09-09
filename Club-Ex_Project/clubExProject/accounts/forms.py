@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from .models import Customer, Payment, Subscription
 from django import forms
 from django.utils.translation import gettext_lazy as _
+import re
+
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -70,6 +72,54 @@ class CustomerForm(forms.ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'black-text validate'})
+
+    def clean(self):
+        super(CustomerForm, self).clean()
+        self.cleaned_data['address_1']
+        self.cleaned_data['address_2']
+        self.cleaned_data['city']
+        self.cleaned_data['zip_address']
+        self.cleaned_data['country']
+
+        email_address = self.cleaned_data.get('email')
+        phone_number = self.cleaned_data.get('phone')
+ 
+        # email format
+        email_address_format = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$' 
+        
+        # check that the email_address is not blank
+        if not email_address:
+            self._errors['The Email Address is INVALID'] = self.error_class([
+                'Email address is required'])
+        
+        # check email matchs the email address format
+        elif not re.search(email_address_format, email_address):
+                self._errors['The Email Address is INVALID'] = self.error_class([
+                    'Email address is not in the correct format'])
+
+
+        # phone number length format min 7 digits max 15
+        phone_number_length = '^\d{7,15}$'
+        # phone number numeric format 0 - 9 all positive integers 
+        numeric = '^[0-9]+$'
+
+        # check if blank
+        if not phone_number:
+            self._errors['The Phone Number is INVALID'] = self.error_class([
+                'Phone number is required'])
+
+        # check if entered number is numeric and strip any whitespace
+        elif not re.search(numeric, str(phone_number).replace(" ", "")):
+            self._errors['The Phone Number is INVALID'] = self.error_class([
+                'You have entered non-numeric characters in. Please enter digits only'])
+
+        # check if entered phone number matches the length and strip any whitespace
+        elif not re.search(phone_number_length, str(phone_number).replace(" ", "")):
+                self._errors['The Phone Number is INVALID'] = self.error_class([
+                    'Agent phone numbers must be between 7 and 15 numbers'])
+        
+        # return cleaned data
+        return self.cleaned_data
 
 
 # Subscription Choices

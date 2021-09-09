@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from .models import Customer, Subscription, Payment
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CustomUserCreationForm, CustomerForm, SubscriptionForm
 from .utils import has_current_subscription, renew_subscription, save_subscription
 
@@ -87,8 +88,8 @@ def view_account(request):
 
 @login_required(login_url='login')
 def editAccount(request):
-    customer = Customer.objects.get(request.user.profile)
-    form = Customer(instance=customer)
+    customer = Customer.objects.get(user=request.user)
+    form = CustomerForm(instance=customer)
 
     if request.method == 'POST':
         form = Customer(request.POST, request.FILES, instance=customer)
@@ -99,6 +100,30 @@ def editAccount(request):
 
     context = {'form': form}
     return render(request, 'account.html', context)
+
+
+class AccountUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    form_class = CustomerForm
+    
+    model = Customer
+
+    template_name = 'edit-account.html'
+
+    context_object_name = 'account'
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user
+
+    def form_valid(self, form):
+        user = self.request.user
+        data = self.request.POST
+        # check user hasn't been tampered
+        if data.get('user') == str(user.id):
+            return super().form_valid(form)
+        else:
+            form.errors['Input is invalid: '] = "You can not modify your username!"
+            return self.form_invalid(form)
 
 
 @login_required(login_url='login')
