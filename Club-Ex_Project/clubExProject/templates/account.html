@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <div class="container">
     
 
@@ -49,7 +48,10 @@
             </tr>                 
             </tbody>
         </table>
-           
+        <p></p>
+        <div>
+            <a class="waves-effect waves-light blue btn" href="{%url "edit-account" logged_user.id %}">Update Account</a>
+        </div> 
 
         <h4>Your Subscriptions</h4>
         {% if subscriptions.all %}
@@ -66,16 +68,12 @@
                     {% for field in subscriptions %}
                     <tr>
                         <td>{{field.start_date}}</td>
-                        <td>{{field.subscription_choice}}</td>
+                        <td>{{field.get_subscription_choice_display}}</td>
                         <td>{{field.renewal_date}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-
-            <form action='{%url "edit-account"%}'>
-                <input type="submit" class="waves-effect waves-light blue btn" value="Edit Account" />
-            </form>
         
         {% else %}
         <p>You don't have any Subscriptions</p>
@@ -83,5 +81,5 @@
     </p>
    
 </div>
-
+<br>
 {% endblock content %}

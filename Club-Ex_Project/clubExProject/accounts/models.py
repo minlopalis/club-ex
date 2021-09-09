@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 import uuid
 from django.db.models.deletion import CASCADE
 import datetime
+from django.urls import reverse
+
 # Create your models here.
 
 
@@ -24,6 +26,8 @@ class Customer(models.Model):
     def __str__(self):
         return (self.username)
 
+    def get_absolute_url(self):
+        return reverse("view-account")
 
 # Subscription Choices
 SUBSCRIPTION_CHOICES = (
