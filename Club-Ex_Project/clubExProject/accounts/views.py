@@ -84,6 +84,17 @@ def view_account(request):
     return render(request, 'account.html', context)
 
 
+@login_required(login_url='login')
+def contact_us(request):
+    try:
+        customer = Customer.objects.get(user=request.user)
+        context = {'logged_user': customer}
+    except:
+        admin = User.objects.get(username=request.user)
+        context = {'logged_user': admin}
+    return render(request, 'contact-us.html', context)
+
+
 
 
 @login_required(login_url='login')
