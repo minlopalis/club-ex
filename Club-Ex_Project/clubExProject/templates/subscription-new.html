@@ -183,8 +183,8 @@
           </div>
 
           <div class="col s6">
-            <label class="blue-text">Expiry Date</label>
-            <input class="datepicker" type="date" id="expiry-date" min={{start_date}} name="expiry-date" required/>
+            <label class="blue-text">Expiry Date</label><br>
+            <input class="datepicker" type="month" id="expiry-date" min={{start_date}} name="expiry-date" required/>
             <span class="helper-text">Enter the cards expiry date.</span>
           </div>
 
@@ -257,9 +257,7 @@
 
                   break;
               case '4':
-
                   endDate.setDate(endDate.getDate()+365);
-
                   document.getElementById('end-date').value = formatDate(endDate);
 
                   break;
@@ -424,42 +422,6 @@
       return false;
     }
 
-    // Now check the modulus 10 check digit - if required
-    if (cards[cardType].checkdigit) {
-      var checksum = 0; // running checksum total
-      var mychar = ""; // next char to process
-      var j = 1; // takes value of 1 or 2
-
-      // Process each digit one by one starting at the right
-      var calc;
-      for (i = cardNo.length - 1; i >= 0; i--) {
-        // Extract the next digit and multiply by 1 or 2 on alternative digits.
-        calc = Number(cardNo.charAt(i)) * j;
-
-        // If the result is in two digits add 1 to the checksum total
-        if (calc > 9) {
-          checksum = checksum + 1;
-          calc = calc - 10;
-        }
-
-        // Add the units element to the checksum total
-        checksum = checksum + calc;
-
-        // Switch the value of j
-        if (j == 1) {
-          j = 2;
-        } else {
-          j = 1;
-        }
-      }
-
-      // All done - if checksum is divisible by 10, it is a valid modulus 10.
-      // If not, report an error.
-      if (checksum % 10 != 0) {
-        ccErrorNo = 3;
-        return false;
-      }
-    }
 
     // Check it's not a spam number
     if (cardNo == "5490997771092064") {
