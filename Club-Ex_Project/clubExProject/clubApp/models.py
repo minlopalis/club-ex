@@ -30,6 +30,7 @@ class Video(models.Model):
     video_URL = models.URLField(max_length=500)
     video_image_URL=models.URLField(max_length=500)
     video_category = models.ForeignKey(VideoCategory, on_delete=CASCADE, null=False)
+    video_rating = models.IntegerField(default=0)
 
     def __str__(self):
         return self.video_name

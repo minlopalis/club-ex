@@ -10,7 +10,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from .models import Price, Video, VideoCategory, VideoWatchTime
+from .models import Price, Video, VideoCategory, VideoWatchTime, VideoRating
 from accounts.models import Customer
 from accounts.decorators import valid_subscription_required
 import json 
@@ -34,7 +34,7 @@ def view_sandbox(request):
 @login_required(login_url='login')
 @valid_subscription_required
 def viewVideoList(request):
-    
+    current_user = request.user
     query = request.GET.get('search')
     if not query:
         query = "NULL"
@@ -44,11 +44,25 @@ def viewVideoList(request):
         )
 
 
-    
+    customer = Customer.objects.get(user=current_user.id)
     categories = VideoCategory.objects.all()
     videos = Video.objects.all()
+    for video in videos:
+        existing_video_rating = VideoRating.objects.filter(video_id=video, customer_id=customer).values_list('rating').first()
+       
+        if(existing_video_rating):
+            
+            video.video_rating = existing_video_rating[0]
+            video.save()
+        else:
+            video.video_rating = 0
+            video.save()
     
-    context={'videos':videos, 'categories':categories, 'object_list':object_list}
+    updated_videos = Video.objects.all()
+
+    for video in updated_videos:
+        print(video.video_rating)
+    context={'videos':updated_videos, 'categories':categories, 'object_list':object_list}
     
     return render(request, "videolist.html",context)
 
@@ -114,3 +128,33 @@ def update_video_views(request):
         video = Video.objects.get(video_id = video_id)
         print(video)
         return JsonResponse({"views": 1}, status=200)
+
+def update_video_rating(request):
+    current_user = request.user
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+
+        rating = data.get('rating', None)
+        video_id = data.get("selectedVideoId", None)
+
+        video = Video.objects.get(video_id=video_id)
+        customer = Customer.objects.get(user=current_user.id)
+        selected_video = VideoRating.objects.filter(video_id = video, customer_id = customer)
+        if not selected_video:
+            VideoRating.objects.create(video_id = video, customer_id = customer, rating = 0)
+        else:
+            update_video = VideoRating.objects.get(video_id = video, customer_id = customer)
+            update_video.rating = rating
+            video.video_rating = rating
+            update_video.save()
+            video.save()
+   
+        return JsonResponse({},status=200)
+
+def get_video_rating(request,pk):
+    current_user = request.user
+    if request.method == 'GET':
+        video = Video.objects.get(video_id=pk)
+        print()
+    return JsonResponse({"rating": video.video_rating},status=200)

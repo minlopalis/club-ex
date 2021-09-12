@@ -86,3 +86,7 @@ footer.page-footer {
   color: #7c8ef6;
 }
 
+.rating__star {
+  cursor: pointer;
+  color: #dabd18b2;
+}
