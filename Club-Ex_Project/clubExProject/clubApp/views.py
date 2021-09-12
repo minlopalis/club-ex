@@ -34,26 +34,23 @@ def view_sandbox(request):
 @login_required(login_url='login')
 @valid_subscription_required
 def viewVideoList(request):
-    categories = VideoCategory.objects.all()
-    videos = Video.objects.all()
     
-    context={'videos':videos, 'categories':categories}
-    
-    return render(request, "videolist.html",context)
-
-
-# Search Results View
-class SearchResultsView(LoginRequiredMixin, ListView):
-    model = Video
-    template_name = "results.html"
-
-
-    def get_queryset(self):
-        query = self.request.GET.get('search')
+    query = request.GET.get('search')
+    if not query:
+        query = "NULL"
+    if query:
         object_list = Video.objects.filter(
             Q(video_name__icontains=query) | Q(video_description__icontains=query)
         )
-        return object_list
+
+
+    
+    categories = VideoCategory.objects.all()
+    videos = Video.objects.all()
+    
+    context={'videos':videos, 'categories':categories, 'object_list':object_list}
+    
+    return render(request, "videolist.html",context)
 
 
 @login_required(login_url='login')

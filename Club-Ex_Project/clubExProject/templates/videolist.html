@@ -3,8 +3,15 @@
 <link type="text/css" rel="stylesheet" href="{% static 'css/splide-default.min.css' %}" media="screen,projection" />
 {% endblock styles %} {% block content %}
 
+<div style="
+    background: url('/static/img/videos/video2.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+  ">
+
 <div class="container">
-  <form method="GET" action="{% url 'results' %}">
+  <form method="GET" action="{% url 'videolist' %}">
     {% csrf_token %}
 
     <div class="row"></div>
@@ -21,72 +28,104 @@
   </form>
 </div>
 
-<div style="
-    background: url('/static/img/videos/video2.jpeg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    overflow: hidden;
-  ">
-  <div class="overlay">
-    <div class="container">
-      <div class="col selected-video">
-        <div class="row s12 m9"></div>
-        <div class="row s12 m9">
-          <div class="iframe-container">
-            <div id="player"></div>
-          </div>
-        </div>
-        <div class="row s12 m3 white-text right-align">
-          <h3 id="selected-video-title"></h3>
-          <p id="selected-video-total-views"></p>
-          <p id="selected-video-description">
-          </p>
-          <div class="yellow-text accent-2">
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star_half</i>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      {% for c in categories %}
+{% if object_list|length > 0 %}
+  <div class="container">
+    <div id="search_results">
+      <div><h3>Search Results</h3></div>
       <div class="row">
-        <div class="col s-6 white-text">
-          <h3>{{c}}</h3>
-        </div>
-      </div>
-      <div id="image-slider{{for.counter}}" class="splide mt-4">
-        <div class="splide__track">
-          <ul class="splide__list">
-            {% for v in videos %}
-            {% if v.video_category == c %}
-            <li class="splide__slide">
-              <a href="#">
-                <img src="{{v.video_image_URL}}" width="300px" onclick="
-                  updateSelectedVideo(
-                    '{{v.video_name}}', 
-                    '{% get_video_views v %}', 
-                    '{{v.video_URL}}',
-                    '{{v.video_description}}', 
-                    '{{ user.id }}',
-                    '{{v.video_id}}'
-                    )" />
-              </a>
-            </li>
-            {% endif %}
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      {% endfor %}
 
+          <div class='col'>
+              {% for video in object_list %}
+                  <div class="card">
+                      <div class='row'></div>
+                      <div class='row'>
+                          <div class='col s0.5'></div>
+                          <div class='col s11'>
+                              <h5><a href="#player"  onclick="
+                                updateSelectedVideo(
+                                  '{{video.video_name}}', 
+                                  '{% get_video_views video %}', 
+                                  '{{video.video_URL}}',
+                                  '{{video.video_description}}', 
+                                  '{{ user.id }}',
+                                  '{{video.video_id}}'
+                                  )" />{{ video.video_name }}</a></h5>
+                              <h6 class='card-subtitle'>{{ video.videoCategory }}</h6>
+                              <div class='card-text'>{{ video.video_description }}</div>
+                          </div>
+                      </div>
+                      <div class='row'></div>
+                  </div>
+              {% endfor %}
 
-      <div style="margin-top: 3rem"></div>
+          </div>
+
+      </div>
     </div>
+  </div>
+{% endif %}
+
+
+<div class="overlay">
+  <div class="container">
+    <div class="col selected-video">
+      <div class="row s12 m9"></div>
+      <div class="row s12 m9">
+        <div class="iframe-container">
+          <div id="player"></div>
+        </div>
+      </div>
+      <div class="row s12 m3 white-text right-align">
+        <h3 id="selected-video-title"></h3>
+        <p id="selected-video-total-views"></p>
+        <p id="selected-video-description">
+        </p>
+        <div class="yellow-text accent-2">
+          <i class="small material-icons">star</i>
+          <i class="small material-icons">star</i>
+          <i class="small material-icons">star</i>
+          <i class="small material-icons">star</i>
+          <i class="small material-icons">star_half</i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    {% for c in categories %}
+    <div class="row">
+      <div class="col s-6 white-text">
+        <h3>{{c}}</h3>
+      </div>
+    </div>
+    <div id="image-slider{{for.counter}}" class="splide mt-4">
+      <div class="splide__track">
+        <ul class="splide__list">
+          {% for v in videos %}
+          {% if v.video_category == c %}
+          <li class="splide__slide">
+            <a href="#">
+              <img src="{{v.video_image_URL}}" width="300px" onclick="
+                updateSelectedVideo(
+                  '{{v.video_name}}', 
+                  '{% get_video_views v %}', 
+                  '{{v.video_URL}}',
+                  '{{v.video_description}}', 
+                  '{{ user.id }}',
+                  '{{v.video_id}}'
+                  )" />
+            </a>
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endfor %}
+
+
+    <div style="margin-top: 3rem"></div>
+  </div>
 
     {% endblock content %} {% block scripts %}
 
@@ -132,8 +171,8 @@
         const urlParts = url.split("/");
         const youTubeId = urlParts[urlParts.length - 1].split("?v=")[1];
         player = new YT.Player('player', {
-          height: '390',
-          width: '640',
+          height: '600',
+          width: '100%',
           videoId: youTubeId,
           events: {
             'onReady': onPlayerReady,
