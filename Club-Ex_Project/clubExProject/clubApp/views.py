@@ -24,14 +24,6 @@ class IndexView(TemplateView):
     model = Price
 
 
-# Sandbox for testing features
-def view_sandbox(request):
-    video = Video.objects.get(video_id=2)
-    customer = request.user
-    context = {'video': video, 'customer': customer}
-    return render(request, 'sandbox.html', context)
-
-
 @login_required(login_url='login')
 @valid_subscription_required
 def viewVideoList(request):

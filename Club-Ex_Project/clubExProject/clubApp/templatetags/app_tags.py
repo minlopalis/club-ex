@@ -37,6 +37,13 @@ def sum_video_watch_time(video):
     return watch_time
 
 
+## IN DEVELOPMENT
+@register.simple_tag()
+def list_video_category_watch_time():
+    return VideoWatchTime.objects.values('video_id__video_category__video_category').annotate(Sum('total_watch_time'))
+## IN DEVELOPMENT
+
+
 @register.simple_tag()
 def sum_user_video_watch_time(video, user):
     try:

@@ -54,8 +54,32 @@
                 </div>
             </div>
 
+            <br>
+
+            <!-- Group Video Categories and Sum Watch Time -->
+            <h5>Video Category Watch Time</h5>
+            {% list_video_category_watch_time as category_watch_time %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Watch Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for category in category_watch_time %}
+                <tr>
+                <td>{{category.video_id__video_category__video_category}}</td>
+                <td>{{category.total_watch_time__sum}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <br>
+
             <!-- Group Videos and Sum Watch Time -->
-            <h5>Video Total Watch Time</h5>
+            <h5>Total Video Watch Time</h5>
             <table>
                 <thead>
                 <tr>
