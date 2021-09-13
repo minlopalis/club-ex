@@ -193,6 +193,9 @@ def subscription_new(request):
     #subscription_form = SubscriptionForm
     todaysDate = date.today().strftime('%Y-%m-%d')
     endDate = date.today().strftime('%Y-%m')
+
+    print(endDate)
+
     context = {'start_date' : todaysDate, 'end_date': endDate}
     cost = ''
     sub_type = ''
@@ -202,7 +205,7 @@ def subscription_new(request):
 
     if request.method == 'POST':
         did_it_save = save_subscription(request)
-        if did_it_save:
+        if did_it_save and request.POST['expiry-date'] >= endDate:
             return redirect('subscription-success')
         else:
             formIncomplete = "Payment Details were either entered incorrectly or are invalid please try again"
@@ -237,11 +240,10 @@ def edit_subscription(request, pk):
     
     todaysDate = date.today().strftime('%Y-%m-%d')
     endDate = date.today().strftime('%Y-%m')
-    
     cost = 200
     if request.method == 'POST':
         #print(request.POST)
-        if request.POST['expiry-date'] >= todaysDate:
+        if request.POST['expiry-date'] >= endDate:
             did_it_save = renew_subscription(request, subscription_model, payment_model)
             if did_it_save:
                 return redirect('subscription-success')
