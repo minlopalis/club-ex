@@ -55,14 +55,13 @@ def save_subscription(request):
             did_it_save_subscription = True
         except:
             did_it_save_subscription = False
-
         try:
             # Save Payment Data
             payment_record = Payment.objects.create(
                 customer_id = customer, 
                 card_holder = request.POST['cardholder'],
                 number = request.POST['card-number'], 
-                expiry = request.POST['expiry-date'],
+                expiry = request.POST['expiry-date']+'-01',
                 cvv = request.POST['cvv'], 
                 payment_amount = cost
             )
@@ -117,7 +116,7 @@ def renew_subscription(request, subscription_obj, payment_obj):
             # Save Updated Payment Data
             payment_obj.card_holder = request.POST['cardholder']
             payment_obj.number = request.POST['card-number'] 
-            payment_obj.expiry = request.POST['expiry-date']
+            payment_obj.expiry = request.POST['expiry-date']+'-01'
             payment_obj.cvv = request.POST['cvv']
             payment_obj.payment_amount = cost
             payment_obj.save()

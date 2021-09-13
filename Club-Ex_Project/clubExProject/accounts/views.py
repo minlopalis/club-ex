@@ -192,9 +192,8 @@ def subscription_new(request):
 
     #subscription_form = SubscriptionForm
     todaysDate = date.today().strftime('%Y-%m-%d')
-    endDate = date.today().strftime('%Y-%m-%d')
+    endDate = date.today().strftime('%Y-%m')
     context = {'start_date' : todaysDate, 'end_date': endDate}
-
     cost = ''
     sub_type = ''
     renewal = date.today()
@@ -237,10 +236,9 @@ def edit_subscription(request, pk):
         return redirect('subscription-new')
     
     todaysDate = date.today().strftime('%Y-%m-%d')
-    endDate = date.today().strftime('%Y-%m-%d')
+    endDate = date.today().strftime('%Y-%m')
     
     cost = 200
-    print(subscription_model)
     if request.method == 'POST':
         #print(request.POST)
         if request.POST['expiry-date'] >= todaysDate:

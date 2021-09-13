@@ -138,7 +138,7 @@
                 id="end-date"
                 type="date"
                 class="blue-text"
-                value="{{end_date}}"
+                value="{{start_date}}"
                 readonly
               />
             </div>
@@ -184,7 +184,7 @@
 
           <div class="col s6">
             <label class="blue-text">Expiry Date</label><br>
-            <input class="datepicker" type="date" id="expiry-date" min={{start_date}} name="expiry-date" required/>
+            <input class="datepicker" type="month" id="expiry-date" min={{end_date}} name="expiry-date" required/>
             <span class="helper-text">Enter the cards expiry date.</span>
           </div>
 
@@ -304,8 +304,6 @@
       submit_button.disabled = true
     }
   }
-
-
   /*
   This has been retrieved from : https://www.braemoor.co.uk/software/creditcard.shtml
   This routine checks the credit card number. The following checks are made:
