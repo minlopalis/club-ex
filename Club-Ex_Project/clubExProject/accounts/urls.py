@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('subscription/new/', views.subscription_new, name="subscription-new"),
     path('subscription/success/', views.subscription_success, name="subscription-success"),
-    path('edit-subscription/<str:pk>', views.edit_subscription, name="renew-subscription")
+    path('edit-subscription/<str:pk>', views.edit_subscription, name="renew-subscription"),
+    path('subscription/cancel/', views.cancel_subscription, name="cancel-subscription")
 ]
 

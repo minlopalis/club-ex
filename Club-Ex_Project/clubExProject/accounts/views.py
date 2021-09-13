@@ -78,7 +78,7 @@ def registerUser(request):
 def view_account(request):
     try:
         customer = Customer.objects.get(user=request.user)
-        subscriptions = Subscription.objects.filter(customer_id=customer)
+        subscriptions = Subscription.objects.filter(customer_id=customer).order_by('-renewal_date')
         context = {'logged_user': customer, 'subscriptions': subscriptions}
     except:
         admin = User.objects.get(username=request.user)
@@ -217,7 +217,9 @@ def subscription_new(request):
 @login_required(login_url='login')
 def subscription_success(request):
     customer = Customer.objects.get(user=request.user)
-    subscription = Subscription.objects.get(customer_id=customer.id, start_date=datetime.today())
+    subscriptions = Subscription.objects.filter(customer_id=customer.id, start_date=date.today())
+    subscription = Subscription.objects.get(subscription_id=subscriptions[0].subscription_id)
+
     form = SubscriptionForm(instance=subscription)
     return render(request, 'subscription-success.html', {'form': form, 'customer': customer})
 
@@ -257,3 +259,14 @@ def edit_subscription(request, pk):
     context = { 'start_date' : todaysDate, 'end_date': endDate, 'cost': cost}
     return render(request, 'subscription-new.html', context)
 
+
+def cancel_subscription(request):
+    try:
+        customer = Customer.objects.get(user=request.user)
+        subscription = Subscription.objects.filter(customer_id=customer.id, renewal_date__gt=datetime.today())
+        subscription_update = Subscription.objects.get(subscription_id=subscription[0].subscription_id)
+        subscription_update.renewal_date = date.today()
+        subscription_update.save()
+    except:
+        return redirect('view-account')
+    return redirect('view-account')

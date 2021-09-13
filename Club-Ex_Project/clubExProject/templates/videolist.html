@@ -85,9 +85,9 @@
           <p>
           {% is_user_customer user as is_customer%}
           {% if is_customer %}
-            <span id="selected-video-user-watch-time">Your Watch Time: </span> | 
+            <span id="selected-video-user-watch-time"></span> 
           {% endif %}
-          <span id="selected-video-total-watch-time">Global Watch Time: </span>
+          <span id="selected-video-total-watch-time"></span>
           </p>
           <p id="selected-video-description">
           </p>
@@ -207,7 +207,7 @@
           `Total Views: ${views}`
         );
         $('#selected-video-user-watch-time').text(
-          `Your Watch Time: ${userWatchTime} mins`
+          `Your Watch Time: ${userWatchTime} mins | `
         );
         $('#selected-video-total-watch-time').text(
           `Global Watch Time: ${globalWatchTime} mins`

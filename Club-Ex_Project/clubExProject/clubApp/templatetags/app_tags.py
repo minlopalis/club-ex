@@ -1,6 +1,8 @@
 from django import template
+from datetime import date
 from ..models import Video, VideoWatchTime, VideoRating
 from ..models import Customer
+from accounts.models import Subscription
 from django.db.models import Sum
 
 register = template.Library()
@@ -37,11 +39,9 @@ def sum_video_watch_time(video):
     return watch_time
 
 
-## IN DEVELOPMENT
 @register.simple_tag()
 def list_video_category_watch_time():
     return VideoWatchTime.objects.values('video_id__video_category__video_category').annotate(Sum('total_watch_time'))
-## IN DEVELOPMENT
 
 
 @register.simple_tag()
@@ -65,3 +65,23 @@ def is_user_customer(user):
 @register.simple_tag()
 def count_customers():
     return Customer.objects.count()
+
+
+@register.simple_tag()
+def count_valid_user_subscriptions(user):
+    try:
+        return Subscription.objects.filter(customer_id=user.customer.id, renewal_date__gte=date.today()).count()
+    except:
+        return 0
+    
+
+
+@register.simple_tag()
+def get_valid_user_subscription(user):
+    try:
+        valid_subscription = Subscription.objects.filter(customer_id=user.customer.id, renewal_date__gte=date.today()).order_by('renewal_date')
+        last_subscription = Subscription.objects.filter(customer_id=user.customer.id, renewal_date__gte=date.today()).order_by('renewal_date').count()
+        subscription = valid_subscription[last_subscription-1]
+    except: 
+        subscription = None
+    return subscription
