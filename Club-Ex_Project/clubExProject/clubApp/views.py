@@ -26,8 +26,9 @@ class IndexView(TemplateView):
 
 # Sandbox for testing features
 def view_sandbox(request):
-    video = Video.objects.get(video_id=1)
-    context = {'video': video}
+    video = Video.objects.get(video_id=2)
+    customer = request.user
+    context = {'video': video, 'customer': customer}
     return render(request, 'sandbox.html', context)
 
 
@@ -43,8 +44,10 @@ def viewVideoList(request):
             Q(video_name__icontains=query) | Q(video_description__icontains=query)
         )
 
-
-    customer = Customer.objects.get(user=current_user.id)
+    try:
+        customer = Customer.objects.get(user=current_user.id)
+    except:
+        customer = None
     categories = VideoCategory.objects.all()
     videos = Video.objects.all()
     for video in videos:

@@ -82,6 +82,13 @@
         <div class="row s12 m3 white-text right-align">
           <h3 id="selected-video-title"></h3>
           <p id="selected-video-total-views"></p>
+          <p>
+          {% is_user_customer user as is_customer%}
+          {% if is_customer %}
+            <span id="selected-video-user-watch-time">Your Watch Time: </span> | 
+          {% endif %}
+          <span id="selected-video-total-watch-time">Global Watch Time: </span>
+          </p>
           <p id="selected-video-description">
           </p>
           <div id="rating" class="yellow-text accent-2">
@@ -103,6 +110,8 @@
           <ul class="splide__list">
             {% for v in videos %}
             {% if v.video_category == c %}
+            {% sum_user_video_watch_time v user as user_watchtime %}
+            {% sum_video_watch_time v as global_watch_time %}
             <li class="splide__slide">
               <a href="#">
                 <img src="{{v.video_image_URL}}" width="300px" onclick="
@@ -113,7 +122,9 @@
                   '{{v.video_description}}', 
                   '{{ user.id }}',
                   '{{v.video_id}}',
-                  '{{v.video_rating}}'
+                  '{{v.video_rating}}',
+                  '{{user_watchtime|default_if_none:"0"}}',
+                  '{{global_watch_time|default_if_none:"0"}}'
                   )" />
               </a>
             </li>
@@ -165,7 +176,7 @@
 
 
 
-      const updateSelectedVideo = (title, views, url, description, userId, videoDbId, rating) => {
+      const updateSelectedVideo = (title, views, url, description, userId, videoDbId, rating, userWatchTime, globalWatchTime) => {
 
 
 
@@ -194,6 +205,12 @@
 
         $('#selected-video-total-views').text(
           `Total Views: ${views}`
+        );
+        $('#selected-video-user-watch-time').text(
+          `Your Watch Time: ${userWatchTime} mins`
+        );
+        $('#selected-video-total-watch-time').text(
+          `Global Watch Time: ${globalWatchTime} mins`
         );
 
         getRating(videoDbId)

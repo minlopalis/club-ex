@@ -2,7 +2,63 @@
 {% load app_tags %}
 
 <h1>Sandbox</h1>
+<p>Logged In As: {{user.username}}</p>
+<p>Your Customer ID: {{user.customer.id}}</p>
+<br>
+<p>{{video.video_name}} has {{views}} views</p>
 
-  <p>{{video.video_name}} has {{views}} views</p>
+<p>Video Views: {% get_video_views video %}</p>
+<p>Total Watch Time: {% sum_all_watch_time %}</p>
+<p>Video Watch Time: {% sum_video_watch_time video %}</p>
 
-  {% get_video_views video %}
+
+
+<h2>Video Watch Time (All)</h2>
+{% list_watch_time_all_videos as videos %}
+<table>
+    <thead>
+    <tr>
+        <th>Video Id</th>
+        <th>Video Title</th>
+        <th>Category</th>
+        <th>Total Watch Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for video in videos %}
+    <tr>
+        <td>{{video.video_id}}</td>
+        <td><a href="">{{video.video_name}}</a></td>
+        <td>{{video.video_category}}</td>
+        <td>{{video.watch_time|default_if_none:"0"}} minutes</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<br>
+<h2>Video Watch Time By Current User</h2>
+<table>
+  <thead>
+  <tr>
+      <th>Video Id</th>
+      <th>Video Title</th>
+      <th>Category</th>
+      <th>Watch Time</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for video in videos %}
+    {% sum_user_video_watch_time video user as user_video_watch_time %}
+    {% if user_video_watch_time != 0 %}
+    <tr> 
+      <td>{{video.video_id}}</td>
+      <td>{{video.video_name}}</td>
+      <td>{{video.video_category}}</td>
+      <td>{{user_video_watch_time}}</td>
+    </tr>
+    {% endif %}
+  {% endfor %}
+  </tbody>
+</table>
