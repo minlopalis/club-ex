@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import uuid
 from django.db.models.deletion import CASCADE
 import datetime
+from datetime import date
 from django.urls import reverse
 
 # Create your models here.
@@ -45,6 +46,14 @@ class Subscription(models.Model):
     start_date = models.DateField(default=datetime.date.today)
     customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
     created_date = models.DateField(default=datetime.date.today)
+
+    @property
+    def is_expired(self):
+        return date.today() > self.renewal_date
+
+    @property
+    def expires_today(self):
+        return date.today() == self.renewal_date
 
     def __str__(self):
         return str(self.subscription_choice)

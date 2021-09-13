@@ -138,16 +138,15 @@
                                 <td>{{field.get_subscription_choice_display}}</td>
                                 <td>{{field.renewal_date}}</td>
                                 <td>
-                                    
-                                    {% if date < field.renewal_date|date:"M, j, Y" %}
-                                        <p class="green-text text-darken-4"><strong>Current</strong></p>
+                                {% if field.is_expired %}
+                                    <p>Subscription Expired</p>
+                                {% else %}
+                                    {% if field.expires_today %}
+                                        <p class="red-text text-darken-4"><strong>Expires Today</strong></p>
                                     {% else %}
-                                        {% if date == field.renewal_date|date:"M, j, Y" %}
-                                            <p class="red-text text-darken-4"><strong>Expires Today</strong></p>
-                                        {% else %}
-                                            <p>Expired</p>
-                                        {% endif %} 
-                                    {% endif %}
+                                        <p class="green-text text-darken-4"><strong>Current</strong></p>
+                                    {% endif %}  
+                                {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
