@@ -1,3 +1,9 @@
+[type='checkbox'].leaflet-control-layers-selector {
+  position: static !important;
+  left: 0px !important;
+  opacity: 1 !important;
+}
+
 nav ul a,
 nav .brand-logo {
   color: #444;
@@ -5,6 +11,13 @@ nav .brand-logo {
 
 p {
   line-height: 2rem;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+  height: 100%;
+  z-index: 2;
 }
 
 .text-black {
@@ -71,4 +84,9 @@ footer.page-footer {
   .card-action
   a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):hover {
   color: #7c8ef6;
+}
+
+.rating__star {
+  cursor: pointer;
+  color: #dabd18b2;
 }

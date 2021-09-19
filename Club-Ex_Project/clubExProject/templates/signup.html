@@ -1,28 +1,69 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
+
   <div class="row">
-    <div class="col s12"><h2 class="blue-text">Sign Up</h2></div>
+    <div class="col s12">
+      <h2 class="blue-text">Sign Up</h2>
+    </div>
   </div>
   <div class="row">
 
-    <form class="col s12" method='POST'>
+    <form class="col s12" method='POST' novalidate>
     {% csrf_token %}
+
       <div class="row">
-
-        {% for field in form %}
-        <div class="input-field col s12">
-          {% comment %} <input id="name" type="text" class="blue-text" /> {% endcomment %}
-          {{field}}
-          <label for="name">{{field.label}}</label>
+      <h5 class="blue-text">Personal Information</h5>
+        <div class="input-field col s12 l6">
+            {{form.first_name}}
+            <label for="{{ form.first_name.id_for_label }}" class="blue-text">{{form.first_name.label}}</label>
+            <span style="color: red; font-weight: 600;">{{form.first_name.errors}}</span>
+            <span class="helper-text">{{form.first_name.help_text}}</span>
         </div>
-        {% endfor %}
-
+        <div class="input-field col s12 l6">
+            {{form.last_name}}
+            <label for="{{ form.last_name.id_for_label }}" class="blue-text">{{form.last_name.label}}</label>
+            <span style="color: red; font-weight: 600;">{{form.last_name.errors}}</span>
+            <span class="helper-text">{{form.last_name.help_text}}</span>
+        </div>
+        <div class="input-field col s12">
+            <label for="{{ form.email.id_for_label }}" class="blue-text">{{form.email.label}}</label>
+          {{form.email}}
+            <span class="helper-text">{{form.email.help_text}}</span>
+            <span style="color: red; font-weight: 600;">{{form.email.errors}}</span>
+        </div>
       </div>
+
+      <br>
+
+      <div class="row">
+        <h5 class="blue-text">Create Login Information</h5>
+        <div class="input-field col s12 l7">
+            <label for="{{ form.username.id_for_label }}" class="blue-text">{{form.username.label}}</label>
+          {{form.username}}
+            <span class="helper-text">{{form.username.help_text}}</span>
+            <span style="color: red; font-weight: 600;">{{form.username.errors}}</span>
+        </div>
+
+        <div class="input-field col s12 l7">
+            <label for="{{ form.password1.id_for_label }}" class="blue-text">{{form.password1.label}}</label>
+          {{form.password1}}
+            <span class="helper-text">{{form.password1.help_text}}</span>
+            <span style="color: red; font-weight: 600;">{{form.password1.errors}}</span>
+        </div>
+      
+        <div class="input-field col s12 l7">
+            <label for="{{ form.password2.id_for_label }}" class="blue-text">{{form.password2.label}}</label>
+          {{form.password2}}
+            <span class="helper-text">{{form.password2.help_text}}</span>
+            <span style="color: red; font-weight: 600;">{{form.password2.errors}}</span>
+        </div>
+      </div>
+
 
       <div class="row">
         <div class="col s12">
           <button type="submit" class="waves-effect waves-light blue btn"  value="Register User">
-            Submit
+            Continue
           </button>
         </div>
       </div>

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+<div class="container">
+<h1>Renew Subscription</h1>
+<form class="col s12" method='POST'>
+    {% csrf_token %}
+      <div class="row">
+
+        <div class="input-field col s12">
+          {% comment %} <input id="name" type="text" class="blue-text" /> {% endcomment %}
+            {{ form.autorecurring_choice.label }}
+            {{ form.autorecurring_choice }}
+            <p class="helper-text">{{field.errors}}</p>
+            <label for="name class=red-text">{{field.label}}</label>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="input-field col s12">
+          {% comment %} <input id="name" type="text" class="blue-text" /> {% endcomment %}
+            {{ form.subscritpion_choice.label }}
+            {{ form.subscritpion_choice }}
+            <p class="helper-text">{{field.errors}}</p>
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12 l6">
+        {{ form.start_date.label }}
+          <input id="start-date" type="date" class="blue-text" value="{{start_date}}" readonly/> 
+            
+            <p class="helper-text">{{field.errors}}</p>
+            <label for="name class=red-text">{{field.label}}</label>
+          
+        </div>
+
+        <div class="input-field col s12 l6">
+        {{ form.renewal_date.label }}
+        <input id="end-date" type="date" class="blue-text" value="{{end_date}}" readonly/>
+            <p class="helper-text">{{field.errors}}</p>
+            <label for="name class=red-text">{{field.label}}</label>
+          
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+        {{ form.cost.label }}
+        <input id="cost" type="text" class="blue-text" value="$ {{cost}}" readonly/>
+            <p class="helper-text">{{field.errors}}</p>
+            <label for="cost class=red-text">{{field.label}}</label>
+        </div>
+      </div>
+
+      <h5 class="blue-text">Enter Payment Details</h5>
+      <br>
+
+      <div class="input-field col s12">
+          <input placeholder="" id="card-number" type="text" class="validate">
+          <label for="card-number" class="blue-text">Credit Card Number</label>
+      </div>
+
+      <div class="input-field col s12">
+          <input placeholder="Enter Cardholder Name" id="cardholder" type="text" class="validate">
+          <label for="cardholder" class="blue-text">Cardholder Name</label>
+      </div>                
+
+      <div class="col s6">
+          <label class="blue-text">Expiry Date</label>
+          <input type="text" class="datepicker">
+      </div>
+
+      <div class="input-field col s6">
+          <input placeholder="" id="cvv" type="text" class="validate">
+          <label for="cvv" class="blue-text">CVV</label>
+      </div> 
+
+
+      <div class="row">
+        <div class="col s12">
+          <button type="submit" class="waves-effect waves-light blue btn"  value="Register User">
+            Make Payment
+          </button>
+        </div>
+      </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    
+    
+    var cost_gym_month = 20;
+    var cost_gym_year = 200;
+    var cost_online_month = 10;
+    var cost_online_year = 100;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+
+        var endDate = new Date();
+        endDate.setDate(endDate.getDate()+365);
+        console.log((endDate));
+        document.getElementById('end-date').value = formatDate(endDate);
+    });
+
+    $("#subscription-choices").on('change', function() {
+        console.log((this.value));
+        
+        var endDate = new Date();
+        switch (this.value){
+            case 'MONTHLY_GYM':
+                console.log((cost_gym_month));
+                console.log((startDate));
+                endDate.setDate(endDate.getDate()+30);
+                console.log((endDate));
+                document.getElementById('end-date').value = formatDate(endDate);
+                document.getElementById('cost').value = `$ ` +  cost_gym_month;
+                break;
+            case 'ANNUAL_GYM':
+                console.log((cost_gym_year));
+                endDate.setDate(endDate.getDate()+365);
+                console.log((endDate));
+                document.getElementById('end-date').value = formatDate(endDate);
+                document.getElementById('cost').value = `$ ` +  cost_gym_year;
+                break;
+            case 'MONTHLY_ONLINE':
+                console.log((cost_online_month));
+                endDate.setDate(endDate.getDate()+30);
+                console.log((endDate));
+                document.getElementById('end-date').value = formatDate(endDate);
+                document.getElementById('cost').value = `$ ` +  cost_online_month;
+                break;
+            case 'ANNUAL_ONLINE':
+                console.log((cost_online_year));
+                endDate.setDate(endDate.getDate()+365);
+                console.log((endDate));
+                document.getElementById('end-date').value = formatDate(endDate);
+                document.getElementById('cost').value = `$ ` +  cost_online_year;
+                break;
+        }
+    });
+
+    function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    console.log(([year, month, day].join('-')));
+    return [year, month, day].join('-');
+}
+
+
+</script>
+{% endblock scripts %}
+

@@ -1,147 +1,344 @@
-{% extends 'base.html' %} {% load static %} {% block styles %}
-<link
-  type="text/css"
-  rel="stylesheet"
-  href="{% static 'css/video-slider.css' %}"
-  media="screen,projection"
-/>
+{% extends 'base.html' %} {% load static %} {% load app_tags %} {% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/splide.min.css' %}" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="{% static 'css/splide-default.min.css' %}" media="screen,projection" />
 {% endblock styles %} {% block content %}
 
-<div class="container">
-  <form method="GET" action="{% url 'results' %}">
-
-    {% csrf_token %}
-
-    <div class="row"></div>
-    <div class="row">
-      <div class="col s4"></div>
-      <div class="col s4">
-        <input class="form-control me-2" type="search" placeholder="Search Videos" aria-label="Search" name="search">
-      </div>
-      <div class="col s4">
-        <button class="btn btn-outline-secondary" type="submit">Search</button>
-      </div>
-    </div>
-    <div class="row"></div>
-  </form>
-</div>
-
-<div
-  style="
+<div style="
     background: url('/static/img/videos/video2.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
-  "
->
+  ">
+
+  <div class="container">
+    <form method="GET" action="{% url 'videolist' %}">
+      {% csrf_token %}
+
+      <div class="row"></div>
+      <div class="row">
+        <div class="col s4"></div>
+        <div class="col s4">
+          <input class="form-control me-2" type="search" placeholder="Search Videos" aria-label="Search"
+            name="search" />
+        </div>
+        <div class="col s4">
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+      </div>
+      <div class="row"></div>
+    </form>
+  </div>
+
+  {% if object_list|length > 0 %}
+  <div class="container">
+    <div id="search_results">
+      <div>
+        <h3>Search Results</h3>
+      </div>
+      <div class="row">
+
+        <div class='col'>
+          {% for video in object_list %}
+          <div class="card">
+            <div class='row'></div>
+            <div class='row'>
+              <div class='col s0.5'></div>
+              <div class='col s11'>
+                <h5><a href="#player" onclick="
+                                updateSelectedVideo(
+                                  '{{video.video_name}}', 
+                                  '{% get_video_views video %}', 
+                                  '{{video.video_URL}}',
+                                  '{{video.video_description}}', 
+                                  '{{ user.id }}',
+                                  '{{video.video_id}}',
+                                  '{{video.video_rating}}'
+                                  )">{{ video.video_name }}</a></h5>
+                <h6 class='card-subtitle'>{{ video.videoCategory }}</h6>
+                <div class='card-text'>{{ video.video_description }}</div>
+              </div>
+            </div>
+            <div class='row'></div>
+          </div>
+          {% endfor %}
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
   <div class="overlay">
     <div class="container">
-      <div class="row">
-        <div class="col s12 m9">
+      <div class="col selected-video">
+        <div class="row s12 m9"></div>
+        <div class="row s12 m9">
           <div class="iframe-container">
-            <iframe
-              class="responsive-iframe"
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/EeF47sA_o28"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+            <div id="player"></div>
           </div>
         </div>
-        <div class="col s12 m3 white-text right-align">
-          <h3>AT HOME CARDIO Workout</h3>
+        <div class="row s12 m3 white-text right-align">
+          <h3 id="selected-video-title"></h3>
+          <p id="selected-video-total-views"></p>
           <p>
-            Get ready for this serious sweat sesh. We're running through 15 of
-            my favorite body weight cardio exercises today - with the exception
-            of the jump rope which you can just pretend to do if you don't have
-            one! Workout from home or the gym and get that cardio workout done!
-            Woot Woot!
+          {% is_user_customer user as is_customer%}
+          {% if is_customer %}
+            <span id="selected-video-user-watch-time"></span> 
+          {% endif %}
+          <span id="selected-video-total-watch-time"></span>
           </p>
-          <div class="yellow-text accent-2">
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star</i>
-            <i class="small material-icons">star_half</i>
+          <p id="selected-video-description">
+          </p>
+          <div id="rating" class="yellow-text accent-2">
+
           </div>
         </div>
       </div>
     </div>
 
-    <div class="app">
-      <ul class="hs full">
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item">
-          <div class="row">
-            <div class="col s12">
-              <div class="card">
-                <div class="card-image">
-                  <img src="{% static 'img/videos/video1.jpeg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
+    <div class="container">
+      {% for c in categories %}
+      <div class="row">
+        <div class="col s-6 white-text">
+          <h3>{{c}}</h3>
+        </div>
+      </div>
+      <div id="image-slider{{for.counter}}" class="splide mt-4">
+        <div class="splide__track">
+          <ul class="splide__list">
+            {% for v in videos %}
+            {% if v.video_category == c %}
+            {% sum_user_video_watch_time v user as user_watchtime %}
+            {% sum_video_watch_time v as global_watch_time %}
+            <li class="splide__slide">
+              <a href="#">
+                <img src="{{v.video_image_URL}}" width="300px" onclick="
+                updateSelectedVideo(
+                  '{{v.video_name}}', 
+                  '{% get_video_views v %}', 
+                  '{{v.video_URL}}',
+                  '{{v.video_description}}', 
+                  '{{ user.id }}',
+                  '{{v.video_id}}',
+                  '{{v.video_rating}}',
+                  '{{user_watchtime|default_if_none:"0"}}',
+                  '{{global_watch_time|default_if_none:"0"}}'
+                  )" />
+              </a>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+
+
+      <div style="margin-top: 3rem"></div>
     </div>
+
+    {% endblock content %} {% block scripts %}
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+
+    <script>
+
+      let player = null;
+      let selectedVideoId;
+      let currentUserId
+
+
+      document.addEventListener("DOMContentLoaded", function () {
+        global_carousel__ctrl();
+      });
+
+      function global_carousel__ctrl() {
+        var elms = document.getElementsByClassName("splide");
+        for (var i = 0; i < elms.length; i++) {
+          new Splide(elms[i], {
+            type: 'loop',
+            pagination: false,
+            autoWidth: true,
+            gap: 25,
+            perPage: 2,
+            perMove: 1,
+            focus: 'center',
+            padding: {
+              right: '5rem',
+              left: '5rem',
+            },
+          }).mount();
+        }
+      }
+
+
+
+      const updateSelectedVideo = (title, views, url, description, userId, videoDbId, rating, userWatchTime, globalWatchTime) => {
+
+
+
+        currentUserId = userId
+        selectedVideoId = videoDbId;
+        // addView();
+        if (player) player.destroy();
+        const urlParts = url.split("/");
+        const youTubeId = urlParts[urlParts.length - 1].split("?v=")[1];
+        player = new YT.Player('player', {
+          height: '600',
+          width: '100%',
+          videoId: youTubeId,
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+
+        $('#selected-video-title').text(
+          title
+        );
+        $('#selected-video-description').text(
+          description
+        );
+
+        $('#selected-video-total-views').text(
+          `Total Views: ${views}`
+        );
+        $('#selected-video-user-watch-time').text(
+          `Your Watch Time: ${userWatchTime} mins | `
+        );
+        $('#selected-video-total-watch-time').text(
+          `Global Watch Time: ${globalWatchTime} mins`
+        );
+
+        getRating(videoDbId)
+      };
+
+
+      async function getRating(videoDbId) {
+        const { body: { rating } } = await sendHttpAsync(`/ajax/get_video_rating/${videoDbId}`, "GET");
+        console.log(`rating`, rating)
+
+        let stars = [];
+        for (let i = 0; i < 5; i++) {
+          if (i < rating) {
+            stars.push("star")
+          } else {
+            stars.push("star_outline")
+          }
+        }
+
+        let ratingHtml = ""
+        stars.forEach((star, index) => {
+          ratingHtml += `<i onclick="executeRating(${index + 1})" class="rating__star small material-icons">${star}</i>`
+        })
+
+        $('#rating').html(ratingHtml)
+      }
+
+      function executeRating(rating) {
+        sendHttpAsync("/ajax/update_video_rating/", "POST", { rating, selectedVideoId });
+        let stars = [];
+        for (let i = 0; i < 5; i++) {
+          if (i < rating) {
+            stars.push("star")
+          } else {
+            stars.push("star_outline")
+          }
+        }
+
+        let ratingHtml = ""
+        stars.forEach((star, index) => {
+          ratingHtml += `<i onclick="executeRating(${index + 1})" class="rating__star small material-icons">${star}</i>`
+        })
+
+        $('#rating').html(ratingHtml)
+      }
+
+
+
+      // function addView() {
+
+      //   let views = sendHttpAsync("/ajax/update_video_rating/", "POST", { selectedVideoId: +selectedVideoId });
+
+      //   $('#selected-video-total-views').text(
+      //     `Total Views: ${views}`
+      //   )
+      // }
+
+
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+
+      var timer;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING) {
+          //player play
+          timer = setInterval(
+            function () {
+              sendHttpAsync("/ajax/update_video_watch_time/", "POST", { seconds: 1, currentUserId: +currentUserId, selectedVideoId: +selectedVideoId });
+            }, 1000
+          );
+        } else {
+          //player pause
+          clearInterval(timer);
+        }
+      }
+
+      function stopVideo() {
+        player.stopVideo();
+      }
+
+
+      function sendHttpAsync(path, method, body = null) {
+        let props = {
+          method: method,
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+          },
+          mode: "same-origin",
+        }
+
+        if (body !== null && body !== undefined) {
+          props.body = JSON.stringify(body);
+        }
+
+        return fetch(path, props)
+          .then(response => {
+            return response.json()
+              .then(result => {
+                return {
+                  ok: response.ok,
+                  body: result
+                }
+              });
+          })
+          .catch(error => {
+            throw error;
+          });
+      }
+
+
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    </script>
+    {% endblock scripts %}
   </div>
 </div>
-
-{% endblock content %} {% block scripts %} {% endblock scripts %}

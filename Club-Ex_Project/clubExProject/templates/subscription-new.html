@@ -1,0 +1,471 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="col s12">
+    <div class="row">
+      <div class="col s12">
+        <h3 class="blue-text">New Subscription</h3>
+        <h2>{{FormIncomplete}}</h2>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <h5 class="blue-text">Select Subscription</h5>
+          <p>
+            Subscriptions will automatically be charged to your chosen card.
+          </p>
+          <div class="row">
+            <!-- Column 1-->
+            <div class="col s12 m6 l3">
+              <div class="card blue lighten-5">
+                <div class="card-content">
+                  <span class="card-title">$10 Monthly</span>
+                  <h6>Online Access</h6>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Modi libero veniam atque illo. Ab, modi nisi.
+                  </p>
+                </div>
+                <div class="card-action">
+                  <br />
+                  <label>
+                    <input
+                      name="sub-select"
+                      type="radio"
+                      checked
+                      class="blue lighten-5"
+                      value="1"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2-->
+            <div class="col s12 m6 l3">
+              <div class="card blue lighten-5">
+                <div class="card-content">
+                  <span class="card-title black-text">$100 Annual</span>
+                  <h6>Online Access</h6>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Modi libero veniam atque illo. Ab, modi nisi.
+                  </p>
+                </div>
+                <div class="card-action">
+                  <br />
+                  <label>
+                    <input
+                      name="sub-select"
+                      type="radio"
+                      class="blue lighten-5"
+                      value="2"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3-->
+            <div class="col s12 m6 l3">
+              <div class="card blue lighten-5">
+                <div class="card-content">
+                  <span class="card-title black-text">$20 Monthly</span>
+                  <h6>Gym Access</h6>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Modi libero veniam atque illo. Ab, modi nisi.
+                  </p>
+                </div>
+                <div class="card-action">
+                  <br />
+                  <label>
+                    <input
+                      name="sub-select"
+                      type="radio"
+                      class="blue lighten-5"
+                      value="3"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 4-->
+            <div class="col s12 m6 l3">
+              <div class="card blue lighten-5">
+                <div class="card-content">
+                  <span class="card-title black-text">$200 Annual</span>
+                  <h6>Gym Access</h6>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Modi libero veniam atque illo. Ab, modi nisi.
+                  </p>
+                </div>
+                <div class="card-action">
+                  <br />
+                  <label>
+                    <input
+                      name="sub-select"
+                      type="radio"
+                      class="blue lighten-5"
+                      value="4"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <div class="row">
+            <div class="input-field col s12 l6">
+              <label>Start Date</label>
+              <input
+                id="start-date"
+                type="date"
+                class="blue-text"
+                value="{{start_date}}"
+                readonly
+              />
+            </div>
+
+            <div class="input-field col s12 l6">
+              <label for="">Expiry Date</label>
+              <input
+                id="end-date"
+                type="date"
+                class="blue-text"
+                value="{{start_date}}"
+                readonly
+              />
+            </div>
+          </div>
+          <h5 class="blue-text">Payment Details</h5>
+          <br />
+          <div name="card-type" class="input-field col s12">
+            <select tabindex="11" id="CardType">
+              <option value="AmEx">American Express</option>
+              <option value="MasterCard">MasterCard</option>
+              <option value="Visa">Visa</option>
+            </select>
+            <label for="card-type" class="blue-text"
+              >Credit Card Type</label
+            >
+          </div>
+          <div class="input-field col s12">
+            <input
+              name="card-number"
+              placeholder=""
+              id="card-number"
+              type="text"
+              class="validate"
+              required
+            />
+            <span class="helper-text" data-error="This is not a valid card" id="card-no-error" data-success="This is a valid card number"></span>
+            <label for="card-number" class="blue-text"
+              >Credit Card Number</label
+            >
+          </div>
+
+          <div class="input-field col s12">
+            <input
+              name="cardholder"
+              placeholder="Enter Cardholder Name"
+              id="cardholder"
+              type="text"
+              class="validate"
+              required
+            />
+            <label for="cardholder" class="blue-text">Cardholder Name</label>
+          </div>
+
+          <div class="col s6">
+            <label class="blue-text">Expiry Date</label><br>
+            <input class="datepicker" type="month" id="expiry-date" min={{end_date}} name="expiry-date" required/>
+            <span class="helper-text">Enter the cards expiry date.</span>
+          </div>
+
+          <div class="input-field col s6">
+            <input
+              name="cvv"
+              placeholder=""
+              id="cvv"
+              type="text"
+              class="validate"
+              maxlength="5"
+              pattern="[0-9]+"
+              required
+            />
+            <span class="helper-text">This is the number on the back of your card you are using.</span>
+            <label for="cvv" class="blue-text">CVV</label>
+          </div>
+          <br /><br />
+          <button
+            id="submit_button"
+            type="submit"
+            class="waves-effect waves-light btn"
+            onclick="testCreditCard();"
+          >
+            Purchase Subscription
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var elems = document.querySelectorAll("select");
+    var instances = M.FormSelect.init(elems);
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    var elems = document.querySelectorAll(".expiry-date");
+    var instances = M.Datepicker.init(elems, (defaultDate = new Date()));
+  });
+</script>
+
+<script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+          var endDate = new Date();
+          endDate.setDate(endDate.getDate()+30);
+          console.log((endDate));
+          document.getElementById('end-date').value = formatDate(endDate);
+      });
+
+      $("form input:radio").on('click', function() {
+          console.log((this.value));
+
+          var endDate = new Date();
+          switch (this.value){
+              case '1':
+                  endDate.setDate(endDate.getDate()+30);
+                  document.getElementById('end-date').value = formatDate(endDate);
+                  break;
+              case '2':
+                  endDate.setDate(endDate.getDate()+365);
+                  document.getElementById('end-date').value = formatDate(endDate);
+                  break;
+              case '3':
+                  endDate.setDate(endDate.getDate()+30);
+                  document.getElementById('end-date').value = formatDate(endDate);
+
+                  break;
+              case '4':
+                  endDate.setDate(endDate.getDate()+365);
+                  document.getElementById('end-date').value = formatDate(endDate);
+
+                  break;
+          }
+      });
+
+
+      function formatDate(date) {
+      var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+      if (month.length < 2)
+          month = '0' + month;
+      if (day.length < 2)
+          day = '0' + day;
+      console.log(([year, month, day].join('-')));
+      return [year, month, day].join('-');
+  }
+  {% comment %} credit card validation
+  /^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/;
+  /^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/
+  {% endcomment %}
+</script>
+<script>
+  document
+    .getElementById("card-number")
+    .addEventListener("blur", testCreditCard);
+
+  function testCreditCard() {
+      submit_button = document.getElementById("submit_button");
+    myCardNo = document.getElementById("card-number").value;
+    myCardType = document.getElementById("CardType").value;
+    if (checkCreditCard(myCardNo, myCardType)) {
+      /*alert("Credit card has a valid format");*/
+      document.getElementById("card-number").removeAttribute('class', 'invalid');
+      document.getElementById("card-number").setAttribute('class', 'validate');
+      submit_button.disabled = false
+    } else {
+      document.getElementById("card-number").removeAttribute('class', 'validate');
+      document.getElementById("card-number").setAttribute('class', 'invalid');
+      document.getElementById("card-no-error").setAttribute('data-error', ccErrors[ccErrorNo]);
+      submit_button.disabled = true
+    }
+  }
+  /*
+  This has been retrieved from : https://www.braemoor.co.uk/software/creditcard.shtml
+  This routine checks the credit card number. The following checks are made:
+
+  1. A number has been provided
+  2. The number is a right length for the card
+  3. The number has an appropriate prefix for the card
+  4. The number has a valid modulus 10 number check digit if required
+
+  If the validation fails an error is reported.
+
+  The structure of credit card formats was gleaned from a variety of sources on the web, although the
+  best is probably on Wikepedia ("Credit card number"):
+
+  http://en.wikipedia.org/wiki/Credit_card_number
+
+  Parameters:
+              cardnumber           number on the card
+              cardname             name of card as defined in the card list below
+
+  Author:     John Gardner
+  Date:       1st November 2003
+  Updated:    26th Feb. 2005      Additional cards added by request
+  Updated:    27th Nov. 2006      Additional cards added from Wikipedia
+  Updated:    18th Jan. 2008      Additional cards added from Wikipedia
+  Updated:    26th Nov. 2008      Maestro cards extended
+  Updated:    19th Jun. 2009      Laser cards extended from Wikipedia
+  Updated:    11th Sep. 2010      Typos removed from Diners and Solo definitions (thanks to Noe Leon)
+  Updated:    10th April 2012     New matches for Maestro, Diners Enroute and Switch
+  Updated:    17th October 2012   Diners Club prefix 38 not encoded
+
+  */
+
+  /*
+  If a credit card number is invalid, an error reason is loaded into the global ccErrorNo variable.
+  This can be be used to index into the global error  string array to report the reason to the user
+  if required:
+
+  e.g. if (!checkCreditCard (number, name) alert (ccErrors(ccErrorNo);
+  */
+
+  var ccErrorNo = 0;
+  var ccErrors = new Array();
+
+  ccErrors[0] = "Unknown card type";
+  ccErrors[1] = "No card number provided";
+  ccErrors[2] = "Credit card number is in invalid format";
+  ccErrors[3] = "Credit card number is invalid";
+  ccErrors[4] = "Credit card number has an inappropriate number of digits";
+  ccErrors[5] =
+    "Warning! This credit card number is associated with a scam attempt";
+
+  function checkCreditCard(cardnumber, cardname) {
+    // Array to hold the permitted card characteristics
+    var cards = new Array();
+
+    // Define the cards we support. You may add addtional card types as follows.
+
+    //  Name:         As in the selection box of the form - must be same as user's
+    //  Length:       List of possible valid lengths of the card number for the card
+    //  prefixes:     List of possible prefixes for the card
+    //  checkdigit:   Boolean to say whether there is a check digit
+
+    cards[0] = {
+      name: "Visa",
+      length: "13,16",
+      prefixes: "4",
+      checkdigit: true,
+    };
+    cards[1] = {
+      name: "MasterCard",
+      length: "16",
+      prefixes: "51,52,53,54,55",
+      checkdigit: true,
+    };
+    cards[2] = {
+      name: "DinersClub",
+      length: "14,16",
+      prefixes: "36,38,54,55",
+      checkdigit: true,
+    };
+    
+
+    // Establish card type
+    var cardType = -1;
+    for (var i = 0; i < cards.length; i++) {
+      // See if it is this card (ignoring the case of the string)
+      if (cardname.toLowerCase() == cards[i].name.toLowerCase()) {
+        cardType = i;
+        break;
+      }
+    }
+
+    // If card type not found, report an error
+    if (cardType == -1) {
+      ccErrorNo = 0;
+      return false;
+    }
+
+    // Ensure that the user has provided a credit card number
+    if (cardnumber.length == 0) {
+      ccErrorNo = 1;
+      return false;
+    }
+
+    // Now remove any spaces from the credit card number
+    cardnumber = cardnumber.replace(/\s/g, "");
+
+    // Check that the number is numeric
+    var cardNo = cardnumber;
+    var cardexp = /^[0-9]{13,19}$/;
+    if (!cardexp.exec(cardNo)) {
+      ccErrorNo = 2;
+      return false;
+    }
+
+
+    // Check it's not a spam number
+    if (cardNo == "5490997771092064") {
+      ccErrorNo = 5;
+      return false;
+    }
+
+    // The following are the card-specific checks we undertake.
+    var LengthValid = false;
+    var PrefixValid = false;
+    var undefined;
+
+    // We use these for holding the valid lengths and prefixes of a card type
+    var prefix = new Array();
+    var lengths = new Array();
+
+    // Load an array with the valid prefixes for this card
+    prefix = cards[cardType].prefixes.split(",");
+
+    // Now see if any of them match what we have in the card number
+    for (i = 0; i < prefix.length; i++) {
+      var exp = new RegExp("^" + prefix[i]);
+      if (exp.test(cardNo)) PrefixValid = true;
+    }
+
+    // If it isn't a valid prefix there's no point at looking at the length
+    if (!PrefixValid) {
+      ccErrorNo = 3;
+      return false;
+    }
+
+    // See if the length is valid for this card
+    lengths = cards[cardType].length.split(",");
+    for (j = 0; j < lengths.length; j++) {
+      if (cardNo.length == lengths[j]) LengthValid = true;
+    }
+
+    // See if all is OK by seeing if the length was valid. We only check the length if all else was
+    // hunky dory.
+    if (!LengthValid) {
+      ccErrorNo = 4;
+      return false;
+    }
+
+    // The credit card is in the required format.
+    return true;
+  }
+</script>
+{% endblock scripts %}

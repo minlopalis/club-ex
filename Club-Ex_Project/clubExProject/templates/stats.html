@@ -1,4 +1,140 @@
 {% extends 'base.html' %}
+{% load app_tags %}
 {% block content %}
-<p> Stats page </p>
+<div class="container">
+
+    <div class="col s12">
+      <h2 class="blue-text">Statistics</h2>
+    </div>
+
+    <p>
+        <span>Showing Statistics for <strong>{{user.username}}</strong> <span>
+        {% if user.first_name %}
+            <span> - {{user.first_name}} {{user.last_name}}</span>
+        {% endif %}
+    </p>
+
+    <br>
+
+    <!-- Management Only Statistics -->
+    {% list_watch_time_all_videos as videos %}
+    {% for group in user.groups.all %}
+        {% if group.name == "management" %}
+            <h4>Management Statistics</h4>
+
+            <!-- Total Videos-->
+            <div class="row">
+                <div class="col s12 m4">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                    <span class="card-title">Total Videos</span>
+                    <p>{% count_videos %}</p>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Total Video Watch Time-->
+                <div class="col s12 m4">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                    <span class="card-title">Total Watch Time</span>
+                    <p>{% sum_all_watch_time %} minutes</p>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Total Customers -->
+                <div class="col s12 m4">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                    <span class="card-title">Total Customers</span>
+                    <p>{% count_customers %}</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- Group Video Categories and Sum Watch Time -->
+            <h5>Video Category Watch Time</h5>
+            {% list_video_category_watch_time as category_watch_time %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Watch Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for category in category_watch_time %}
+                <tr>
+                <td>{{category.video_id__video_category__video_category}}</td>
+                <td>{{category.total_watch_time__sum}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <br>
+
+            <!-- Group Videos and Sum Watch Time -->
+            <h5>Total Video Watch Time</h5>
+            <table>
+                <thead>
+                <tr>
+                    <th>Video Id</th>
+                    <th>Video Title</th>
+                    <th>Category</th>
+                    <th>Total Watch Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for video in videos %}
+                <tr>
+                    <td>{{video.video_id}}</td>
+                    <td><a href="">{{video.video_name}}</a></td>
+                    <td>{{video.video_category}}</td>
+                    <td>{{video.watch_time|default_if_none:"0"}} minutes</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        {% endif %}
+    {% endfor %}
+
+
+    <!-- Watch History -->
+    {% is_user_customer user as is_customer%}
+    {% if is_customer %}
+        <!-- User Watch History -->
+        <h5>User Watch History</h5>
+        <table>
+            <thead>
+            <tr>
+                <th>Video Id</th>
+                <th>Video Title</th>
+                <th>Category</th>
+                <th>Watch Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for video in videos %}
+            {% sum_user_video_watch_time video user as user_video_watch_time %}
+                {% if user_video_watch_time != 0 %}
+                <tr> 
+                    <td>{{video.video_id}}</td>
+                    <td><a href="">{{video.video_name}}</a></td>
+                    <td>{{video.video_category}}</td>
+                    <td>{{user_video_watch_time|default_if_none:"0"}} minutes</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+<br>
 {% endblock content %}

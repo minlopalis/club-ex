@@ -1,0 +1,95 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+
+    <form class="col s12" method='POST' novalidate>
+    {% csrf_token %}
+        <h4 class="blue-text">Complete Signup</h4>
+        <br>
+
+        <div class="row">
+          <h5 class="blue-text">Personal Information</h5>
+          <div class="input-field col s12 l6">
+              {{form.first_name}}
+              <label for="{{ form.first_name.id_for_label }}" class="blue-text">{{form.first_name.label}}</label>
+              <span style="color: red; font-weight: 600;">{{form.first_name.errors}}</span>
+              <span class="helper-text">{{form.first_name.help_text}}</span>
+          </div>
+
+          <div class="input-field col s12 l6">
+              {{form.last_name}}
+              <label for="{{ form.last_name.id_for_label }}" class="blue-text">{{form.last_name.label}}</label>
+              <span style="color: red; font-weight: 600;">{{form.last_name.errors}}</span>
+              <span class="helper-text">{{form.last_name.help_text}}</span>
+          </div>
+
+          <div class="input-field col s12">
+              <label for="{{ form.email.id_for_label }}" class="blue-text">{{form.email.label}}</label>
+            {{form.email}}
+              <span class="helper-text">{{form.email.help_text}}</span>
+              <span style="color: red; font-weight: 600;">{{form.email.errors}}</span>
+          </div>
+
+          <div class="input-field col s12 l6">
+              {{form.phone}}
+              <label for="{{ form.phone.id_for_label }}" class="blue-text">{{form.phone.label}}</label>
+              <span style="color: red; font-weight: 600;">{{form.phone.errors}}</span>
+              <span class="helper-text">{{form.phone.help_text}}</span>
+          </div>     
+
+        </div>
+
+        <br>
+
+        <div class="row">
+          <h5 class="blue-text">Address</h5>
+          <div class="input-field col s12">
+              <label for="{{form.address_1.id_for_label}}" class="blue-text">{{form.address_1.label}}</label>
+              {{form.address_1}}
+              <span class="helper-text">{{form.address_1.help_text}}</span>
+              <span style="color: red; font-weight: 600;">{{form.address_1.errors}}</span>
+          </div>
+
+          <div class="input-field col s12">
+              <label for="{{form.address_2.id_for_label}}" class="blue-text">{{form.address_2.label}}</label>
+              {{form.address_2}}
+              <span class="helper-text">{{form.address_2.help_text}}</span>
+              <span style="color: red; font-weight: 600;">{{form.address_2.errors}}</span>
+          </div>
+
+          <div class="input-field col s12 l6">
+              <label for="{{form.city.id_for_label}}" class="blue-text">{{form.city.label}}</label>
+              {{form.city}}
+              <span class="helper-text">{{form.city.help_text}}</span>
+              <span style="color: red; font-weight: 600;">{{form.city.errors}}</span>
+          </div>
+
+          <div class="input-field col s12 l6">
+              <label for="{{form.zip_address.id_for_label}}" class="blue-text">{{form.zip_address.label}}</label>
+              {{form.zip_address}}
+              <span class="helper-text">{{form.zip_address.help_text}}</span>
+              <span style="color: red; font-weight: 600;">{{form.zip_address.errors}}</span>
+          </div>
+
+          <div class="input-field col s12 l6">
+              <label for="{{form.country.id_for_label}}" class="blue-text">{{form.country.label}}</label>
+              {{form.country}}
+              <span class="helper-text">{{form.country.help_text}}</span>
+              <span style="color: red; font-weight: 600;">{{form.country.errors}}</span>
+          </div>
+        </div>
+      <br>
+
+      <div class="row">
+        <div class="col s12">
+          <button type="submit" class="waves-effect waves-light blue btn"  value="Continue">
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <br>
+
+    </form>
+  </div>
+</div>
+{% endblock content %}

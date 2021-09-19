@@ -1,4 +1,190 @@
 {% extends 'base.html' %}
+{% load app_tags %}
 {% block content %}
-<p> Account page </p>
+<div class="container">
+    
+
+    <p class="row">
+       
+        <h3>Account Information</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Data</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td><strong>Username</strong></td>
+                <td>{{logged_user.username}}</td>
+            </tr>
+            <tr>
+                <td><strong>First Name</strong></td>
+                <td>{{logged_user.first_name}}</td>
+            </tr>
+            <tr>
+                <td><strong>Last Name</strong></td>
+                <td>{{logged_user.last_name}}</td>
+            </tr>
+            <tr>
+                <td><strong>Phone</strong></td>
+                <td>{{logged_user.phone}}</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>{{logged_user.email}}</td>
+            </tr> 
+            <tr>
+                <td><strong>Address</strong></td>
+                <td>
+                {{logged_user.address_1}}<br>
+                {% if logged_user.address_2 %}
+                    {{logged_user.address_2}}<br>
+                {% endif %}
+                {{logged_user.city}} {{logged_user.zip_address}}<br>
+                {{logged_user.country}}
+                </td>
+            </tr>                 
+            </tbody>
+        </table>
+        <p></p>
+        <div>
+            <a class="waves-effect waves-light blue btn" href="{%url "edit-account" logged_user.id %}">Update Account</a>
+        </div> 
+
+        <br><br>
+
+        {% is_user_customer user as is_customer%}
+        {% now "M, j, Y" as date %}
+
+        {% if is_customer %}
+            <h4>Subscriptions</h4>
+            <p>Your current and previous subscription history is located here.</p>
+
+            {% count_valid_user_subscriptions user as valid_subscription %}
+            <div class="row">
+                <div class="col s12 m12">
+                {% if valid_subscription == 0 %}
+                    <div class="card red lighten-5">
+                {% else %}
+                    <div class="card green lighten-5">
+                {% endif %}
+                    <div class="card-content black-text">
+                    <span class="card-title black-text">Current Subscription</span>
+                    {% if valid_subscription == 0 %}
+                        <p class="red-text">You do not have a valid subscription.</p>
+                    </div>
+                    <div class="card-action">
+                        <a class="waves-effect waves-light blue btn" href="{%url "subscription-new" %}">Purchase Subscription</a>
+                    </div>
+                    {% else %}
+                    {% get_valid_user_subscription user as valid_subscription %}
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Start Date</th>
+                                <th>Subscription Type</th>
+                                <th>Expiry Date</th>
+                            </tr>
+                            </thead>
+                    
+                            <tbody>
+                                <tr>
+                                    <td>{{valid_subscription.start_date}}</td>
+                                    <td>{{valid_subscription.get_subscription_choice_display}}</td>
+                                    <td>{{valid_subscription.renewal_date}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if date == valid_subscription.renewal_date|date:"M, j, Y" %}
+                        <p class="center-align red-text"><strong>Your Subscription ends today.  Purchase another subscription for continued access</strong></p>
+                    {% endif %}
+                    <div class="card-action">
+                        {% if date == valid_subscription.renewal_date|date:"M, j, Y" %}
+                            <a class="waves-effect waves-light blue btn" href="{%url "subscription-new" %}">Purchase Subscription</a>
+                        {% else %}
+                            <a class="waves-effect waves-light red btn modal-trigger" data-target="modal1">Cancel Subscription</a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 m12">
+                <div class="card blue lighten-5">
+                    <div class="card-content black-text">
+                    <span class="card-title black-text">Subscription History</span>
+                    <p>Your subscription history ordered by the expiry date is located here.</p>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Start Date</th>
+                            <th>Subscription Type</th>
+                            <th>Expiry Date</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                
+                        <tbody>
+                            {% for field in subscriptions %}
+                            <tr>
+                                <td>{{field.start_date}}</td>
+                                <td>{{field.get_subscription_choice_display}}</td>
+                                <td>{{field.renewal_date}}</td>
+                                <td>
+                                {% if field.is_expired %}
+                                    <p>Subscription Expired</p>
+                                {% else %}
+                                    {% if field.expires_today %}
+                                        <p class="red-text text-darken-4"><strong>Expires Today</strong></p>
+                                    {% else %}
+                                        <p class="green-text text-darken-4"><strong>Current</strong></p>
+                                    {% endif %}  
+                                {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </p>
+   
+</div>
+<br>
+
+<!-- Subscription Confirmation Modal -->
+<div id="modal1" class="modal">
+<div class="modal-content">
+    <h4>Cancel Subscription</h4>
+    <p>
+        Are you sure you want to cancel your current subscription?<br>
+        If you cancel, you will no longer be able to access all our great online content!
+    </p>
+</div>
+<div class="modal-footer">
+    <a href="#!" class="modal-close waves-light green btn">Stay Subscribed</a>
+    <a href="{% url 'cancel-subscription' %}" class="modal-close waves-light red btn">Cancel Subscription</a>
+</div>
+</div>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, {});
+});
+
+</script>
+
+
+
 {% endblock content %}

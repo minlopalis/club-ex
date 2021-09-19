@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h3 class="blue-text">Success, Subscription saved</h3>
+    <div class="row">
+        <p>
+            Thank you <strong>{{customer.first_name}}</strong>, your subscription was successfuly added.  
+            You now have access to our <a href="{% url 'videolist' %}">online content</a>. <br>
+            You subscription will automatically renew on <strong>{{form.renewal_date.value}}</strong>.
+        </p>
+        
+        <h5>Your supplied details</h5>
+        <p>
+            You have provided us with the following information. Please check this is correct.<br>
+            If any of this is incorrect, please <a href="">correct it</a>. 
+        </p>
+        <p>
+        <table>
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Data</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td><strong>Username</strong></td>
+                <td>{{customer.username}}</td>
+            </tr>
+            <tr>
+                <td><strong>First Name</strong></td>
+                <td>{{customer.first_name}}</td>
+            </tr>
+            <tr>
+                <td><strong>Last Name</strong></td>
+                <td>{{customer.last_name}}</td>
+            </tr>
+            <tr>
+                <td><strong>Phone</strong></td>
+                <td>{{customer.phone}}</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>{{customer.email}}</td>
+            </tr> 
+            <tr>
+                <td><strong>Address</strong></td>
+                <td>
+                {{customer.address_1}}<br>
+                {% if customer.address_2 %}
+                    {{customer.address_2}}<br>
+                {% endif %}
+                {{customer.city}} {{customer.zip_address}}<br>
+                {{customer.country}}
+                </td>
+            </tr>                 
+            </tbody>
+        </table>
+        </p>
+    </div>
+</div>
+
+{% endblock content %}
+
+
