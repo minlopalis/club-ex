@@ -15,6 +15,7 @@ from accounts.models import Customer
 from accounts.decorators import valid_subscription_required
 import json 
 from django.http import JsonResponse
+import operator
 
 
 
@@ -28,13 +29,17 @@ class IndexView(TemplateView):
 @valid_subscription_required
 def viewVideoList(request):
     current_user = request.user
-    query = request.GET.get('search')
-    if not query:
-        query = "NULL"
-    if query:
+    search_query = request.GET.get('search')
+    order_query = request.GET.get('order')
+    if not search_query:
+        search_query = "NULL"
+    if search_query:
         object_list = Video.objects.filter(
-            Q(video_name__icontains=query) | Q(video_description__icontains=query)
+            Q(video_name__icontains=search_query) | Q(video_description__icontains=search_query)
         )
+
+    if not order_query:
+        order_query = "video_name"
 
     try:
         customer = Customer.objects.get(user=current_user.id)
@@ -42,7 +47,8 @@ def viewVideoList(request):
         customer = None
     categories = VideoCategory.objects.all()
     videos = Video.objects.all()
-    for video in videos:
+    ordered = sorted(videos, key=operator.attrgetter(order_query))
+    for video in ordered:
         existing_video_rating = VideoRating.objects.filter(video_id=video, customer_id=customer).values_list('rating').first()
        
         if(existing_video_rating):

@@ -36,7 +36,6 @@
         <h3>Search Results</h3>
       </div>
       <div class="row">
-
         <div class='col'>
           {% for video in object_list %}
           <div class="card">
@@ -44,6 +43,7 @@
             <div class='row'>
               <div class='col s0.5'></div>
               <div class='col s11'>
+
                 <h5><a href="#player" onclick="
                                 updateSelectedVideo(
                                   '{{video.video_name}}', 
@@ -70,9 +70,10 @@
   {% endif %}
 
 
-  <div class="overlay">
+  <div class="">
     <div class="container">
       <div class="col selected-video">
+
         <div class="row s12 m9"></div>
         <div class="row s12 m9">
           <div class="iframe-container">
@@ -83,11 +84,11 @@
           <h3 id="selected-video-title"></h3>
           <p id="selected-video-total-views"></p>
           <p>
-          {% is_user_customer user as is_customer%}
-          {% if is_customer %}
-            <span id="selected-video-user-watch-time"></span> 
-          {% endif %}
-          <span id="selected-video-total-watch-time"></span>
+            {% is_user_customer user as is_customer%}
+            {% if is_customer %}
+            <span id="selected-video-user-watch-time"></span>
+            {% endif %}
+            <span id="selected-video-total-watch-time"></span>
           </p>
           <p id="selected-video-description">
           </p>
@@ -99,6 +100,18 @@
     </div>
 
     <div class="container">
+      <div class="row">
+        <div class="col s-6 white-text">
+          <div class="input-field col s12">
+            <select id="dynamic_select">
+              <option value="video_name" selected>Name</option>
+              <option value="video_rating">Rating</option>
+            </select>
+            <label>Order BY</label>
+          </div>
+        </div>
+
+      </div>
       {% for c in categories %}
       <div class="row">
         <div class="col s-6 white-text">
@@ -123,9 +136,7 @@
                   '{{ user.id }}',
                   '{{v.video_id}}',
                   '{{v.video_rating}}',
-                  '{{user_watchtime|default_if_none:"0"}}',
-                  '{{global_watch_time|default_if_none:"0"}}'
-                  )" />
+                  '{{user_watchtime | default_if_none:" 0"}}', '{{global_watch_time|default_if_none:"0"}}' )" />
               </a>
             </li>
             {% endif %}
@@ -153,6 +164,17 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         global_carousel__ctrl();
+      });
+
+      $(function () {
+        // bind change event to select
+        $('#dynamic_select').on('change', function () {
+          var url = $(this).val(); // get selected value
+          if (url) { // require a URL
+            window.location = window.location + `&order=${url}`; // redirect
+          }
+          return false;
+        });
       });
 
       function global_carousel__ctrl() {
