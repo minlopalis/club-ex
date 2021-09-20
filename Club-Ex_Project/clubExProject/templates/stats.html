@@ -93,7 +93,7 @@
                 {% for video in videos %}
                 <tr>
                     <td>{{video.video_id}}</td>
-                    <td><a href="">{{video.video_name}}</a></td>
+                    <td>{{video.video_name}}</td>
                     <td>{{video.video_category}}</td>
                     <td>{{video.watch_time|default_if_none:"0"}} minutes</td>
                 </tr>
@@ -126,7 +126,7 @@
                 {% if user_video_watch_time != 0 %}
                 <tr> 
                     <td>{{video.video_id}}</td>
-                    <td><a href="">{{video.video_name}}</a></td>
+                    <td>{{video.video_name}}</td>
                     <td>{{video.video_category}}</td>
                     <td>{{user_video_watch_time|default_if_none:"0"}} minutes</td>
                 </tr>

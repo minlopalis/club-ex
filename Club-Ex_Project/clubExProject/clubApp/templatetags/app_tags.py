@@ -23,7 +23,7 @@ def count_videos():
 
 @register.simple_tag()
 def list_watch_time_all_videos():
-    return Video.objects.annotate(watch_time=Sum('watch_times__total_watch_time')).order_by('video_id')
+    return Video.objects.annotate(watch_time=Sum('watch_times__total_watch_time')).order_by('-watch_times__total_watch_time')
 
 
 @register.simple_tag()
