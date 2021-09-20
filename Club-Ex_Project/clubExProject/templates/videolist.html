@@ -169,13 +169,22 @@
       $(function () {
         // bind change event to select
         $('#dynamic_select').on('change', function () {
-          var url = $(this).val(); // get selected value
-          if (url) { // require a URL
-            window.location = window.location + `&order=${url}`; // redirect
-          }
-          return false;
+          let orderByValue = $(this).val(); // get selected value
+          const url = new URL(window.location.href)
+          let searchParams = url.searchParams
+
+          // new value of "order" is set to the selected value
+          searchParams.set('order', orderByValue)
+
+          // change the search property of the main url
+          url.search = searchParams.toString();
+
+          // the new url string
+          var newUrl = url.toString();
+          window.location.href = newUrl
+
         });
-      });
+      })
 
       function global_carousel__ctrl() {
         var elms = document.getElementsByClassName("splide");
